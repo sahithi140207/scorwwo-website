@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname, ".")));
 
 /* DATABASE */
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
@@ -28,15 +28,26 @@ const db = mysql.createConnection({
     ssl: {
         minVersion: "TLSv1.2",
         rejectUnauthorized: true
-    }
+    },
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 10000
 });
 
-db.connect((err) => {
+db.getConnection((err, connection) => {
     if (err) {
         console.log("Database Error:", err);
     } else {
         console.log("Database Connected Successfully");
+        connection.release();
     }
+});
+
+// Prevent the pool from crashing the whole process on a dropped connection
+db.on("error", (err) => {
+    console.error("Unexpected DB pool error:", err.code || err.message);
 });
 
 /* EMAIL */
