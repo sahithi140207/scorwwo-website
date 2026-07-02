@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-World Software Development Center - SCoRWWO</title>
+    <!-- Import Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Import Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        /* ── CSS RESET & CORE VARIABLES ── */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #1e1b4b;
+            --primary-light: #312e81;
+            --accent: #3b82f6;
+            --accent-bg: #eff6ff;
+            --accent-green: #10b981;
+            --accent-green-bg: #ecfdf5;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.02);
+            --shadow-md: 0 4px 20px -2px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+            --shadow-lg: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ── HEADER ── */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: var(--transition);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--primary-light);
+            background: var(--accent-bg);
+            padding: 8px 16px;
+            border-radius: 9999px;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            background: var(--accent);
+            color: #fff;
+            transform: translateX(-3px);
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .header-logo h1 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 0.03em;
+            text-transform: none;
+        }
+
+        /* ── HERO SECTION ── */
+        .hero {
+            position: relative;
+            height: 380px;
+            background: linear-gradient(rgba(30, 27, 75, 0.65), rgba(15, 23, 42, 0.85)), url('e_world_center.png') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            color: #fff;
+            padding: 0 40px;
+        }
+
+        .hero-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-tag {
+            background: rgba(59, 130, 246, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 6px 16px;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            display: inline-block;
+            margin-bottom: 16px;
+            color: #93c5fd;
+        }
+
+        .hero h2 {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .hero-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hero-meta-item i {
+            color: #60a5fa;
+            font-size: 1.1rem;
+        }
+
+        /* ── MAIN CONTENT CONTAINER ── */
+        .main-container {
+            max-width: 1200px;
+            margin: -40px auto 40px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 24px;
+        }
+
+        /* ── CARDS ── */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: 28px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid var(--bg);
+            padding-bottom: 12px;
+        }
+
+        .card-title i {
+            color: var(--accent);
+            font-size: 1.4rem;
+        }
+
+        .about-text {
+            font-size: 0.98rem;
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        /* ── TRAINING PROGRAMS GRID ── */
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 16px;
+        }
+
+        .program-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            border-radius: var(--radius-sm);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            font-weight: 600;
+            font-size: 0.88rem;
+            transition: var(--transition);
+        }
+
+        .program-item:hover {
+            background: var(--accent-bg);
+            border-color: var(--accent);
+            color: var(--primary-light);
+        }
+
+        .program-item i {
+            font-size: 1.25rem;
+            color: var(--accent);
+            background: #fff;
+            padding: 8px;
+            border-radius: 50%;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* ── BULLET LISTS ── */
+        .bullet-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 28px;
+            font-size: 0.92rem;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .bullet-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            top: 2px;
+            width: 18px;
+            height: 18px;
+            background: var(--accent-green-bg);
+            color: var(--accent-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .activities-list li::before {
+            content: "✦";
+            background: var(--accent-bg);
+            color: var(--accent);
+            font-size: 0.7rem;
+        }
+
+        .info-note {
+            margin-top: 18px;
+            padding: 12px 16px;
+            background: var(--accent-bg);
+            border-left: 4px solid var(--accent);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ── ASSOCIATED ACTIVITIES WIDGET ── */
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .activity-widget-item {
+            padding: 10px 14px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--primary-light);
+        }
+
+        /* ── RESPONSIVE DESIGN ── */
+        @media (max-width: 968px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                margin-top: -20px;
+            }
+            .hero {
+                height: 320px;
+                padding: 0 20px;
+            }
+        }
+        /* ── INTERNSHIP DASHBOARD SECTION ── */
+.internship-section {
+    max-width: 1200px;
+    margin: 20px auto 50px;
+    padding: 0 20px;
+}
+
+.internship-card {
+    background: linear-gradient(135deg, #1e1b4b, #2563eb);
+    color: white;
+    border-radius: 18px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+}
+
+.internship-card h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    font-weight: 800;
+}
+
+.internship-card p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto 30px;
+}
+
+.internship-btn {
+    display: inline-block;
+    padding: 15px 35px;
+    background: white;
+    color: #1e1b4b;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 50px;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.internship-btn:hover {
+    background: #dbeafe;
+    transform: translateY(-3px);
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-logo">
+            <img src="logo.jpeg" alt="SCoRWWO Logo">
+            <h1>SCoR WWO</h1>
+        </div>
+        <a href="index.html" class="back-link">
+            <i class="ph ph-arrow-left"></i> Back to Dashboard
+        </a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-inner">
+            <span class="hero-tag">Key Initiative</span>
+            <h2>E-World Software Development Center</h2>
+            <div class="hero-meta">
+                <div class="hero-meta-item">
+                    <i class="ph-fill ph-map-pin"></i>
+                    <span>Vijayawada Division</span>
+                </div>
+                <div class="hero-meta-item">
+                    <i class="ph-fill ph-code"></i>
+                    <span>Technical Training & Internships</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTAINER -->
+    <main class="main-container">
+        
+        <!-- LEFT COLUMN: ABOUT, PROGRAMS, INTERNSHIPS, PROJECTS -->
+        <div class="content-left">
+            
+            <!-- ABOUT CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-info"></i> About the Center
+                </h3>
+                <p class="about-text">
+                    The E-World Software Development Center is a vital educational and technical training initiative running under the South Central Railway Women's Welfare Organisation (SCoRWWO), Vijayawada Division. It primarily focuses on software training, internship guidance, technical skill development, and project-oriented learning for students and railway families. The center has become well-known in Vijayawada for providing software development exposure, internship opportunities, project guidance, technical skills enhancement, industry-oriented training, and overall personality development.
+                </p>
+            </div>
+
+            <!-- TRAINING PROGRAMS CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-terminal"></i> Software Training Programs
+                </h3>
+                <p style="margin-bottom: 20px; font-size: 0.95rem; color: var(--text-muted);">
+                    E-World conducts comprehensive practical training and active project exposure across several modern programming domains and tools:
+                </p>
+                <div class="programs-grid">
+                    <div class="program-item">
+                        <i class="ph ph-code"></i>
+                        <span>web Technologies</span>
+                    </div>
+                    <div class="program-item">
+                        <i class="ph ph-file-code"></i>
+                        <span> Programming</span>
+                    </div>
+                    <div class="program-item">
+                        <i class="ph ph-globe"></i>
+                        <span>Web Development</span>
+                    </div>
+                    <div class="program-item">
+                        <i class="ph ph-database"></i>
+                        <span>Database Systems</span>
+                    </div>
+                    <div class="program-item">
+                        <i class="ph ph-cpu"></i>
+                        <span>System Development</span>
+                    </div>
+                    <div class="program-item">
+                        <i class="ph ph-browsers"></i>
+                        <span>Full-Stack Development</span>
+                    </div>
+                    <div class="program-item">
+                        <i class="ph ph-shield-check"></i>
+                        <span>Software Testing</span>
+                    </div>
+                    <div class="program-item">
+                        <i class="ph ph-laptop"></i>
+                        <span>Product Development</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INTERNSHIP PROGRAMS CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-briefcase"></i> Internship Programs
+                </h3>
+                <p style="margin-bottom: 18px; font-size: 0.95rem; color: var(--text-muted);">
+                    One of E-World's major activities is conducting internship programs for students from various colleges. SCoRWWO has been widely appreciated for providing social service-oriented knowledge along with technical training activities.
+                </p>
+                <h5 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; color: var(--primary);">Students are trained in:</h5>
+                <ul class="bullet-list activities-list" style="margin-bottom: 20px;">
+                    <li>Software Development Lifecycle (SDLC) models and implementations</li>
+                    <li>Real-time project implementation and release methodologies</li>
+                    <li>Teamwork, code collaboration, and cross-functional coordination</li>
+                    <li>Documentation standards, specification creation, and reporting</li>
+                    <li>Presentation skills, public speaking, and project defense</li>
+                    <li>Software deployment concepts, server hosting, and production support</li>
+                </ul>
+
+                <h5 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; color: var(--primary);">The internship programs help students gain:</h5>
+                <ul class="bullet-list">
+                    <li>Core technical expertise and modern tool proficiency</li>
+                    <li>Industrial environment understanding and work ethics</li>
+                    <li>Professional communication, networking, and soft skills</li>
+                    <li>Mentorship and strategic career guidance</li>
+                </ul>
+            </div>
+
+            <!-- PROJECT DEVELOPMENT CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-folder-open"></i> Project Development Activities
+                </h3>
+                <p style="margin-bottom: 16px; font-size: 0.95rem; color: var(--text-muted);">
+                    Students at E-World are encouraged to innovate and construct working project solutions to build confidence:
+                </p>
+                <ul class="bullet-list activities-list">
+                    <li><strong>Mini Projects</strong>: Fast-paced applications focusing on core coding structures and logic.</li>
+                    <li><strong>Major Projects</strong>: End-to-end semester-level projects with thorough implementation phases.</li>
+                    <li><strong>Web Applications</strong>: Dynamic sites built using frontend and backend technologies.</li>
+                    <li><strong>Database Applications</strong>: Relational structures with robust query design and SQL interfaces.</li>
+                    <li><strong>Python Utility Applications</strong>: Scripts for automated processing, scripting, and calculations.</li>
+                    <li><strong>Academic Software Solutions</strong>: Specialized tools designed to solve structural and mathematical problems.</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: OBJECTIVES, STUDENT DEVELOPMENT, ENVIRONMENT, PARTNERSHIPS -->
+        <div class="content-right">
+            
+            <!-- OBJECTIVES CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-target"></i> Objectives of E-World
+                </h3>
+                <ul class="bullet-list">
+                    <li>Bridging the gap between academic learning and industry requirements.</li>
+                    <li>Providing practical, hand-on software knowledge to students.</li>
+                    <li>Encouraging software innovation, creative thinking, and project development.</li>
+                    <li>Supporting engineering and degree students in their academic project work.</li>
+                    <li>Enhancing employability skills to secure placement opportunities.</li>
+                    <li>Developing discipline, teamwork capabilities, and professional ethics.</li>
+                </ul>
+                <div class="info-note" style="margin-top: 20px;">
+                    <i class="ph-fill ph-student"></i>
+                    <span>Especially supports students from Engineering, Degree, and Polytechnic colleges with CS/IT backgrounds.</span>
+                </div>
+            </div>
+
+            <!-- STUDENT DEVELOPMENT CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-trend-up"></i> Student Development
+                </h3>
+                <p style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 14px;">
+                    Apart from technical education, E-World heavily focuses on preparing students for professional environments:
+                </p>
+                <ul class="bullet-list activities-list">
+                    <li>Personality Development and self-confidence building</li>
+                    <li>Communication Skills and active listening</li>
+                    <li>Leadership Qualities and situational initiative</li>
+                    <li>Professional Discipline and workplace behavior</li>
+                    <li>Time Management and task prioritization</li>
+                    <li>Ethical Values and workplace responsibility</li>
+                </ul>
+            </div>
+
+            <!-- LEARNING ENVIRONMENT CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-sparkles"></i> Learning Environment
+                </h3>
+                <ul class="bullet-list">
+                    <li>Discipline-oriented environment to prepare for corporate culture.</li>
+                    <li>Practical training approach with minimal theoretical lecturing.</li>
+                    <li>Friendly mentorship and open-door technical guidance.</li>
+                    <li>Modern equipment guidance and high-speed developer workstations.</li>
+                    <li>Deep focus on real-world applications and coding standards.</li>
+                </ul>
+            </div>
+
+            <!-- EDUCATIONAL PARTNERSHIPS CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-handshake"></i> Institutional Support
+                </h3>
+                <p style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 12px;">
+                    E-World maintains partnerships with engineering colleges, degree colleges, faculty coordinators, and placement departments in the region by:
+                </p>
+                <ul class="bullet-list activities-list">
+                    <li>Offering internship placements.</li>
+                    <li>Conducting campus training sessions.</li>
+                    <li>Assisting student academic project work.</li>
+                    <li>Providing technical guidance and organizing awareness programs.</li>
+                </ul>
+                <div class="info-note" style="background-color: var(--accent-green-bg); border-left-color: var(--accent-green); color: #065f46;">
+                    <i class="ph-fill ph-users"></i>
+                    <span>Welcomes students from Andhra Pradesh and neighboring regions.</span>
+                </div>
+            </div>
+
+            <!-- ASSOCIATED ACTIVITIES CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-heart-beat"></i> Associated SCoRWWO Activities
+                </h3>
+                <p style="font-size: 0.92rem; color: var(--text-muted);">
+                    E-World operates alongside other SCoRWWO educational, commercial, and welfare initiatives:
+                </p>
+                <div class="activities-grid">
+                    <div class="activity-widget-item">Canteen</div>
+                    <div class="activity-widget-item">Jack & Jill Schools</div>
+                    <div class="activity-widget-item">Asha Kiran Center</div>
+                    <div class="activity-widget-item">Career World</div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+    <section class="internship-section">
+    <div class="internship-card">
+        <h2>🚀 Click to Join Internship</h2>
+
+        <p>
+            Begin your internship journey with E-World.
+            Access the Internship Dashboard to manage your profile,
+            projects, assignments and progress.
+        </p>
+
+        <a href="student_dashboard_backend/student_dashboard.html" class="internship-btn">
+            Open Internship Dashboard
+        </a>
+    </div>
+</section>
+
+    <!-- FOOTER -->
+    <footer>
+        © 2026 South Coast Railway Women's Welfare Organisation (SCoRWWO). All Rights Reserved.
+    </footer>
+
+</body>
+</html>

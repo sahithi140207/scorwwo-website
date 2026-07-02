@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asha Kiran Centre - SCoRWWO</title>
+    <!-- Import Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Import Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        /* ── CSS RESET & CORE VARIABLES ── */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #1e1b4b;
+            --primary-light: #312e81;
+            --accent: #10b981; /* Green leaf accent for Asha Kiran */
+            --accent-light: #6366f1; /* Indigo helper accent */
+            --accent-bg: #ecfdf5;
+            --accent-light-bg: #eef2ff;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.02);
+            --shadow-md: 0 4px 20px -2px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+            --shadow-lg: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ── HEADER ── */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: var(--transition);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--primary-light);
+            background: var(--accent-light-bg);
+            padding: 8px 16px;
+            border-radius: 9999px;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            background: var(--accent-light);
+            color: #fff;
+            transform: translateX(-3px);
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .header-logo h1 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 0.03em;
+            text-transform: none;
+        }
+
+        /* ── HERO SECTION ── */
+        .hero {
+            position: relative;
+            height: 380px;
+            background: linear-gradient(rgba(30, 27, 75, 0.6), rgba(15, 23, 42, 0.85)), url('asha_kiran_center.png') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            color: #fff;
+            padding: 0 40px;
+        }
+
+        .hero-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-tag {
+            background: rgba(16, 185, 129, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 6px 16px;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            display: inline-block;
+            margin-bottom: 16px;
+            color: #a7f3d0;
+        }
+
+        .hero h2 {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .hero-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hero-meta-item i {
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        /* ── MAIN CONTENT CONTAINER ── */
+        .main-container {
+            max-width: 1200px;
+            margin: -40px auto 40px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 24px;
+        }
+
+        /* ── CARDS ── */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: 28px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid var(--bg);
+            padding-bottom: 12px;
+        }
+
+        .card-title i {
+            color: var(--accent);
+            font-size: 1.4rem;
+        }
+
+        .about-text {
+            font-size: 0.98rem;
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        /* ── GRID OF OBJECTIVES / SUPPORT ── */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .grid-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            font-weight: 600;
+            font-size: 0.88rem;
+            transition: var(--transition);
+        }
+
+        .grid-item:hover {
+            background: var(--accent-bg);
+            border-color: var(--accent);
+            color: var(--primary-light);
+        }
+
+        .grid-item i {
+            font-size: 1.3rem;
+            color: var(--accent);
+            background: #fff;
+            padding: 8px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            flex-shrink: 0;
+        }
+
+        .grid-item div {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .grid-item span {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .grid-item p {
+            font-weight: 500;
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            line-height: 1.4;
+        }
+
+        /* ── BULLET LIST ── */
+        .bullet-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 28px;
+            font-size: 0.92rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .bullet-list li::before {
+            content: "✦";
+            position: absolute;
+            left: 0;
+            top: 2px;
+            width: 18px;
+            height: 18px;
+            background: var(--accent-bg);
+            color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .objectives-list li::before {
+            content: "✓";
+            background: var(--accent-light-bg);
+            color: var(--accent-light);
+        }
+
+        .welfare-list li::before {
+            content: "•";
+            background: #f1f5f9;
+            color: var(--primary);
+            font-size: 0.95rem;
+        }
+
+        .noteworthy-box {
+            margin-top: 18px;
+            padding: 16px;
+            background: var(--accent-bg);
+            border-left: 4px solid var(--accent);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--primary-light);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            line-height: 1.6;
+        }
+
+        .noteworthy-box i {
+            font-size: 1.3rem;
+            color: var(--accent);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* ── TIMINGS & ADDRESS ── */
+        .info-card-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .info-card-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 0.88rem;
+        }
+
+        .info-card-label {
+            font-weight: 700;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-card-label i {
+            color: var(--accent-light);
+            font-size: 1.15rem;
+        }
+
+        .info-card-value {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* ── REFERENCE LINKS ── */
+        .sources-card {
+            background: linear-gradient(135deg, #1e1b4b, #111827);
+            color: #fff;
+            border-radius: var(--radius-md);
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .sources-card h4 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 14px;
+            color: #a5b4fc;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .source-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .source-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 0.84rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: var(--transition);
+        }
+
+        .source-btn:hover {
+            background: var(--accent-light);
+            border-color: var(--accent-light);
+            transform: translateX(4px);
+        }
+
+        .source-btn i {
+            font-size: 1.1rem;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--primary);
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            padding: 24px;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* ── RESPONSIVE DESIGN ── */
+        @media (max-width: 968px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                margin-top: -20px;
+            }
+            .hero {
+                height: 320px;
+                padding: 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-logo">
+            <img src="logo.jpeg" alt="SCoRWWO Logo">
+            <h1>SCoR WWO</h1>
+        </div>
+        <a href="index.html" class="back-link">
+            <i class="ph ph-arrow-left"></i> Back to Dashboard
+        </a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-inner">
+            <span class="hero-tag">Key Initiative</span>
+            <h2>Asha Kiran Centre</h2>
+            <div class="hero-meta">
+                <div class="hero-meta-item">
+                    <i class="ph-fill ph-map-pin"></i>
+                    <span>Vijayawada, Andhra Pradesh</span>
+                </div>
+                <div class="hero-meta-item">
+                    <i class="ph-fill ph-heart"></i>
+                    <span>Special Education & Rehabilitation</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTAINER -->
+    <main class="main-container">
+        
+        <!-- LEFT COLUMN: ABOUT, CHILDREN SUPPORTED, ACTIVITIES & IMPORTANCE -->
+        <div class="content-left">
+            
+            <!-- ABOUT CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-hand-heart"></i> About Asha Kiran
+                </h3>
+                <p class="about-text" style="margin-bottom: 16px;">
+                    <strong>Asha Kiran Centre</strong> in Vijayawada is a special welfare institution run by the South Central Railway Women’s Welfare Organisation (SCoRWWO). It provides education, therapy, rehabilitation, and life-skill training to children with developmental and intellectual disabilities.
+                </p>
+                <p class="about-text">
+                    The center focuses on creating a friendly and safe learning environment where differently-abled children receive dedicated care, creative education, and therapy to help them improve their abilities and lead more independent and confident lives.
+                </p>
+            </div>
+
+            <!-- CHILDREN SUPPORTED CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-users-three"></i> Children Supported
+                </h3>
+                <p style="margin-bottom: 20px; font-size: 0.95rem; color: var(--text-muted);">
+                    Asha Kiran works dedicatedly with children affected by various developmental and special needs conditions:
+                </p>
+                <div class="grid-layout">
+                    <div class="grid-item">
+                        <i class="ph ph-brain"></i>
+                        <div>
+                            <span>Autism Spectrum</span>
+                            <p>Tailored developmental coaching</p>
+                        </div>
+                    </div>
+                    <div class="grid-item">
+                        <i class="ph ph-dna"></i>
+                        <div>
+                            <span>Down Syndrome</span>
+                            <p>Daily activity & cognitive support</p>
+                        </div>
+                    </div>
+                    <div class="grid-item">
+                        <i class="ph ph-ear"></i>
+                        <div>
+                            <span>Speech & Hearing</span>
+                            <p>Special communication exercises</p>
+                        </div>
+                    </div>
+                    <div class="grid-item">
+                        <i class="ph ph-hourglass"></i>
+                        <div>
+                            <span>Developmental Delays</span>
+                            <p>Step-by-step progress tracking</p>
+                        </div>
+                    </div>
+                    <div class="grid-item">
+                        <i class="ph ph-book-open"></i>
+                        <div>
+                            <span>Learning Disabilities</span>
+                            <p>Affordable, supportive teaching</p>
+                        </div>
+                    </div>
+                    <div class="grid-item">
+                        <i class="ph ph-shield-star"></i>
+                        <div>
+                            <span>Special Needs</span>
+                            <p>Nurturing physical & emotional care</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TRAINING AND ACTIVITIES CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-palette"></i> Training & Skill-Development Activities
+                </h3>
+                <p style="margin-bottom: 18px; font-size: 0.95rem; color: var(--text-muted);">
+                    Students at Asha Kiran participate in active learning, creative expression, and practical training designed to unlock their inner potential:
+                </p>
+                <ul class="bullet-list">
+                    <li>Reading and writing practice for cognitive growth</li>
+                    <li>Interactive storytelling sessions to improve focus and imagination</li>
+                    <li>Drawing and painting to encourage creative expression</li>
+                    <li>Handicraft and vocational activities for motor skill development</li>
+                    <li>Dance, music, and cultural programs to build confidence</li>
+                    <li>Life-skill training focusing on self-reliance in daily tasks</li>
+                    <li>Group interaction sessions for social and behavioral enhancement</li>
+                </ul>
+            </div>
+
+            <!-- IMPORTANCE CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-star-of-life"></i> Importance of Asha Kiran
+                </h3>
+                <p class="about-text" style="margin-bottom: 14px;">
+                    Asha Kiran plays an important role in supporting specially-abled children and their families. The center focuses not only on basic education but also on comprehensive rehabilitation, confidence-building, and social interaction.
+                </p>
+                <p class="about-text">
+                    By providing college students with service opportunities and giving children a positive community space, it prepares differently-abled youth for a better, more supportive, and integrated future in society.
+                </p>
+            </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: OBJECTIVES, INTERNSHIPS, WELFARE INITIATIVES -->
+        <div class="content-right">
+            
+            <!-- MAIN OBJECTIVES CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-target"></i> Main Objectives
+                </h3>
+                <ul class="bullet-list objectives-list">
+                    <li>Help children become more independent in daily life.</li>
+                    <li>Improve verbal, non-verbal communication, and social skills.</li>
+                    <li>Support healthy emotional and behavioral development.</li>
+                    <li>Encourage creativity through arts, crafts, music, and dance.</li>
+                    <li>Provide a friendly, safe, and positive learning environment.</li>
+                </ul>
+            </div>
+
+            <!-- INTERNSHIP OPPORTUNITIES CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-briefcase"></i> Social Service Internships
+                </h3>
+                <p style="font-size: 0.92rem; color: var(--text); margin-bottom: 14px;">
+                    The center offers valuable social-service internship programs for college students:
+                </p>
+                <div class="info-card-list">
+                    <div class="info-card-item">
+                        <span class="info-card-label"><i class="ph ph-clock"></i> Duration</span>
+                        <span class="info-card-value">4–6 Weeks</span>
+                    </div>
+                    <div class="info-card-item">
+                        <span class="info-card-label"><i class="ph ph-student"></i> Eligibility</span>
+                        <span class="info-card-value">College Students</span>
+                    </div>
+                </div>
+                <div class="noteworthy-box">
+                    <i class="ph ph-lightbulb"></i>
+                    <span>Interns spend their time interacting with special children and helping them learn various skills. This helps students develop leadership qualities, patience, empathy, and social responsibility.</span>
+                </div>
+            </div>
+
+            <!-- RAILWAY WELFARE INITIATIVE CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-buildings"></i> SCoRWWO Welfare Initiatives
+                </h3>
+                <p style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 14px;">
+                    Asha Kiran is one of several welfare institutions managed by SCoRWWO. Other key initiatives include:
+                </p>
+                <ul class="bullet-list welfare-list">
+                    <li><strong>Jack & Jill School</strong> - Providing affordable, high-quality co-education</li>
+                    <li><strong>E-World Learning Centre</strong> - Connecting young talents with digital learning</li>
+                    <li><strong>Career World Coaching Centre</strong> - Shaping professional careers</li>
+                    <li><strong>Spoorthi Centre</strong> - Supportive programs for speech and hearing-impaired children</li>
+                </ul>
+            </div>
+
+            <!-- SOURCE LINKS CARD -->
+            <div class="sources-card">
+                <h4><i class="ph ph-link"></i> Sources & References</h4>
+                <div class="source-links">
+                    <a href="https://assets.thehansindia.com/news/cities/vijayawada/vijayawada-SCoRWWO-provides-social-service-internship-to-students-780298?utm_source=chatgpt.com" target="_blank" class="source-btn">
+                        <span>Hans India: Internships Article</span>
+                        <i class="ph ph-arrow-square-out"></i>
+                    </a>
+                    <a href="https://www.inkl.com/news/new-president-for-vijayawada-division-of-scr-women-s-welfare-organisation?utm_source=chatgpt.com" target="_blank" class="source-btn">
+                        <span>Inkl: SCoRWWO Initiatives News</span>
+                        <i class="ph ph-arrow-square-out"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        © 2026 South Coast Railway Women's Welfare Organization (SCoRWWO). All Rights Reserved.
+    </footer>
+
+</body>
+</html>

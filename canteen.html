@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Canteen - South Coast Railway</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #f8fafc;
+    color: #1e293b;
+    line-height: 1.6;
+}
+
+/* Header */
+.sticky-header {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.back-link {
+    background: #eef2ff;
+    padding: 8px 16px;
+    border-radius: 30px;
+    text-decoration: none;
+    color: #312e81;
+    font-weight: 700;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-logo img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+/* Hero Section */
+.hero {
+    height: 380px;
+    background:
+        linear-gradient(
+            rgba(30, 27, 75, 0.65),
+            rgba(15, 23, 42, 0.85)
+        ),
+        url('canteen.jpg') center/cover no-repeat;
+
+    display: flex;
+    align-items: center;
+    color: #fff;
+    padding: 40px;
+}
+
+.hero-tag {
+    background: rgba(99, 102, 241, 0.25);
+    padding: 6px 15px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.hero h2 {
+    font-size: 3rem;
+}
+
+/* Main Container */
+.main-container {
+    max-width: 1200px;
+    margin: -40px auto 40px;
+    padding: 0 20px;
+
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 24px;
+}
+
+/* Cards */
+.card,
+.sources-card {
+    background: #fff;
+    padding: 28px;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    margin-bottom: 24px;
+}
+
+.card-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 18px;
+    color: #1e1b4b;
+}
+
+/* Facilities */
+.facilities-grid {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(200px, 1fr)
+    );
+    gap: 15px;
+}
+
+.facility-item {
+    padding: 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+/* Info List */
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 10px;
+    background: #f8fafc;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* Bullet List */
+.bullet-list li {
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+/* Sources Card */
+.sources-card {
+    background: #1e1b4b;
+    color: white;
+}
+
+/* Footer */
+footer {
+    background: #1e1b4b;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 968px) {
+    .main-container {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        padding: 20px;
+        height: auto;
+        min-height: 300px;
+    }
+
+    .hero h2 {
+        font-size: 2rem;
+    }
+}
+</style>
+</head>
+<body>
+
+<header class="sticky-header">
+<div class="header-logo">
+<img src="logo.jpeg" alt="Logo">
+<h2>SCoR WWO</h2>
+</div>
+<a href="index.html" class="back-link">Back to Dashboard</a>
+</header>
+
+<section class="hero">
+<div>
+<span class="hero-tag">Employee Welfare Facility</span>
+<h2>Canteen – South Coast Railway</h2>
+<p>Hygienic • Nutritious • Affordable Food Services</p>
+</div>
+</section>
+
+<main class="main-container">
+
+<div>
+
+<div class="card">
+<h3 class="card-title">About the Canteen</h3>
+<p>
+The South Coast Railway canteen is a facility established to provide hygienic, nutritious, and affordable food services to railway employees, officers, visitors, and, in some locations, passengers. The canteen serves as an important welfare amenity, ensuring that staff members have access to quality meals and refreshments during working hours.
+<br><br>
+The canteen offers a variety of food items, including breakfast, lunch, snacks, tea, coffee, and beverages. Special attention is given to maintaining cleanliness, food safety, and quality standards to ensure customer satisfaction.
+</p>
+</div>
+
+<div class="card">
+<h3 class="card-title">Canteen Facilities</h3>
+<div class="facilities-grid">
+<div class="facility-item">Spacious Seating Arrangements</div>
+<div class="facility-item">Clean Dining Area</div>
+<div class="facility-item">Freshly Prepared Meals</div>
+<div class="facility-item">Tea & Coffee Counter</div>
+<div class="facility-item">Drinking Water Facility</div>
+<div class="facility-item">Waste Management & Sanitation</div>
+</div>
+</div>
+
+<div class="card">
+<h3 class="card-title">Objectives</h3>
+<ul class="bullet-list">
+<li>Provide healthy and affordable food.</li>
+<li>Ensure hygienic food preparation and serving.</li>
+<li>Support the welfare and well-being of railway employees.</li>
+<li>Offer quick meal services during working hours.</li>
+<li>Create a comfortable dining environment.</li>
+</ul>
+</div>
+
+</div>
+
+<div>
+
+<div class="card">
+<h3 class="card-title">Basic Information</h3>
+<div class="info-item"><span>Facility Type</span><span>Railway Canteen</span></div>
+<div class="info-item"><span>Beneficiaries</span><span>Employees & Visitors</span></div>
+<div class="info-item"><span>Food Services</span><span>Meals & Snacks</span></div>
+<div class="info-item"><span>Beverages</span><span>Tea & Coffee</span></div>
+<div class="info-item"><span>Standards</span><span>Hygiene & Quality</span></div>
+<div class="info-item"><span>Organization</span><span>South Coast Railway</span></div>
+</div>
+
+<div class="card">
+<h3 class="card-title">Vision</h3>
+<p>
+To provide high-quality, hygienic, and affordable food services while promoting health, comfort, and employee welfare across South Coast Railway establishments.
+</p>
+</div>
+
+<div class="card">
+<h3 class="card-title">Importance to South Coast Railway</h3>
+<p>
+The canteen plays a significant role in employee welfare by helping staff maintain a balanced diet and a productive work environment. It also serves as a place for employees to interact, relax, and recharge during breaks, contributing to better teamwork and workplace satisfaction.
+</p>
+</div>
+
+<div class="sources-card">
+<h3>Conclusion</h3>
+<p>
+The South Coast Railway canteen is more than just a dining facility; it is an essential service that supports the daily needs of railway employees and visitors by offering convenient, safe, and quality food services in a pleasant environment.
+</p>
+</div>
+
+</div>
+
+</main>
+
+<footer>
+© 2026 South Coast Railway Women's Welfare Organization (SCoRWWO). All Rights Reserved.
+</footer>
+
+</body>
+</html>

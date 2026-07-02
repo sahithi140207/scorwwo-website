@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meet Our Leadership - SCoRWWO</title>
+    <!-- Import Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Import Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        /* ── CSS RESET & CORE VARIABLES ── */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #1e1b4b;
+            --primary-light: #312e81;
+            --accent: #6366f1;
+            --accent-bg: #eef2ff;
+            --accent-green: #10b981;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.02);
+            --shadow-md: 0 4px 20px -2px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+            --shadow-lg: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
+            --radius-md: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ── HEADER ── */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: var(--transition);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--primary-light);
+            background: var(--accent-bg);
+            padding: 8px 16px;
+            border-radius: 9999px;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            background: var(--accent);
+            color: #fff;
+            transform: translateX(-3px);
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .header-logo h1 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 0.03em;
+            text-transform: none;
+        }
+
+        /* ── HERO SECTION ── */
+        .hero {
+            position: relative;
+            height: 220px;
+            background: linear-gradient(rgba(30, 27, 75, 0.65), rgba(15, 23, 42, 0.85));
+            display: flex;
+            align-items: center;
+            color: #fff;
+            padding: 0 40px;
+        }
+
+        .hero-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 6px;
+        }
+
+        /* ── GRID LAYOUT ── */
+        .main-container {
+            max-width: 1200px;
+            margin: -30px auto 60px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .officers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        /* ── OFFICER CARD ── */
+        .officer-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: 24px 20px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .officer-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+
+        .officer-card img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 16px;
+            border: 3px solid transparent;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .officer-card h4 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .officer-card p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.35;
+            font-weight: 600;
+        }
+
+        .view-btn {
+            margin-top: 12px;
+            padding: 8px 14px;
+            border: none;
+            border-radius: 9999px;
+            background: transparent; /* no background color */
+            color: var(--primary);
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .view-btn:hover {
+            text-decoration: underline;
+        }
+
+        .officer-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 24px;
+        }
+
+        .officer-modal-content {
+            width: min(640px, 100%);
+            background: #ffffff;
+            padding: 28px 26px;
+            border-radius: 18px;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            text-align: left;
+        }
+
+        .officer-modal-content h2 {
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 1.4rem;
+            color: #334155;
+            cursor: pointer;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--primary);
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            padding: 24px;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-logo">
+            <img src="logo.jpeg" alt="SCoRWWO Logo">
+            <h1>SCoR WWO</h1>
+        </div>
+        <a href="index.html" class="back-link">
+            <i class="ph ph-arrow-left"></i> Back to Dashboard
+        </a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-inner">
+            <h2 data-i18n="leadership.heading">Meet Our Leadership</h2>
+            <p>Dedicated officers and members of the Women's Welfare Organisation.</p>
+        </div>
+    </section>
+
+    <!-- MAIN CONTAINER -->
+    <main class="main-container">
+        <div class="officers-grid">
+            
+            <!-- Officer 1 -->
+              <div class="officer-card">
+    <img src="https://i1.sndcdn.com/avatars-000745331179-256n8l-t1080x1080.jpg" alt="Officer">
+
+    <h4>General Manager</h4>
+
+    <p>SCoR</p>
+
+    <button class="view-btn" onclick="openModal(
+        'General Manager',
+        'The General Manager provides overall leadership and guidance for SCoRWWO activities, supports welfare initiatives, and ensures smooth functioning of all programs and services.'
+    )">View Details</button>
+</div>
+
+                            <div class="officer-card">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsi1xSnWS4AO8dLDixSwzz8V6MYplHo5qP7A&s" alt="Officer">
+                                <h4>President</h4>
+                                <p data-i18n="leadershipRoles.scorwwo">SCoRWWO</p>
+                                <button class="view-btn" onclick="openModal('President serves as Junior General Secretary and assists in coordinating SCoRWWO activities, welfare initiatives, and organizational programs.')">View Details</button>
+                                <div class="social-links"></div>
+                            </div>
+
+
+            <div class="officer-card">
+                <img src="https://pbs.twimg.com/media/Gw8bdSpbEAAWa5f.jpg" alt="Mr.Shri Mohit Sonakiya">
+                <h4>Mr.Shri Mohit Sonakiya</h4>
+                <p data-i18n="leadershipRoles.drm">Divisional Railway Manager<br>Vijayawada</p>
+                <button class="view-btn" onclick="openModal('Mr. Shri Mohit Sonakiya serves as Divisional Railway Manager and provides leadership and guidance for railway operations in the division.')">View Details</button>
+            </div>
+            
+            <!-- Officer 2 -->
+            <div class="officer-card">
+                <img src="DMR.png" alt="Ms. Versha Sonakiya">
+                <h4>Ms. Versha Sonakiya</h4>
+                <p data-i18n="leadershipRoles.president">President<br>Vijayawada</p>
+                <button class="view-btn" onclick="openModal('Ms. Versha Sonakiya serves as President and leads the overall strategic direction of SCoRWWO.')">View Details</button>
+            </div>
+            
+            <!-- Officer 3 -->
+            <div class="officer-card">
+                <img src="https://i.pinimg.com/236x/37/f4/16/37f416bf50621417ff155ee958d68a2a.jpg" alt="Ms. Veena">
+                <h4>Ms. Veena</h4>
+                <p data-i18n="leadershipRoles.vicePresident">Vice President<br>Vijayawada</p>
+                <button class="view-btn" onclick="openModal('Ms. Veena serves as Vice President and supports the overall strategic direction of SCoRWWO.')">View Details</button>
+            </div>
+            
+            <!-- Officer 4 -->
+            <div class="officer-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWQPE0invEnSy4E-iquDOo7cUJIl1pffoWjQ&s" alt="Mr.Edwin">
+                <h4>Ms.Edwin</h4>
+                <p data-i18n="leadershipRoles.vicePresident">Vice President<br>Vijayawada</p>
+                <button class="view-btn" onclick="openModal('Ms.Edwin serves as Vice President and supports the overall strategic direction of SCoRWWO.')">View Details</button>
+            </div>
+            
+            <!-- Officer 5 -->
+            <div class="officer-card">
+                <img src="https://i.pinimg.com/236x/dd/ef/c3/ddefc3c506e2bb8221b767283432d804.jpg" alt="Ms. Niharika">
+                <h4>Ms. Niharika</h4>
+                <p data-i18n="leadershipRoles.generalSecretary">General Secretary<br>Vijayawada</p>
+                <button class="view-btn" onclick="openModal('Ms. Niharika serves as General Secretary and leads the overall strategic direction of SCoRWWO.')">View Details</button>
+            </div>
+            
+            <!-- Officer 6 -->
+            <div class="officer-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaoKyOYGgVczTs9zBDEJX8d2YyPcCzA5RPqg&s" alt="Ms. Sindura Lakshmi">
+                <h4>Ms. Sindura Lakshmi</h4>
+                <p data-i18n="leadershipRoles.juniorSecretary">Junior Secretary<br>Vijayawada</p>
+                <button class="view-btn" onclick="openModal('Ms. Sindura Lakshmi serves as Junior Secretary and assists in coordinating SCoRWWO activities, welfare initiatives, and organizational programs.')">View Details</button>
+            </div>
+            
+            <!-- Officer 7 -->
+            <div class="officer-card">
+                <img src="https://i.pinimg.com/236x/37/f4/16/37f416bf50621417ff155ee958d68a2a.jpg" alt="Ms. Vasanthika">
+                <h4>Ms. Vasanthika</h4>
+                <p data-i18n="leadershipRoles.juniorGeneralSecretary">Junior General Secretary<br>Vijayawada</p>
+                <button class="view-btn" onclick="openModal('Ms. Vasanthika serves as Junior General Secretary and assists in coordinating SCoRWWO activities, welfare initiatives, and organizational programs.')">View Details</button>
+            </div>
+            
+            <!-- Officer 8 -->
+            <div class="officer-card">
+                <img src="https://i1.sndcdn.com/avatars-000745331179-256n8l-t1080x1080.jpg" alt="Ms. Gynanaprasuna">
+                <h4>Ms. Gynanaprasuna</h4>
+                <p data-i18n="leadershipRoles.juniorGeneralSecretary">Junior General Secretary<br>Vijayawada</p>
+                <button class="view-btn" onclick="openModal('Ms. Gynanaprasuna serves as Junior General Secretary and supports administrative coordination, welfare programs, and organizational activities.')">View Details</button>
+            </div>
+            
+            <!-- Officer 9 -->
+            <div class="officer-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsi1xSnWS4AO8dLDixSwzz8V6MYplHo5qP7A&s" alt="Ms. Pavithra Reddy">
+                <h4>Ms. Pavithra Reddy</h4>
+                <p data-i18n="leadershipRoles.jackSecretary">Jack & Jills School Secretary<br>Vijayawada</p>
+                <button class="view-btn" onclick="openModal('Ms. Pavithra Reddy serves as Junior General Secretary and assists in coordinating SCoRWWO activities, welfare initiatives, and organizational programs.')">View Details</button>
+            </div>
+            
+            <!-- Officer 10 -->
+            <div class="officer-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaoKyOYGgVczTs9zBDEJX8d2YyPcCzA5RPqg&s" alt="Ms. Sravanthi">
+                <h4>Ms. Sravanthi</h4>
+                <p data-i18n="leadershipRoles.jackMember">Member of Jack & Jills<br>Vijayawada</p>
+                <button class="view-btn" onclick="openModal('Ms. Sravanthi actively contributes to the activities and development programs conducted by Jack & Jills School.')">View Details</button>
+            </div>
+            
+            <!-- Officer 11 -->
+            <div class="officer-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaoKyOYGgVczTs9zBDEJX8d2YyPcCzA5RPqg&s" alt="Ms. Surekha Reddy">
+                <h4>Ms. Surekha Reddy</h4>
+                <p data-i18n="leadershipRoles.eworldSecretary">E-WORLD Secretary<br>Vijayawada</p>
+                <button class="view-btn" onclick="openModal('Ms. Surekha Reddy serves as Secretary of E-WORLD and manages activities related to empowerment, education, and skill development.')">View Details</button>
+            </div>
+            
+            <!-- Officer 12 -->
+            <div class="officer-card">
+                <img src="https://i.pinimg.com/236x/dd/ef/c3/ddefc3c506e2bb8221b767283432d804.jpg" alt="Ms. Nazia Hasan">
+                <h4>Ms. Nazia Hasan</h4>
+                <p data-i18n="leadershipRoles.culturalMember">E-WORLD member<br>Vijayawada</p>
+                <button class="view-btn" onclick="openModal('Ms. Nazia Hasan is a member of E-WORLD and actively contributes to welfare, educational, and empowerment initiatives organized by the committee.')">View Details</button>
+            </div>
+            
+            <!-- Officer 13 -->
+            <div class="officer-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK2CgD_4sykEMCIHFsxvD31CS-9yGQkdM_jA&s" alt="Ms. Bharathi">
+                <h4>Ms. Bharathi</h4>
+                <p data-i18n="leadershipRoles.ashakiranSecretary">Asha Kiran Secretary<br>Vijayawada</p>
+                <button class="view-btn" onclick="openModal('Ms. Bharathi serves as Secretary of Asha Kiran and coordinates activities focused on social welfare, support programs, and community development.')">View Details</button>
+            </div>
+            
+            <!-- Officer 14 -->
+            <div class="officer-card">
+                <img src="https://i.pinimg.com/170x/b0/c0/57/b0c057ccd44d75d04033f5b074b0511b.jpg" alt="Ms.Anu Jeeva">
+                <h4>Ms.Anu Jeeva</h4>
+                <p data-i18n="leadershipRoles.canteenSecretary">Canteen & Career World Secretary<br>Vijayawada</p>
+                <button class="view-btn" onclick="openModal('Ms. Anu Jeeva serves as Secretary of Canteen and Career World, overseeing canteen operations and career development activities for members.')">View Details</button>
+            </div>
+            
+            <!-- Officer 15 -->
+            <div class="officer-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsi1xSnWS4AO8dLDixSwzz8V6MYplHo5qP7A&s" alt="Ms. Parvathi">
+                <h4>Ms. Parvathi</h4>
+                <p data-i18n="leadershipRoles.culturalSecretary">Cultural Secretary<br>Vijayawada</p>
+                <button class="view-btn" onclick="openModal('Ms. Parvathi serves as Cultural Secretary and organizes cultural events, celebrations, competitions, and artistic programs throughout the year.')">View Details</button>
+            </div>
+            
+            <!-- Officer 16 -->
+            <div class="officer-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaoKyOYGgVczTs9zBDEJX8d2YyPcCzA5RPqg&s" alt="MS. Sravani">
+                <h4>MS. Sravani</h4>
+                <p data-i18n="leadershipRoles.culturalMember">Cultural Member<br>Vijayawada</p>
+                <button class="view-btn" onclick="openModal('MS. Sravani is a Cultural Member who supports planning and execution of cultural, social, and recreational activities.')">View Details</button>
+            </div>
+            
+            <!-- Officer 17 -->
+            <div class="officer-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaoKyOYGgVczTs9zBDEJX8d2YyPcCzA5RPqg&s" alt="Ms. Shahida">
+                <h4>Ms. Shahida</h4>
+                <p data-i18n="leadershipRoles.culturalMember">Cultural Member<br>Vijayawada</p>
+                <button class="view-btn" onclick="openModal('Ms. Shahida is a Cultural Member and contributes to organizing cultural programs, celebrations, and community engagement activities.')">View Details</button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        © 2026 South Coast Railway Women's Welfare Organisation (SCoRWWO). All Rights Reserved.
+    </footer>
+
+    <script src="src/i18n.js"></script>
+    <div id="officerModal" class="officer-modal">
+        <div class="officer-modal-content">
+            <span class="close-modal" onclick="closeOfficerModal()">&times;</span>
+            <h2 id="officerTitle"></h2>
+            <p id="officerDescription"></p>
+        </div>
+    </div>
+
+    <script>
+        function openModal(title, description) {
+            const modal = document.getElementById('officerModal');
+            if (!modal) return;
+            document.getElementById('officerTitle').textContent = title;
+            document.getElementById('officerDescription').textContent = description;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeOfficerModal() {
+            const modal = document.getElementById('officerModal');
+            if (!modal) return;
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+        document.getElementById('officerModal')?.addEventListener('click', function (e) {
+            if (e.target === this) closeOfficerModal();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Organisations - SCoRWWO</title>
+    <!-- Import Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Import Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        /* ── CSS RESET & CORE VARIABLES ── */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #1e1b4b;
+            --primary-light: #312e81;
+            --accent: #6366f1;
+            --accent-bg: #eef2ff;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.02);
+            --shadow-md: 0 4px 20px -2px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+            --shadow-lg: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
+            --radius-md: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ── HEADER ── */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: var(--transition);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--primary-light);
+            background: var(--accent-bg);
+            padding: 8px 16px;
+            border-radius: 9999px;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            background: var(--accent);
+            color: #fff;
+            transform: translateX(-3px);
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .header-logo h1 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 0.03em;
+            text-transform: none;
+        }
+
+        /* ── HERO SECTION ── */
+        .hero {
+            position: relative;
+            height: 220px;
+            background: linear-gradient(rgba(30, 27, 75, 0.65), rgba(15, 23, 42, 0.85));
+            display: flex;
+            align-items: center;
+            color: #fff;
+            padding: 0 40px;
+        }
+
+        .hero-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 6px;
+        }
+
+        /* ── GRID LAYOUT ── */
+        .main-container {
+            max-width: 1200px;
+            margin: -30px auto 60px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .orgs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        /* ── ORG CARD ── */
+        .org-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: 32px 28px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            cursor: pointer;
+        }
+
+        .org-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+
+        .org-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .org-card h4 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .org-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.55;
+            margin-bottom: 24px;
+            flex-grow: 1;
+        }
+
+        .learn-more {
+            font-size: 0.84rem;
+            color: var(--accent);
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+        }
+
+        .org-card:hover .learn-more {
+            transform: translateX(4px);
+            color: var(--primary-light);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--primary);
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            padding: 24px;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-logo">
+            <img src="logo.jpeg" alt="SCoRWWO Logo">
+            <h1>SCoR WWO</h1>
+        </div>
+        <a href="index.html" class="back-link">
+            <i class="ph ph-arrow-left"></i> Back to Dashboard
+        </a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-inner">
+            <h2 data-i18n="organisations.heading">Our Organisations</h2>
+            <p>Divisions managed under the South Coast Railway Women's Welfare Organisation.</p>
+        </div>
+    </section>
+
+    <!-- MAIN CONTAINER -->
+    <main class="main-container">
+        <div class="orgs-grid">
+            
+            <!-- Card 1 -->
+            <div class="org-card" onclick="window.location.href='vijayawada.html'">
+                <div class="org-icon" style="background-color: #ecfdf5;"><i class="ph ph-map-pin-line" style="color: #10b981;"></i></div>
+                <h4 data-i18n="organisations.items.0.title">Vijayawada Division</h4>
+                <p data-i18n="organisations.items.0.desc">Manages train operations and infrastructure in the Vijayawada division.</p>
+                <span class="learn-more">Learn More <i class="ph ph-arrow-right"></i></span>
+            </div>
+            
+            <!-- Card 2 -->
+            <div class="org-card" onclick="window.location.href='visakhapatnam.html'">
+                <div class="org-icon" style="background-color: #fffbeb;"><i class="ph ph-map-pin-line" style="color: #f59e0b;"></i></div>
+                <h4 data-i18n="organisations.items.1.title">Visakhapatnam Division</h4>
+                <p data-i18n="organisations.items.1.desc">Manages train operations and infrastructure in the Visakhapatnam division.</p>
+                <span class="learn-more">Learn More <i class="ph ph-arrow-right"></i></span>
+            </div>
+            
+            <!-- Card 3 -->
+            <div class="org-card" onclick="window.location.href='guntur.html'">
+                <div class="org-icon" style="background-color: #fdf2f8;"><i class="ph ph-map-pin-line" style="color: #ec4899;"></i></div>
+                <h4 data-i18n="organisations.items.2.title">Guntur Division</h4>
+                <p data-i18n="organisations.items.2.desc">Manages train operations and infrastructure in the Guntur division.</p>
+                <span class="learn-more">Learn More <i class="ph ph-arrow-right"></i></span>
+            </div>
+            
+            <!-- Card 4 -->
+            <div class="org-card" onclick="window.location.href='guntakal.html'">
+                <div class="org-icon" style="background-color: #eff6ff;"><i class="ph ph-map-pin-line" style="color: #3b82f6;"></i></div>
+                <h4 data-i18n="organisations.items.3.title">Guntakal Division</h4>
+                <p data-i18n="organisations.items.3.desc">Manages train operations and infrastructure in the Guntakal division.</p>
+                <span class="learn-more">Learn More <i class="ph ph-arrow-right"></i></span>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        © 2026 South Coast Railway Women's Welfare Organisation (SCoRWWO). All Rights Reserved.
+    </footer>
+
+    <script src="src/i18n.js"></script>
+</body>
+</html>

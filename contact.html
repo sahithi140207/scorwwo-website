@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - SCoRWWO</title>
+    <!-- Import Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Import Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        /* ── CSS RESET & CORE VARIABLES ── */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #1e1b4b;
+            --primary-light: #312e81;
+            --accent: #6366f1;
+            --accent-bg: #eef2ff;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.02);
+            --shadow-md: 0 4px 20px -2px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+            --shadow-lg: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ── HEADER ── */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: var(--transition);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--primary-light);
+            background: var(--accent-bg);
+            padding: 8px 16px;
+            border-radius: 9999px;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            background: var(--accent);
+            color: #fff;
+            transform: translateX(-3px);
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .header-logo h1 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 0.03em;
+            text-transform: none;
+        }
+
+        /* ── HERO SECTION ── */
+        .hero {
+            position: relative;
+            height: 220px;
+            background: linear-gradient(rgba(30, 27, 75, 0.65), rgba(15, 23, 42, 0.85));
+            display: flex;
+            align-items: center;
+            color: #fff;
+            padding: 0 40px;
+        }
+
+        .hero-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 6px;
+        }
+
+        /* ── GRID LAYOUT ── */
+        .main-container {
+            max-width: 1200px;
+            margin: -30px auto 60px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 28px;
+        }
+
+        /* ── CARDS ── */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid var(--bg);
+            padding-bottom: 12px;
+        }
+
+        .card-title i {
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+
+        /* ── CONTACT MEDIUMS LIST ── */
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 16px;
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            background: var(--accent-bg);
+            border-color: var(--accent);
+        }
+
+        .contact-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.35rem;
+            color: var(--accent);
+            box-shadow: var(--shadow-sm);
+            flex-shrink: 0;
+        }
+
+        .contact-content h5 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .contact-content p, .contact-content a {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .contact-content a:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        /* ── SOCIAL ROW ── */
+        .social-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 6px;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--border);
+            color: var(--primary);
+            font-size: 1.15rem;
+            transition: var(--transition);
+        }
+
+        .social-btn:hover {
+            background: var(--accent);
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        /* ── FORM CONTROL ── */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.84rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            font-family: inherit;
+            font-size: 0.88rem;
+            color: var(--text);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn-submit {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 12px 24px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-submit:hover {
+            background: var(--primary-light);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ── SUCCESS ALERT ── */
+        .success-alert {
+            display: none;
+            background: #ecfdf5;
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            font-size: 0.88rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            align-items: center;
+            gap: 10px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .success-alert i {
+            font-size: 1.30rem;
+        }
+
+        /* ── MAP SECTION ── */
+        .map-section {
+            grid-column: span 2;
+            margin-top: 12px;
+        }
+
+        .map-section iframe {
+            width: 100%;
+            height: 320px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ── RESPONSIVE DESIGN ── */
+        @media (max-width: 968px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                margin-top: -20px;
+            }
+            .map-section {
+                grid-column: span 1;
+            }
+            .hero {
+                height: 320px;
+                padding: 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-logo">
+            <img src="logo.jpeg" alt="SCoRWWO Logo">
+            <h1>SCoR WWO</h1>
+        </div>
+        <a href="index.html" class="back-link">
+            <i class="ph ph-arrow-left"></i> Back to Dashboard
+        </a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-inner">
+            <h2 data-i18n="nav.contact">Contact Us</h2>
+            <p>Get in touch with the South Coast Railway Women's Welfare Organisation (SCoRWWO).</p>
+        </div>
+    </section>
+
+    <!-- MAIN CONTAINER -->
+    <main class="main-container">
+        
+        <!-- LEFT COLUMN: CONTACT CHANNELS -->
+        <div class="contact-left">
+            <div class="card">
+                <h3 class="card-title"><i class="ph ph-chat-circle-dots"></i> Contact Channels</h3>
+                <div class="contact-list">
+                    
+                    <!-- Address -->
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="ph ph-map-pin"></i></div>
+                        <div class="contact-content">
+                            <h5>Office Address</h5>
+                            <p>SCoRWWO Office,opp Railway hospital, Near Railway Station Road, Gandhi Nagar, Vijayawada, Andhra Pradesh - 520001</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Phones -->
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="ph ph-phone"></i></div>
+                        <div class="contact-content">
+                            <h5>Helplines & Phone</h5>
+                            <p>Railway Helpline: <strong>139</strong></p>
+                            <p>Office Phone: <a href="tel:+91 86627 68283">+91 866 2768283</a></p>
+                            <p>Mobile Support: <a href="tel:+91 93472 68788">+91 9347268788</a></p>
+                        </div>
+                    </div>
+                    
+                    <!-- Emails -->
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="ph ph-envelope"></i></div>
+                        <div class="contact-content">
+                            <h5>Email Enquiries</h5>
+                            <p>General Info: <a href="mailto:contact@scorwwo.org">scorwwo@gmail.com</a></p>
+                            <p>School Admissions: <a href="mailto:admissions@scorwwo.org">admissions@scorwwo.org</a></p>
+                            <p>Welfare Programs: <a href="mailto:welfare@scorwwo.org">welfare@scorwwo.org</a></p>
+                        </div>
+                    </div>
+                    
+                    <!-- Socials & Hours -->
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="ph ph-clock"></i></div>
+                        <div class="contact-content">
+                            <h5>Working Hours & Socials</h5>
+                            <p style="margin-bottom: 6px;">Monday – Friday: <strong>9:00 AM – 5:00 PM</strong> <br>
+                                Saturday: <strong>9:00 AM – 1:00 PM</strong> (Sunday Closed)</p>
+                            <div class="social-row">
+                                <a href="https://instagram.com/SCoRWWOvijayawada/" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+                                <a href="https://www.facebook.com/profile.php?id=61579587494329" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: ENQUIRY FORM -->
+        <div class="contact-right">
+            <div class="card">
+                <h3 class="card-title"><i class="ph ph-paper-plane-tilt"></i> Send Us a Message</h3>
+                
+                <!-- Success Alert -->
+                <div class="success-alert" id="successAlert">
+                    <i class="ph ph-check-circle"></i>
+                    <span>Thank you! Your message has been sent successfully. We will get back to you soon.</span>
+                </div>
+                
+                <form id="contactForm" onsubmit="handleContactSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" class="form-input" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" class="form-input" placeholder="Your email address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" class="form-input" placeholder="Your phone number">
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <select id="subject" class="form-input" required>
+                            <option value="" disabled selected>Select a subject</option>
+                            <option value="general">General Enquiry</option>
+                            <option value="school">Jack & Jill School Admissions</option>
+                            <option value="eworld">E-World Internships</option>
+                            <option value="career">Career World Classes</option>
+                            <option value="welfare">Other Welfare Enquiries</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" class="form-input" placeholder="How can we help you?" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        Submit Enquiry <i class="ph ph-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- FULL WIDTH: GOOGLE MAPS EMBED -->
+        <div class="map-section">
+            <iframe src="https://maps.google.com/maps?q=Vijayawada%20Railway%20Station&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        © 2026 South Coast Railway Women's Welfare Organisation (SCoRWWO). All Rights Reserved.
+    </footer>
+
+    <script src="src/i18n.js"></script>
+    <script>
+async function handleContactSubmit(e) {
+    e.preventDefault();
+
+    const data = {
+        full_name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        subject: document.getElementById("subject").value,
+        message: document.getElementById("message").value
+    };
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:5000/contact",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            }
+        );
+
+        const result = await response.json();
+
+        if (result.success) {
+
+            const alert = document.getElementById("successAlert");
+            alert.style.display = "flex";
+
+            document.getElementById("contactForm").reset();
+
+            alert.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest"
+            });
+
+        } else {
+            alert("Failed to send enquiry.");
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert("Server connection error.");
+    }
+}
+</script>
+</body>
+</html>

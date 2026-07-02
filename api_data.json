@@ -1,0 +1,22 @@
+﻿{
+    "liveTrains":  [
+                       {
+                           "name":  "Godavari Express",
+                           "status":  "On Time",
+                           "trainNo":  "12727"
+                       },
+                       {
+                           "name":  "Garibrath Express",
+                           "status":  "Delayed by 15 mins",
+                           "trainNo":  "12739"
+                       }
+                   ],
+    "message":  "Hello from the Python Backend!",
+    "status":  "success",
+    "zonals":  [
+                   "Vijayawada",
+                   "Visakhapatnam",
+                   "Guntur",
+                   "Guntakal"
+               ]
+}

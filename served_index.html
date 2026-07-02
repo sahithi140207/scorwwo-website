@@ -1,0 +1,2245 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Full-page client-side language toggle (English / Hindi)
+        (function(){
+            const translations = {
+                en: {
+                    nav: {
+                        'Home': 'Home',
+                        'About Us': 'About Us',
+                        'Divisions': 'Divisions',
+                        'Organisations': 'Organisations',
+                        'Services': 'Services',
+                        'Information': 'Information'
+                    },
+                    selector: {
+                        '.btn-lang': '<i class="ph ph-globe"></i> English <i class="ph ph-caret-down"></i>',
+                        '.btn-helpline': '<i class="ph ph-phone"></i> Helpline 139',
+                        '.live-status-widget h3': 'Upcoming Events<br>Live 🔴',
+                        '.live-status-widget p': 'Track real-time status of your train',
+                        '.btn-check': 'Check Now <i class="ph ph-arrow-right"></i>',
+                        '.qa-title h4': 'QUICK<br>ACCESS',
+                        '.hero-content h1': 'Beyond <span>Tracks.</span><br>Towards <span>Tomorrow.</span>',
+                        '.hero-content p': 'Driving progress. Connecting people.<br>Building a sustainable and<br>stronger tomorrow.',
+                        '.hero-content .btn-primary': 'Explore More <i class="ph ph-arrow-right"></i>',
+                        '.footer-col.brand-col .footer-brand div': 'SOUTH COAST RAILWAY',
+                        '.app-promo-content h3': 'SOUTH COAST RAILWAY APP',
+                        '.footer-col h5:nth-of-type(1)': 'ABOUT US',
+                        '.footer-col h5:nth-of-type(2)': 'INFORMATION',
+                        '.footer-col h5:nth-of-type(3)': 'HELP & SUPPORT',
+                        '.footer-col.newsletter-col h5': 'NEWSLETTER',
+                        '.legal-links a:nth-of-type(1)': 'Privacy Policy',
+                        '.legal-links a:nth-of-type(2)': 'Terms & Conditions',
+                        '.legal-links a:nth-of-type(3)': 'Accessibility'
+                    },
+                    placeholder: {
+                        '.search-bar input': 'Search for services, information...'
+                    }
+                },
+                hi: {
+                    nav: {
+                        'Home': 'होम',
+                        'About Us': 'हमारे बारे में',
+                        'Divisions': 'डिवीजन',
+                        'Organisations': 'संगठन',
+                        'Services': 'सेवाएँ',
+                        'Information': 'जानकारी'
+                    },
+                    selector: {
+                        '.btn-lang': '<i class="ph ph-globe"></i> हिंदी <i class="ph ph-caret-down"></i>',
+                        '.btn-helpline': '<i class="ph ph-phone"></i> हेल्पलाइन 139',
+                        '.live-status-widget h3': 'आगामी कार्यक्रम<br>लाइव 🔴',
+                        '.live-status-widget p': 'अपनी ट्रेन की वास्तविक-समय स्थिति देखें',
+                        '.btn-check': 'अब जाँचें <i class="ph ph-arrow-right"></i>',
+                        '.qa-title h4': 'त्वरित<br>पहुँच',
+                        '.hero-content h1': 'ट्रैकों से परे।<br>भविष्य की ओर।',
+                        '.hero-content p': 'प्रगति को आगे बढ़ाना। लोगों को जोड़ना।<br>एक टिकाऊ और मजबूत भविष्य का निर्माण।',
+                        '.hero-content .btn-primary': 'और देखें <i class="ph ph-arrow-right"></i>',
+                        '.footer-col.brand-col .footer-brand div': 'दक्षिण तट रेलवे',
+                        '.app-promo-content h3': 'साउथ कोस्ट रेलवे ऐप',
+                        '.footer-col h5:nth-of-type(1)': 'हमारे बारे में',
+                        '.footer-col h5:nth-of-type(2)': 'जानकारी',
+                        '.footer-col h5:nth-of-type(3)': 'सहायता और समर्थन',
+                        '.footer-col.newsletter-col h5': 'समाचार पत्र',
+                        '.legal-links a:nth-of-type(1)': 'गोपनीयता नीति',
+                        '.legal-links a:nth-of-type(2)': 'नियम और शर्तें',
+                        '.legal-links a:nth-of-type(3)': 'सुलभता'
+                    },
+                    placeholder: {
+                        '.search-bar input': 'सेवाओं, जानकारी के लिए खोजें...'
+                    }
+                }
+            };
+
+            function translateNav(lang){
+                const map = translations[lang].nav || {};
+                document.querySelectorAll('.nav-item').forEach(el=>{
+                    // ignore dropdown inner links
+                    if(el.matches('.dropbtn')){
+                        const icon = el.querySelector('i');
+                        const txt = (el.textContent || '').replace('\n','').trim();
+                        const key = Object.keys(map).find(k=>txt.includes(k));
+                        if(key){ el.innerHTML = (icon?icon.outerHTML+' ':'') + map[key]; }
+                        return;
+                    }
+                    const icon = el.querySelector('i');
+                    const raw = (el.textContent || '').trim();
+                    // find matching key by startsWith
+                    let replaced = false;
+                    for(const k in map){
+                        if(raw.indexOf(k) !== -1){
+                            el.innerHTML = (icon?icon.outerHTML+' ') + map[k];
+                            replaced = true; break;
+                        }
+                    }
+                    if(!replaced){
+                        // leave as-is
+                    }
+                });
+            }
+
+            function applySelectorMap(lang){
+                const selMap = translations[lang].selector || {};
+                for(const sel in selMap){
+                    document.querySelectorAll(sel).forEach(el=>{
+                        el.innerHTML = selMap[sel];
+                    });
+                }
+                const phMap = translations[lang].placeholder || {};
+                for(const sel in phMap){
+                    document.querySelectorAll(sel).forEach(el=>{
+                        if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = phMap[sel];
+                        else el.setAttribute('placeholder', phMap[sel]);
+                    });
+                }
+            }
+
+            function applyTranslations(lang){
+                translateNav(lang);
+                applySelectorMap(lang);
+                localStorage.setItem('siteLang', lang);
+            }
+
+            document.addEventListener('DOMContentLoaded', ()=>{
+                const saved = localStorage.getItem('siteLang') || 'en';
+                applyTranslations(saved);
+                const btnLang = document.querySelector('.btn-lang');
+                if(!btnLang) return;
+                btnLang.addEventListener('click', ()=>{
+                    const current = localStorage.getItem('siteLang') || 'en';
+                    const next = current === 'en' ? 'hi' : 'en';
+                    applyTranslations(next);
+                });
+            });
+                })();
+            </script>
+            <style>
+                display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            z-index: 100;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 8px 12px 18px;
+        }
+
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+        }
+
+        /* Sidebar logo (large) */
+        .sidebar .logo-section .logo {
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            object-fit: contain;
+            padding: 0; /* remove extra top padding so logo aligns to top */
+            margin-top: 2px;
+            border: 2px solid rgba(255,255,255,0.24);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+            background: white;
+        }
+
+        /* Header logo (small) - prevents clipping inside the top header */
+        .top-header .logo-section .logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: contain;
+            border: 2px solid rgba(255,255,255,0.18);
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .logo-section h2 {
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-align: center;
+            line-height: 1.35;
+            color: rgba(255,255,255,0.95);
+        }
+
+        /* ── NAV ── */
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 18px 0;
+            flex: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.75);
+            transition: all 0.25s ease;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(255,255,255,0.12);
+            color: #fff;
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+            min-width: 24px;
+            color: rgba(255,255,255,0.92);
+        }
+
+        .dropdown {
+            width: 100%;
+        }
+
+        .dropbtn {
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            border: none;
+            background: transparent;
+            color: inherit;
+            text-align: left;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            flex-direction: column;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            margin-top: 6px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .dropdown-content a {
+            padding: 12px 18px;
+            color: rgba(255,255,255,0.8);
+            transition: background 0.2s ease, color 0.2s ease;
+            font-weight: 500;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(255,255,255,0.12);
+            color: #fff;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: flex;
+        }
+
+        .sidebar .live-status-widget {
+            margin-top: 20px;
+            background: linear-gradient(180deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 24px;
+            padding: 22px 18px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 18px 35px rgba(15, 23, 65, 0.18);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                min-width: unset;
+                height: auto;
+                padding-bottom: 24px;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .top-header {
+                left: 0;
+            }
+            .hero-section {
+                /* keep hero responsive on tablet: slightly shorter */
+                height: min(60vh, 640px);
+                max-height: 640px;
+                padding-top: calc(var(--header-h) + 18px);
+            }
+            .hero-inner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 24px;
+            }
+            .hero-logo-panel {
+                min-width: auto;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .sidebar {
+                padding: 18px 14px 22px;
+            }
+            .nav-item {
+                padding: 12px 14px;
+            }
+            .sidebar .live-status-widget {
+                border-radius: 18px;
+                padding: 18px 16px;
+            }
+            .hero-section {
+                /* On small/mobile devices use scroll attachment for better performance */
+                background-attachment: scroll;
+                height: min(50vh, 520px);
+                max-height: 520px;
+                padding: calc(var(--header-h) + 12px) 18px 20px;
+                background-position: center;
+            }
+            .hero-content {
+                padding: 0;
+            }
+            .hero-inner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            .hero-logo-panel {
+                min-width: auto;
+            }
+        }
+
+        .live-status-widget i {
+            font-size: 1.8rem;
+            color: #fff;
+        }
+
+        .live-status-widget h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #fff;
+            margin: 0;
+            line-height: 1.25;
+        }
+
+        .live-status-widget p {
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.88);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .btn-check {
+            background: #fff;
+            color: #4f46e5;
+            border: none;
+            border-radius: 14px;
+            padding: 12px 0;
+            font-size: 0.86rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 10px 20px rgba(84, 90, 166, 0.16);
+        }
+
+        .btn-check:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 14px 26px rgba(84, 90, 166, 0.2);
+        }
+
+        /* ── MAIN CONTENT ── */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* ── HEADER ── */
+        .top-header {
+            position: sticky;
+            top: 0;
+            z-index: 90;
+            height: var(--header-h);
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 18px;
+            gap: 12px;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+
+        .header-left span {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0.05em;
+        }
+
+        .header-center { flex: 1; max-width: 380px; }
+
+        .search-bar {
+            display: flex;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(8px);
+        }
+
+        .search-bar input {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            padding: 7px 14px;
+            font-size: 0.85rem;
+            color: #fff;
+        }
+
+        .search-bar input::placeholder { color: rgba(255,255,255,0.6); }
+
+        .search-bar button {
+            background: none;
+            border: none;
+            color: #fff;
+            padding: 0 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-lang, .btn-icon {
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 0.82rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+
+        .btn-icon { border-radius: 50%; padding: 6px 8px; }
+
+        .btn-lang:hover, .btn-icon:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        .btn-helpline {
+            background: var(--accent);
+            border: none;
+            color: #fff;
+            border-radius: 16px;
+            padding: 6px 14px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+
+        /* ── DROPDOWN ── */
+        .custom-dropdown { position: relative; }
+
+        .dropdown-list {
+            display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            min-width: 140px;
+            z-index: 200;
+            overflow: hidden;
+        }
+
+        .dropdown-list a {
+            display: block;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            color: var(--text);
+            transition: background 0.15s;
+        }
+
+        .dropdown-list a:hover { background: var(--bg); }
+
+        .custom-dropdown:hover .dropdown-list { display: block; }
+
+        /* ── HERO SECTION ── */
+        .hero-section {
+            /* Full-width fixed hero background using the provided group photo */
+                background-image: linear-gradient(rgba(0,0,0,0.38), rgba(0,0,0,0.38)), url('src/assets/images/women-group.jpg');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            /* Keep image fixed behind content on desktop/tablet */
+            background-attachment: fixed;
+            /* Make hero a smaller, responsive viewport block */
+            width: 100%;
+            height: min(70vh, 720px);
+            max-height: 720px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: calc(var(--header-h) + 24px) 32px 32px 32px;
+            margin-top: calc(-1 * var(--header-h));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            right: -40px; top: -40px;
+            width: 320px; height: 320px;
+            background: radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 24px;
+            width: 100%;
+            max-width: 1180px;
+        }
+
+        .hero-logo-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 14px;
+            min-width: auto;
+            flex-shrink: 0;
+        }
+
+        .hero-logo-img {
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.18);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
+        }
+
+        .hero-logo-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .hero-logo-label {
+            font-size: 0.98rem;
+            font-weight: 800;
+            letter-spacing: 0.09em;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0;
+            max-width: 720px;
+        }
+
+        .hero-content h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.05;
+            margin-bottom: 14px;
+        }
+
+        .hero-content h1 span { color: #a5b4fc; }
+
+        .hero-content p {
+            font-size: 0.88rem;
+            color: rgba(255,255,255,0.9);
+            line-height: 1.75;
+            margin-bottom: 20px;
+            max-width: 520px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .quick-access-wrapper {
+            display: flex;
+            align-items: stretch;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            margin: 16px 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .qa-title {
+            background: linear-gradient(160deg, var(--primary), var(--accent));
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            min-width: 90px;
+        }
+
+        .qa-title h4 {
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.06em;
+            line-height: 1.5;
+        }
+
+        .qa-items {
+            display: flex;
+            flex: 1;
+            flex-wrap: wrap;
+        }
+
+        .qa-item {
+            flex: 1;
+            min-width: 110px;
+            padding: 14px 12px;
+            text-align: center;
+            border-right: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .qa-item:last-child { border-right: none; }
+        .qa-item:hover { background: var(--bg); }
+
+        .qa-item i { font-size: 1.5rem; display: block; margin-bottom: 5px; }
+
+        .qa-item h5 {
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 3px;
+            color: var(--text);
+        }
+
+        .qa-item p {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            line-height: 1.3;
+        }
+
+        /* ── SECTION CONTAINER ── */
+        .section-container {
+            margin: 0 20px 16px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            padding-bottom: 9px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .section-header h3 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            color: var(--primary);
+            position: relative;
+        }
+
+        .section-header h3::before {
+            content: '';
+            position: absolute;
+            bottom: -11px; left: 0;
+            width: 30px; height: 2px;
+            background: var(--accent);
+        }
+
+        .view-all {
+            font-size: 0.82rem;
+            color: var(--accent);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* ── CAROUSEL ── */
+        .carousel-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            overflow: visible;
+        }
+
+        .carousel-track-wrapper {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 14px;
+            transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+            will-change: transform;
+        }
+
+        .carousel-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 34px; height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--primary);
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            transition: all 0.2s;
+            z-index: 10;
+        }
+
+        .carousel-btn:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        /* ── OFFICER CARD ── */
+        .officer-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 18px 16px;
+            text-align: center;
+            min-width: 170px;
+            max-width: 180px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .officer-card img {
+            width: 72px; height: 72px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border: 2px solid var(--accent);
+        }
+
+        .officer-card h4 {
+            font-size: 0.84rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--text);
+        }
+
+        .officer-card p {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .social-links a {
+            width: 28px; height: 28px;
+            background: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        /* ── ORG GRID / CAROUSEL ── */
+        .org-carousel-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            overflow: visible;
+        }
+
+        .org-carousel-wrapper {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .org-grid {
+            display: flex;
+            gap: 14px;
+            transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+            will-change: transform;
+        }
+
+        .org-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 18px 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: transform 0.2s;
+            min-width: 200px;
+            flex-shrink: 0;
+        }
+
+        .org-card:hover { transform: translateY(-2px); }
+
+        .org-icon {
+            width: 44px; height: 44px;
+            background: var(--bg);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .org-card h4 {
+            font-size: 0.84rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text);
+        }
+
+        .org-card p {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        .learn-more {
+            font-size: 0.78rem;
+            color: var(--accent);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        /* ── LOWER GRID ── */
+        .lower-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 16px;
+            margin: 40px 20px 16px;
+        }
+
+        /* ── INITIATIVES CARD ── */
+        .initiatives-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .initiatives-overlay {
+            background: linear-gradient(135deg, var(--primary), #4338ca);
+            padding: 16px 18px;
+        }
+
+        .initiatives-overlay h3 {
+            font-size: 0.96rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.05em;
+            line-height: 1.4;
+        }
+
+        .initiatives-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        .init-item {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            padding: 13px 14px;
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .init-item:nth-child(even) { border-right: none; }
+        .init-item:nth-child(3), .init-item:nth-child(4) { border-bottom: none; }
+
+        .init-item i { font-size: 1.25rem; flex-shrink: 0; margin-top: 2px; }
+
+        .init-item h5 {
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 3px;
+            color: var(--text);
+        }
+
+        .init-item p {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            line-height: 1.35;
+        }
+
+        /* ── NEWS & EVENTS ── */
+        .news-events-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .news-col {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-header.small { padding-bottom: 7px; margin-bottom: 12px; }
+        .section-header.small h3 { font-size: 0.84rem; }
+
+        .view-all-small {
+            font-size: 0.78rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .news-list, .announcement-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .news-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .news-list li:last-child { border-bottom: none; padding-bottom: 0; }
+
+        .date-box {
+            background: var(--primary);
+            color: #fff;
+            border-radius: 6px;
+            padding: 5px 8px;
+            text-align: center;
+            min-width: 42px;
+            flex-shrink: 0;
+        }
+
+        .date-box span { display: block; font-size: 0.7rem; line-height: 1.3; }
+        .date-box span:first-child { font-size: 0.96rem; font-weight: 700; }
+
+        .news-list li p, .announcement-list li p {
+            font-size: 0.78rem;
+            color: var(--text);
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .news-list li i:last-child, .announcement-list li i:last-child {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .announcement-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .announcement-list li:last-child { border-bottom: none; padding-bottom: 0; }
+
+        .announcement-list li > i:first-child {
+            font-size: 1rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .text-blue { color: var(--blue); }
+        .fade { opacity: 0.4; }
+
+        /* ── STATS RIBBON ── */
+        .stats-ribbon {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            background: linear-gradient(135deg, var(--primary), #4338ca);
+            padding: 20px 28px;
+            margin: 0 20px 16px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #fff;
+        }
+
+        .stat-item i { font-size: 1.9rem; opacity: 0.8; }
+
+        .stat-text h2 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .stat-text p {
+            font-size: 0.76rem;
+            opacity: 0.75;
+            margin-top: 3px;
+        }
+
+        .stat-divider {
+            width: 1px;
+            height: 42px;
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* ── FOOTER ── */
+        .app-footer {
+            background: var(--primary);
+            color: rgba(255,255,255,0.85);
+            margin-top: 0;
+        }
+
+        .footer-top-row {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 20px;
+            padding: 22px 24px 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .quick-links-section h4 {
+            font-size: 0.84rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0.06em;
+            margin-bottom: 12px;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+        }
+
+        .links-grid a {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.7);
+            padding: 6px 10px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .links-grid a:hover {
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+        }
+
+        .links-grid a .ms-auto { margin-left: auto; opacity: 0.4; font-size: 0.75rem; }
+
+        .app-promo-section {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            background: rgba(255,255,255,0.06);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+        }
+
+        .app-promo-content { flex: 1; }
+
+        .app-promo-content h3 {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.04em;
+            margin-bottom: 4px;
+        }
+
+        .app-promo-content > p {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 10px;
+        }
+
+        .app-features-icons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .app-features-icons span {
+            background: rgba(255,255,255,0.1);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.8);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .store-buttons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .store-buttons img { height: 32px; border-radius: 4px; }
+
+        .qr-code {
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .qr-code img {
+            width: 80px; height: 80px;
+            border-radius: 6px;
+            background: #fff;
+            padding: 4px;
+        }
+
+        .qr-code p {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.6);
+            margin-top: 5px;
+            line-height: 1.3;
+        }
+
+        /* ── FOOTER BOTTOM ── */
+        .footer-bottom-area {
+            padding: 18px 24px 12px;
+        }
+
+        .footer-cols {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr 1.3fr;
+            gap: 18px;
+            margin-bottom: 16px;
+        }
+
+        .footer-col h5 {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0.06em;
+            margin-bottom: 10px;
+        }
+
+        .footer-col a {
+            display: block;
+            font-size: 0.76rem;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 5px;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover { color: #fff; }
+
+        .footer-brand {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .footer-brand h5 { font-size: 0.84rem; margin-bottom: 5px; }
+
+        .footer-brand p {
+            font-size: 0.74rem;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.5;
+        }
+
+        .social-icons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .social-icons span {
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.5);
+            margin-right: 2px;
+        }
+
+        .social-icons a {
+            width: 30px; height: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+            transition: all 0.2s;
+            margin-bottom: 0 !important;
+        }
+
+        .social-icons a:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .newsletter-col p {
+            font-size: 0.74rem;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            overflow: hidden;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            background: rgba(255,255,255,0.08);
+            border: none;
+            outline: none;
+            padding: 8px 12px;
+            font-size: 0.78rem;
+            color: #fff;
+            min-width: 0;
+        }
+
+        .newsletter-form input::placeholder { color: rgba(255,255,255,0.4); }
+
+        .newsletter-form button {
+            background: var(--accent);
+            border: none;
+            color: #fff;
+            padding: 0 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .footer-copyright {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .footer-copyright p {
+            font-size: 0.74rem;
+            color: rgba(255,255,255,0.45);
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .legal-links {
+            display: flex;
+            gap: 14px;
+        }
+
+        .legal-links a {
+            font-size: 0.74rem;
+            color: rgba(255,255,255,0.45);
+            transition: color 0.2s;
+        }
+
+        .legal-links a:hover { color: #fff; }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-section">
+                <img src="https://www.deccanchronicle.com/h-upload/2024/05/01/1087154-10.jpg" alt="South Coast Railway Logo" class="logo">
+                <h2>SOUTH COAST<br>RAILWAY<br>WOMEN'S WELFARE ORGANIZATION</h2>
+            </div>
+
+             <nav class="nav-menu">
+                <a href="#" class="nav-item active"><i class="ph ph-house"></i> Home</a>
+                <a href="#" class="nav-item"><i class="ph ph-users"></i> About Us</a>
+               <div class="dropdown">
+
+    <button class="dropbtn nav-item">
+        <i class="ph ph-user-circle"></i> Divisions
+    </button>
+
+    <div class="dropdown-content">
+
+        <a href="vijayawada.html">
+            Vijayawada
+        </a>
+
+       <a href="visakhapatnam.html">
+            Visakhapatnam
+        </a>
+
+        <a href="guntur.html">
+            Guntur
+        </a>
+
+        <a href="guntakal.html">
+            Guntakal
+        </a>
+
+    </div>
+
+</div>
+
+                    <a href="#organisations" class="nav-item">
+                        <i class="ph ph-buildings"></i> Organisations
+                    </a>
+
+                    <a onclick="window.location='services.html'" class="nav-item">
+    <i class="ph ph-briefcase"></i> Services
+</a>
+
+                    <a href="#" class="nav-item">
+                        <i class="ph ph-info"></i> Information
+                    </a>
+                    <div class="live-status-widget sidebar-live-widget">
+                        <i class="ph ph-train"></i>
+                        <h3>Upcoming Events<br>Live 🔴</h3>
+                        <p>Track real-time status of your train</p>
+                        <button class="btn-check">Check Now <i class="ph ph-arrow-right"></i></button>
+                    </div>
+            </nav>
+
+        </aside>
+       
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                 <div class="logo-section">
+                <img src="logo.jpeg" alt="South Coast Railway Logo" class="logo">
+                <h2>SCoR WWO</h2>
+            </div>
+                <div class="header-center">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search for services, information...">
+                        <button><i class="ph ph-magnifying-glass"></i></button>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn-lang"><i class="ph ph-globe"></i> English <i class="ph ph-caret-down"></i></button>
+                    <button class="btn-icon"><i class="ph ph-sun"></i></button>
+                    <button class="btn-helpline"><i class="ph ph-phone"></i> Helpline 139</button>
+                </div>
+            </header>
+
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="hero-inner">
+                    <div class="hero-content">
+                        <h1>Beyond <span>Tracks.</span><br>Towards <span>Tomorrow.</span></h1>
+                        <p>Driving progress. Connecting people.<br>Building a sustainable and<br>stronger tomorrow.</p>
+                        <button class="btn-primary" onclick="openGallery()">Explore More <i class="ph ph-arrow-right"></i></button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Access -->
+            <div class="quick-access-wrapper">
+                <div class="qa-title">
+                    <h4>QUICK<br>ACCESS</h4>
+                </div>
+                <div class="qa-items">
+                    <div class="qa-item">
+                        <i class="ph-fill ph-ticket" style="color: #6366f1;"></i>
+                        <h5>PNR Status</h5>
+                        <p>Check your PNR</p>
+                    </div>
+                    <div class="qa-item">
+                        <i class="ph-fill ph-train" style="color: #10b981;"></i>
+                        <h5>RRB Notifications</h5>
+                        <p>Get updates on RRB notifications</p>
+                    </div>
+                    <div class="qa-item">
+                        <i class="ph-fill ph-clock-countdown" style="color: #f59e0b;"></i>
+                        <h5>Vacancies</h5>
+                        <p>Check available seats</p>
+                    </div>
+                    <div class="qa-item">
+                        <i class="ph-fill ph-map-pin" style="color: #3b82f6;"></i>
+                        <h5>Station Enquiry</h5>
+                        <p>Find station info</p>
+                    </div>
+                    <div class="qa-item">
+                        <i class="ph-fill ph-receipt" style="color: #ec4899;"></i>
+                        <h5>Fare Enquiry</h5>
+                        <p>Check fare</p>
+                    </div>
+                    <div class="qa-item">
+                        <i class="ph-fill ph-chat-circle-text" style="color: #8b5cf6;"></i>
+                        <h5>Feedback</h5>
+                        <p>Share feedback</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leadership Section -->
+            <section class="section-container">
+                <div class="section-header">
+                    <h3>MEET OUR LEADERSHIP</h3>
+                    <a href="#" class="view-all">View All Officers <i class="ph-fill ph-arrow-circle-right"></i></a>
+                </div>
+                <div class="carousel-container">
+                    <button class="carousel-btn prev" id="lead-prev"><i class="ph ph-caret-left"></i></button>
+                    <div class="carousel-track-wrapper">
+                    <div class="carousel-track" id="lead-track">
+                        <!-- Card 1 -->
+                        <div class="officer-card">
+                            <img src="https://pbs.twimg.com/media/Gw8bdSpbEAAWa5f.jpg" alt="Officer">
+                            <h4>Mr.Shri Mohit Sonakiya</h4>
+                            <p>Divisional Railway Manager</p>
+                            <div class="social-links"></div>
+                        </div>
+                        <!-- Card 2 -->
+                        <div class="officer-card">
+                            <img src="DMR.png" alt="Officer">
+                            <h4>Ms. Versha Sonakiya</h4>
+                            <p>President</p>
+                            <div class="social-links">
+                            </div>
+                        </div>
+                        <!-- Card 3 -->
+                        <div class="officer-card">
+                            <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Officer">
+                            <h4>Ms. Veena</h4>
+                            <p>Vice President</p>
+                            <div class="social-links">
+                            </div>
+                        </div>
+                        <!-- Card 4 -->
+                        <div class="officer-card">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Officer">
+                            <h4>Mr.Edwin</h4>
+                            <p>Vice President</p>
+                            <div class="social-links">
+                            </div>
+                        </div>
+                        <!-- Card 5 -->
+                        <div class="officer-card">
+                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Officer">
+                            <h4>Ms. Niharika</h4>
+                            <p>General Secretary</p>
+                            <div class="social-links">
+                            </div>
+                        </div>
+                        
+                        <div class="officer-card">
+                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Officer">
+                            <h4>Ms. Sindura Lakshmi</h4>
+                            <p>Junior Secretary</p>
+                            <div class="social-links">
+                            </div>
+                        </div>
+
+                        <div class="officer-card">
+                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Officer">
+                            <h4>Ms. Vasanthika</h4>
+                            <p>Junior General Secretary</p>
+                            <div class="social-links">
+                            </div>
+                        </div>
+
+                        <div class="officer-card">
+                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Officer">
+                            <h4>Ms. Gynanaprasuna</h4>
+                            <p>Junior General Secretary</p>
+                            <div class="social-links">
+                            </div>
+                        </div>
+
+                        <div class="officer-card">
+                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Officer">
+                            <h4>Ms. Pavithra Reddy</h4>
+                            <p>Jack & Jills School<br>Secretary</p>
+                            <div class="social-links">
+                            </div>
+                        </div>
+
+                        <div class="officer-card">
+                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Officer">
+                            <h4>Ms. Sravanthi</h4>
+                            <p>Member of Jack & Jills</p>
+                            <div class="social-links">
+                            </div>
+                        </div>
+
+                        <div class="officer-card">
+                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Officer">
+                            <h4>Ms. Surekha Reddy</h4>
+                            <p>E-WORLD <br>Secretary</p>
+                            <div class="social-links">
+                            </div>
+                        </div>
+
+                        <div class="officer-card">
+                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Officer">
+                            <h4>Ms. Nazia Hasan</h4>
+                            <p>Member<br>E-WORLD</p>
+                            <div class="social-links">
+                            </div>
+                        </div>
+
+                        <div class="officer-card">
+                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Officer">
+                            <h4>Ms. Bharathi</h4>
+                            <p>Secretary<br>Asha Kiran</p>
+                            <div class="social-links">
+                            </div>
+                        </div>
+
+                        <div class="officer-card">
+                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Officer">
+                            <h4>Ms.Anu Jeeva</h4>
+                            <p>Secretary<br>Canteen & Sakhi Mart</p>
+                            <div class="social-links">
+                            </div>
+                        </div>
+
+                        <div class="officer-card">
+                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Officer">
+                            <h4>Ms. Parvathi</h4>
+                            <p>Cultural Secretary</p>
+                            <div class="social-links">
+                            </div>
+                        </div>
+
+                        <div class="officer-card">
+                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Officer">
+                            <h4>MS. Sravani</h4>
+                            <p>Cultural Member</p>
+                            <div class="social-links">
+                            </div>
+                        </div>
+
+                        <div class="officer-card">
+                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Officer">
+                            <h4>Ms. Shahida</h4>
+                            <p>Cultural members</p>
+                            <div class="social-links">
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <button class="carousel-btn next" id="lead-next"><i class="ph ph-caret-right"></i></button>
+                </div>
+            </section>
+
+            <!-- Organisations Section -->
+            <section class="section-container">
+                <div class="section-header">
+                    <h3 id="organisations">OUR ORGANISATIONS</h3>
+                    <a href="#" class="view-all">View All Organisations <i class="ph-fill ph-arrow-circle-right"></i></a>
+                </div>
+                <div class="org-carousel-container">
+                    <button class="carousel-btn prev" id="org-prev"><i class="ph ph-caret-left"></i></button>
+                    <div class="org-carousel-wrapper">
+                    <div class="org-grid" id="org-track">
+                    <div class="org-card">
+                        <div class="org-icon"><i class="ph ph-train" style="color: #6366f1;"></i></div>
+                        <h4>South Coast Railway(WWO)</h4>
+                        <p>The apex body responsible for policy formulation and overall administration.</p>
+                        <a href="#" class="learn-more">Learn More <i class="ph ph-arrow-right"></i></a>
+                    </div>
+                    <div class="org-card">
+                        <div class="org-icon"><i class="ph ph-map-pin-line" style="color: #10b981;"></i></div>
+                        <h4>Vijayawada Division</h4>
+                        <p>Manages train operations and infrastructure in the Vijayawada division.</p>
+                        <a href="#" class="learn-more">Learn More <i class="ph ph-arrow-right"></i></a>
+                    </div>
+                    <div class="org-card">
+                        <div class="org-icon"><i class="ph ph-map-pin-line" style="color: #f59e0b;"></i></div>
+                        <h4>Visakhapatnam Division</h4>
+                        <p>Manages train operations and infrastructure in the Visakhapatnam division.</p>
+                        <a href="#" class="learn-more">Learn More <i class="ph ph-arrow-right"></i></a>
+                    </div>
+                    <div class="org-card">
+                        <div class="org-icon"><i class="ph ph-map-pin-line" style="color: #ec4899;"></i></div>
+                        <h4>Guntur Division</h4>
+                        <p>Manages train operations and infrastructure in the Guntur division.</p>
+                        <a href="#" class="learn-more">Learn More <i class="ph ph-arrow-right"></i></a>
+                    </div>
+                    <div class="org-card">
+                        <div class="org-icon"><i class="ph ph-map-pin-line" style="color: #3b82f6;"></i></div>
+                        <h4>Guntakal Division</h4>
+                        <p>Manages train operations and infrastructure in the Guntakal division.</p>
+                        <a href="#" class="learn-more">Learn More <i class="ph ph-arrow-right"></i></a>
+                    </div>
+                </div>
+                    </div>
+                    <button class="carousel-btn next" id="org-next"><i class="ph ph-caret-right"></i></button>
+                </div>
+            <div class="lower-grid">
+                <!-- Key Initiatives -->
+                <div class="initiatives-card">
+                    <div class="initiatives-overlay">
+                        <h3>OUR KEY<br>INITIATIVES</h3>
+                    </div>
+                    <div class="initiatives-grid">
+                        <div class="init-item">
+                            <i class="ph ph-shield-check" style="color: #6366f1;"></i>
+                            <div>
+                                <h5>Jack & Jill Schools</h5>
+                                <p>Shaping young minds with knowledge, confidence, and a brighter future.</p>
+                            </div>
+                        </div>
+                        <div class="init-item">
+                            <i class="ph ph-clock" style="color: #6366f1;"></i>
+                            <div>
+                                <h5>E-WORLD</h5>
+                                <p>Connecting young talents to a world of digital learning and innovation.</p>
+                            </div>
+                        </div>
+                        <div class="init-item">
+                            <i class="ph ph-leaf" style="color: #10b981;"></i>
+                            <div>
+                                <h5>Asha Kiran</h5>
+                                <p>Bringing hope, care, and smiles to every special child.</p>
+                            </div>
+                        </div>
+                        <div class="init-item">
+                            <i class="ph ph-shopping-cart" style="color: #3b82f6;"></i>
+                            <div>
+                                <h5>Sakhi Mart</h5>
+                                <p>Preserving creativity and tradition through beautifully handcrafted creations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- News & Announcements -->
+                <div class="news-events-container">
+                    <div class="news-col">
+                        <div class="section-header small">
+                            <h3>LATEST EVENTS</h3>
+                            <a href="#" class="view-all-small">View All</a>
+                        </div>
+                        <ul class="news-list">
+                            <li>
+                                <div class="date-box"><span>20</span><span>MAY</span></div>
+                                <p>Special trains announced for Summer Season 2024</p>
+                                <i class="ph ph-arrow-right"></i>
+                            </li>
+                            <li>
+                                <div class="date-box"><span>15</span><span>MAY</span></div>
+                                <p>South Coast Railway launches new Passenger App</p>
+                                <i class="ph ph-arrow-right"></i>
+                            </li>
+                            <li>
+                                <div class="date-box"><span>10</span><span>MAY</span></div>
+                                <p>Upgradation of Coast Junction Station completed</p>
+                                <i class="ph ph-arrow-right"></i>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="news-col">
+                        <div class="section-header small">
+                            <h3>IMPORTANT ANNOUNCEMENTS</h3>
+                            <a href="#" class="view-all-small">View All</a>
+                        </div>
+                        <ul class="announcement-list">
+                            <li>
+                                <i class="ph ph-megaphone text-blue"></i>
+                                <p>Travel advisory for passengers due to heavy rains in the region</p>
+                                <i class="ph ph-arrow-right fade"></i>
+                            </li>
+                            <li>
+                                <i class="ph ph-megaphone text-blue"></i>
+                                <p>Maintenance work on tracks between Coast - Belapur from 25th May</p>
+                                <i class="ph ph-arrow-right fade"></i>
+                            </li>
+                            <li>
+                                <i class="ph ph-shield-warning text-blue"></i>
+                                <p>Please carry valid ID proof while traveling</p>
+                                <i class="ph ph-arrow-right fade"></i>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="app-footer">
+                <div class="footer-top-row">
+                    <div class="quick-links-section">
+                        <h4>QUICK LINKS</h4>
+                        <div class="links-grid">
+                            <a href="#"><i class="ph ph-file-text"></i> Tenders <i class="ph ph-arrow-right ms-auto"></i></a>
+                            <a href="#"><i class="ph ph-briefcase"></i> Careers <i class="ph ph-arrow-right ms-auto"></i></a>
+                            <a href="#"><i class="ph ph-info"></i> Right to Information <i class="ph ph-arrow-right ms-auto"></i></a>
+                            <a href="#"><i class="ph ph-hand-waving"></i> Grievance Redressal <i class="ph ph-arrow-right ms-auto"></i></a>
+                            <a href="#"><i class="ph ph-shield"></i> Policies <i class="ph ph-arrow-right ms-auto"></i></a>
+                            <a href="#"><i class="ph ph-users"></i> Citizens' Charter <i class="ph ph-arrow-right ms-auto"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="app-promo-section">
+                        <div class="app-promo-content">
+                            <h3>SOUTH COAST RAILWAY APP</h3>
+                            <p>Your journey, in your hand.</p>
+                            <div class="app-features-icons">
+                                <span><i class="ph ph-ticket"></i> PNR Status</span>
+                                <span><i class="ph ph-train"></i> Book Tickets</span>
+                                <span><i class="ph ph-map-pin"></i> Station Info</span>
+                            </div>
+                            <div class="store-buttons">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Play Store">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="App Store">
+                            </div>
+                        </div>
+                        <div class="qr-code">
+                            <img src="https://railone.info/qrCode/BZA.png" alt="QR Code">
+                            <p>Scan to<br>Download</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Ribbon -->
+                <div class="stats-ribbon">
+                    <div class="stat-item">
+                        <i class="ph ph-train"></i>
+                        <div class="stat-text">
+                            <h2>1200+</h2>
+                            <p>Daily Trains</p>
+                        </div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <i class="ph ph-buildings"></i>
+                        <div class="stat-text">
+                            <h2>300+</h2>
+                            <p>Stations</p>
+                        </div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <i class="ph ph-users-three"></i>
+                        <div class="stat-text">
+                            <h2>1.5 Cr+</h2>
+                            <p>Happy Passengers</p>
+                        </div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <i class="ph ph-shield-check"></i>
+                        <div class="stat-text">
+                            <h2>100%</h2>
+                            <p>Safety Commitment</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-bottom-area">
+                    <div class="footer-cols">
+                        <div class="footer-col brand-col">
+                            <div class="footer-brand">
+                                <div>
+                                    <h5>SOUTH COAST RAILWAY</h5>
+                                    <p>Committed to provide safe, reliable, efficient and affordable rail transport services to the nation.</p>
+                                </div>
+                            </div>
+                            <div class="social-icons">
+                                <span>Follow Us</span>
+                                <a href="https://www.facebook.com/profile.php?id=61579587494329"><i class="ph-fill ph-facebook-logo"></i></a>
+                                <a href="#"><i class="ph-fill ph-twitter-logo"></i></a>
+                                <a href="https://instagram.com/SCoRWWOvijayawada/"><i class="ph-fill ph-instagram-logo"></i></a>
+                                <a href="#"><i class="ph-fill ph-linkedin-logo"></i></a>
+                            </div>
+                        </div>
+                        <div class="footer-col">
+                            <h5>ABOUT US</h5>
+                            <a href=""> History</a>
+                            <a href="#">> Vision & Mission</a>
+                            <a href="#">> Our Network</a>
+                            <a href="#">> Milestones</a>
+                        </div>
+                        <div class="footer-col">
+                            <h5>INFORMATION</h5>
+                            <a href="#">> Route Map</a>
+                            <a href="#">> Station Directory</a>
+                            <a href="#">> Trains at a Glance</a>
+                            <a href="#">> Travel Info</a>
+                        </div>
+                        <div class="footer-col">
+                            <h5>HELP & SUPPORT</h5>
+                            <a href="#">> Help Center</a>
+                            <a href="#">> FAQs</a>
+                            <a href="#">> Contact Us</a>
+                            <a href="#">> Lost & Found</a>
+                        </div>
+                        <div class="footer-col newsletter-col">
+                            <h5>NEWSLETTER</h5>
+                            <p>Get updates on the latest news and announcements.</p>
+                            <div class="newsletter-form">
+                                <input type="email" placeholder="Enter your email">
+                                <button><i class="ph ph-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-copyright">
+                        <p>&copy; 2026 South Coast Railway. All Rights Reserved.</p>
+                        <div class="legal-links">
+                            <a href="#">Privacy Policy</a>
+                            <a href="#">Terms & Conditions</a>
+                            <a href="#">Accessibility</a>
+                        </div>
+                        <p>Made with <i class="ph-fill ph-heart" style="color: #ec4899;"></i> for a better journey</p>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Top header background color on scroll
+            const header = document.querySelector('.top-header');
+
+            window.addEventListener('scroll', () => {
+                const mainContent = document.querySelector('.main-content');
+                const scrollTop = mainContent ? mainContent.scrollTop : window.scrollY;
+                if (window.scrollY > 50) {
+                    header.style.backgroundColor = 'rgba(30, 27, 75, 0.95)';
+                    header.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+                } else {
+                    header.style.backgroundColor = 'transparent';
+                    header.style.boxShadow = 'none';
+                }
+            });
+
+            // Org Carousel Logic
+            const orgTrack = document.getElementById('org-track');
+            const orgPrev = document.getElementById('org-prev');
+            const orgNext = document.getElementById('org-next');
+
+            if (orgTrack && orgPrev && orgNext) {
+                const orgCards = orgTrack.querySelectorAll('.org-card');
+                let orgIndex = 0;
+                const orgVisible = 4;
+
+                function updateOrgSlider() {
+                    const gap = 14;
+                    const cardWidth = orgCards[0].offsetWidth + gap;
+                    orgTrack.style.transform = `translateX(-${orgIndex * cardWidth}px)`;
+                }
+
+                orgNext.addEventListener('click', () => {
+                    if (orgIndex < orgCards.length - orgVisible) {
+                        orgIndex++;
+                        updateOrgSlider();
+                    }
+                });
+
+                orgPrev.addEventListener('click', () => {
+                    if (orgIndex > 0) {
+                        orgIndex--;
+                        updateOrgSlider();
+                    }
+                });
+
+                window.addEventListener('resize', updateOrgSlider);
+                updateOrgSlider();
+            }
+
+            // Leadership Carousel Logic
+            const track = document.getElementById('lead-track');
+            const prevBtn = document.getElementById('lead-prev');
+            const nextBtn = document.getElementById('lead-next');
+
+            if (track && prevBtn && nextBtn) {
+                const cards = document.querySelectorAll('.officer-card');
+                let currentIndex = 0;
+                const visibleCards = 4;
+
+                function updateSlider() {
+                    const gap = 14;
+                    const cardWidth = cards[0].offsetWidth + gap;
+                    track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+                }
+
+                nextBtn.addEventListener('click', () => {
+                    if (currentIndex < cards.length - visibleCards) {
+                        currentIndex++;
+                        updateSlider();
+                    }
+                });
+
+                prevBtn.addEventListener('click', () => {
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        updateSlider();
+                    }
+                });
+
+                window.addEventListener('resize', updateSlider);
+                updateSlider();
+            }
+
+            // Nav item active state
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    item.classList.add('active');
+                });
+            });
+
+            // Fetch data from Express Backend
+            fetch('/api/status')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Backend Connection Successful:', data);
+                    if (data.zonals) {
+                        console.log('Zonals loaded from Python via Node.js:', data.zonals.join(', '));
+                    }
+                })
+                .catch(error => console.error('Error fetching backend data:', error));
+        });
+    </script>
+
+    <script>
+        // Simple client-side language toggle (English / Hindi)
+        (function(){
+            const translations = {
+                en: {
+                    btnLang: '<i class="ph ph-globe"></i> English <i class="ph ph-caret-down"></i>',
+                    btnHelpline: '<i class="ph ph-phone"></i> Helpline 139',
+                    logoTag: 'SCoR WWO',
+                    quickAccess: 'QUICK\nACCESS',
+                    footerBrand: 'SOUTH Coast RAILWAY'
+                },
+                hi: {
+                    btnLang: '<i class="ph ph-globe"></i> हिंदी <i class="ph ph-caret-down"></i>',
+                    btnHelpline: '<i class="ph ph-phone"></i> हेल्पलाइन 139',
+                    logoTag: 'SCoR WWO',
+                    quickAccess: 'त्वरित\nपहुँच',
+                    footerBrand: 'दक्षिण तट रेलवे'
+                }
+            };
+
+            function applyTranslations(lang){
+                const t = translations[lang] || translations.en;
+                const btnLang = document.querySelector('.btn-lang');
+                const btnHelp = document.querySelector('.btn-helpline');
+                const logoH2 = document.querySelector('.logo-section h2');
+                const qaTitle = document.querySelector('.qa-title h4');
+                const footerBrand = document.querySelector('.footer-col.brand-col .footer-brand div');
+
+                if(btnLang) btnLang.innerHTML = t.btnLang;
+                if(btnHelp) btnHelp.innerHTML = t.btnHelpline;
+                if(logoH2) logoH2.textContent = t.logoTag;
+                if(qaTitle) qaTitle.innerHTML = t.quickAccess.replace('\n','<br>');
+                if(footerBrand) footerBrand.textContent = t.footerBrand;
+                localStorage.setItem('siteLang', lang);
+            }
+
+            document.addEventListener('DOMContentLoaded', ()=>{
+                const saved = localStorage.getItem('siteLang') || 'en';
+                applyTranslations(saved);
+
+                const btnLang = document.querySelector('.btn-lang');
+                if(!btnLang) return;
+
+                btnLang.addEventListener('click', ()=>{
+                    const current = localStorage.getItem('siteLang') || 'en';
+                    const next = current === 'en' ? 'hi' : 'en';
+                    applyTranslations(next);
+                });
+            });
+        })();
+    </script>
+
+    <!-- ── GALLERY MODAL (triggered by Explore More) ── -->
+    <div id="galleryModal" style="
+        display:none; position:fixed; inset:0; z-index:2000;
+        background:rgba(10,8,40,0.92); backdrop-filter:blur(6px);
+        align-items:center; justify-content:center;">
+
+        <!-- Modal Box -->
+        <div style="
+            background:#fff; border-radius:16px;
+            width:min(820px,95vw); max-height:92vh;
+            display:flex; flex-direction:column;
+            box-shadow:0 30px 80px rgba(0,0,0,0.5);
+            overflow:hidden; animation:gmIn .3s ease;">
+
+            <!-- Header -->
+            <div style="
+                display:flex; align-items:center; justify-content:space-between;
+                padding:14px 20px;
+                background:linear-gradient(135deg,#1e1b4b,#4338ca); color:#fff;">
+                <span style="font-weight:800; font-size:.95rem; letter-spacing:.04em;">
+                    <i class="ph ph-images"></i>&nbsp; Photo Gallery
+                </span>
+                <button onclick="closeGallery()" style="
+                    background:rgba(255,255,255,.15); border:none; color:#fff;
+                    width:32px; height:32px; border-radius:50%; cursor:pointer;
+                    font-size:1rem; display:flex; align-items:center; justify-content:center;">
+                    <i class="ph ph-x"></i>
+                </button>
+            </div>
+
+            <!-- Main Image -->
+            <div style="position:relative; background:#0d0d1a; flex-shrink:0;">
+                <img id="gMainImg" src="" alt=""
+                    style="width:100%; height:400px; object-fit:cover; display:block; transition:opacity .3s;">
+
+                <!-- Counter -->
+                <span id="gCounter" style="
+                    position:absolute; top:10px; right:12px;
+                    background:rgba(0,0,0,.55); color:#fff;
+                    font-size:.75rem; font-weight:600;
+                    padding:3px 10px; border-radius:20px;">
+                </span>
+
+                <!-- Caption -->
+                <div style="
+                    position:absolute; bottom:0; left:0; right:0;
+                    background:linear-gradient(transparent,rgba(10,8,40,.8));
+                    padding:28px 18px 12px;">
+                    <div id="gCaption" style="color:#fff; font-size:.88rem; font-weight:600;"></div>
+                </div>
+
+                <!-- Prev / Next -->
+                <button onclick="gNav(-1)" style="
+                    position:absolute; left:12px; top:50%; transform:translateY(-50%);
+                    background:rgba(255,255,255,.18); border:2px solid rgba(255,255,255,.3);
+                    color:#fff; width:40px; height:40px; border-radius:50%;
+                    font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center;
+                    backdrop-filter:blur(4px); transition:background .2s;">
+                    <i class="ph ph-caret-left"></i>
+                </button>
+                <button onclick="gNav(1)" style="
+                    position:absolute; right:12px; top:50%; transform:translateY(-50%);
+                    background:rgba(255,255,255,.18); border:2px solid rgba(255,255,255,.3);
+                    color:#fff; width:40px; height:40px; border-radius:50%;
+                    font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center;
+                    backdrop-filter:blur(4px); transition:background .2s;">
+                    <i class="ph ph-caret-right"></i>
+                </button>
+            </div>
+
+            <!-- Thumbnails -->
+            <div id="gThumbs" style="
+                display:flex; gap:8px; padding:10px 14px;
+                overflow-x:auto; background:#f8fafc;
+                border-top:1px solid #e2e8f0;">
+            </div>
+
+            <!-- Dots -->
+            <div id="gDots" style="
+                display:flex; justify-content:center; gap:6px;
+                padding:10px 14px 14px; background:#f8fafc;">
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @keyframes gmIn {
+            from { opacity:0; transform:scale(.9) translateY(20px); }
+            to   { opacity:1; transform:scale(1) translateY(0); }
+        }
+    </style>
+
+    <script>
+        // Gallery Images Data
+        const galleryImages = [
+            { src: 'DSC_0369.JPG', caption: 'Photo 1' },
+            { src: 'DSC_0353.JPG', caption: 'Photo 2' },
+            { src: 'DSC_0278.JPG', caption: 'Photo 3' },
+            { src: 'DSC_0658.JPG', caption: 'Photo 4' },
+            { src: 'DSC_0647.JPG', caption: 'Photo 5' },
+            { src: 'DSC_0440.JPG', caption: 'Photo 6' },
+            { src: 'DSC_0660.JPG', caption: 'Photo 5' },
+            { src: 'DSC_0661.JPG', caption: 'Photo 5' },
+        ];
+
+        let gIndex = 0;
+
+        function openGallery() {
+            buildThumbs();
+            gSet(0);
+            const modal = document.getElementById('galleryModal');
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeGallery() {
+            document.getElementById('galleryModal').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        function gNav(dir) {
+            gSet((gIndex + dir + galleryImages.length) % galleryImages.length);
+        }
+
+        function gSet(i) {
+            gIndex = i;
+            const img = document.getElementById('gMainImg');
+            img.style.opacity = 0;
+            setTimeout(() => {
+                img.src = galleryImages[i].src;
+                img.alt = galleryImages[i].caption;
+                img.style.opacity = 1;
+            }, 150);
+            document.getElementById('gCaption').textContent = galleryImages[i].caption;
+            document.getElementById('gCounter').textContent = `${i + 1} / ${galleryImages.length}`;
+
+            document.querySelectorAll('.g-thumb').forEach((t, idx) => {
+                t.style.border = idx === i ? '2.5px solid #6366f1' : '2.5px solid transparent';
+                t.style.opacity = idx === i ? '1' : '0.6';
+            });
+            document.querySelectorAll('.g-dot').forEach((d, idx) => {
+                d.style.background = idx === i ? '#6366f1' : '#e2e8f0';
+                d.style.width = idx === i ? '22px' : '8px';
+            });
+        }
+
+        function buildThumbs() {
+            const thumbsEl = document.getElementById('gThumbs');
+            const dotsEl   = document.getElementById('gDots');
+            thumbsEl.innerHTML = '';
+            dotsEl.innerHTML   = '';
+            galleryImages.forEach((img, i) => {
+                const t = document.createElement('img');
+                t.src       = img.src;
+                t.alt       = img.caption;
+                t.className = 'g-thumb';
+                t.style.cssText = 'width:70px;height:50px;object-fit:cover;border-radius:7px;cursor:pointer;flex-shrink:0;transition:all .2s;border:2.5px solid transparent;';
+                t.onclick = () => gSet(i);
+                thumbsEl.appendChild(t);
+
+                const d = document.createElement('button');
+                d.className = 'g-dot';
+                d.style.cssText = 'height:8px;width:8px;border-radius:4px;border:none;cursor:pointer;transition:all .25s;background:#e2e8f0;';
+                d.onclick = () => gSet(i);
+                dotsEl.appendChild(d);
+            });
+        }
+
+        // Close on backdrop click
+        document.getElementById('galleryModal').addEventListener('click', function(e) {
+            if (e.target === this) closeGallery();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('galleryModal').style.display !== 'flex') return;
+            if (e.key === 'ArrowRight') gNav(1);
+            if (e.key === 'ArrowLeft')  gNav(-1);
+            if (e.key === 'Escape')     closeGallery();
+        });
+    
+    function openDivision(link) {
+        if (link !== "") {
+            window.open(link, "_blank");
+        }
+    }
+
+    </script>
+
+</body>
+</html>

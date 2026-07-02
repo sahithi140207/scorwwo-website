@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jack And Jill School (EM) - SCoRWWO</title>
+    <!-- Import Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Import Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        /* ── CSS RESET & CORE VARIABLES ── */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #1e1b4b;
+            --primary-light: #312e81;
+            --accent: #6366f1;
+            --accent-bg: #eef2ff;
+            --accent-green: #10b981;
+            --accent-green-bg: #ecfdf5;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.02);
+            --shadow-md: 0 4px 20px -2px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+            --shadow-lg: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ── HEADER ── */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: var(--transition);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--primary-light);
+            background: var(--accent-bg);
+            padding: 8px 16px;
+            border-radius: 9999px;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            background: var(--accent);
+            color: #fff;
+            transform: translateX(-3px);
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .header-logo h1 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 0.03em;
+            text-transform: none;
+        }
+
+        /* ── HERO SECTION ── */
+        .hero {
+            position: relative;
+            height: 380px;
+            background: linear-gradient(rgba(30, 27, 75, 0.65), rgba(15, 23, 42, 0.85)), url('jack_jill_school.png') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            color: #fff;
+            padding: 0 40px;
+        }
+
+        .hero-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-tag {
+            background: rgba(99, 102, 241, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 6px 16px;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            display: inline-block;
+            margin-bottom: 16px;
+            color: #a5b4fc;
+        }
+
+        .hero h2 {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .hero-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hero-meta-item i {
+            color: #8b5cf6;
+            font-size: 1.1rem;
+        }
+
+        /* ── MAIN CONTENT CONTAINER ── */
+        .main-container {
+            max-width: 1200px;
+            margin: -40px auto 40px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 24px;
+        }
+
+        /* ── CARDS ── */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: 28px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid var(--bg);
+            padding-bottom: 12px;
+        }
+
+        .card-title i {
+            color: var(--accent);
+            font-size: 1.4rem;
+        }
+
+        .about-text {
+            font-size: 0.98rem;
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        /* ── BASIC INFO LIST ── */
+        .info-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            background: var(--bg);
+            border: 1px solid rgba(226, 232, 240, 0.5);
+        }
+
+        .info-label {
+            font-weight: 700;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-label i {
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.9rem;
+            text-align: right;
+        }
+
+        /* ── FACILITIES GRID ── */
+        .facilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .facility-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            border-radius: var(--radius-sm);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            font-weight: 600;
+            font-size: 0.88rem;
+            transition: var(--transition);
+        }
+
+        .facility-item:hover {
+            background: var(--accent-bg);
+            border-color: var(--accent);
+            color: var(--primary-light);
+        }
+
+        .facility-item i {
+            font-size: 1.25rem;
+            color: var(--accent);
+            background: #fff;
+            padding: 8px;
+            border-radius: 50%;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* ── ADMISSIONS & ACTIVITIES LIST ── */
+        .bullet-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 28px;
+            font-size: 0.92rem;
+            color: var(--text);
+        }
+
+        .bullet-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            top: 2px;
+            width: 18px;
+            height: 18px;
+            background: var(--accent-green-bg);
+            color: var(--accent-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .activities-list li::before {
+            content: "✦";
+            background: var(--accent-bg);
+            color: var(--accent);
+            font-size: 0.7rem;
+        }
+
+        .admission-intro {
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+            color: var(--text-muted);
+        }
+
+        .admission-note {
+            margin-top: 18px;
+            padding: 12px 16px;
+            background: var(--accent-bg);
+            border-left: 4px solid var(--accent);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ── TIMINGS & ADDRESS ── */
+        .timing-box {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .time-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .time-row i {
+            font-size: 1.2rem;
+            color: var(--accent-green);
+        }
+
+        /* ── REFERENCE LINKS ── */
+        .sources-card {
+            background: linear-gradient(135deg, #1e1b4b, #111827);
+            color: #fff;
+            border-radius: var(--radius-md);
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .sources-card h4 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 14px;
+            color: #a5b4fc;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .source-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .source-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 0.84rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: var(--transition);
+        }
+
+        .source-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        .source-btn i {
+            font-size: 1.1rem;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--primary);
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            padding: 24px;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* ── RESPONSIVE DESIGN ── */
+        @media (max-width: 968px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                margin-top: -20px;
+            }
+            .hero {
+                height: 320px;
+                padding: 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-logo">
+            <img src="logo.jpeg" alt="SCoRWWO Logo">
+            <h1>SCoR WWO</h1>
+        </div>
+        <a href="index.html" class="back-link">
+            <i class="ph ph-arrow-left"></i> Back to Dashboard
+        </a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-inner">
+            <span class="hero-tag">Key Initiative</span>
+            <h2>Jack And Jill School (EM)</h2>
+            <div class="hero-meta">
+                <div class="hero-meta-item">
+                    <i class="ph-fill ph-map-pin"></i>
+                    <span>Gandhi Nagar, Vijayawada</span>
+                </div>
+                <div class="hero-meta-item">
+                    <i class="ph-fill ph-graduation-cap"></i>
+                    <span>SCoRWWO Managed</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTAINER -->
+    <main class="main-container">
+        
+        <!-- LEFT COLUMN: ABOUT, FACILITIES & ACTIVITIES -->
+        <div class="content-left">
+            
+            <!-- ABOUT CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-info"></i> About the School
+                </h3>
+                <p class="about-text">
+                    Jack & Jill School (EM), Vijayawada, is a well-known English-medium school managed by the South Central Railway Women's Welfare Organisation (SCoRWWO). Established in 2006, it aims to provide quality education while nurturing discipline, creativity, leadership skills, and moral values. The school encourages students to participate in academics, sports, and cultural activities to ensure holistic development. It is known for providing affordable, high-standard education with a deep focus on character building and personality development.
+                </p>
+            </div>
+
+            <!-- FACILITIES CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-sparkles"></i> Modern Facilities
+                </h3>
+                <p style="margin-bottom: 20px; font-size: 0.95rem; color: var(--text-muted);">
+                    The school focuses on creating a child-friendly learning environment and encourages both academic and extracurricular development with state-of-the-art infrastructure:
+                </p>
+                <div class="facilities-grid">
+                    <div class="facility-item">
+                        <i class="ph ph-chalkboard-teacher"></i>
+                        <span>Smart Classrooms</span>
+                    </div>
+                    <div class="facility-item">
+                        <i class="ph ph-books"></i>
+                        <span>Library</span>
+                    </div>
+                    <div class="facility-item">
+                        <i class="ph ph-desktop"></i>
+                        <span>Computer Labs</span>
+                    </div>
+                    <div class="facility-item">
+                        <i class="ph ph-palette"></i>
+                        <span>Art & Craft Activities</span>
+                    </div>
+                    <div class="facility-item">
+                        <i class="ph ph-projector-screen"></i>
+                        <span>Audio-Visual Learning</span>
+                    </div>
+                    <div class="facility-item">
+                        <i class="ph ph-soccer-ball"></i>
+                        <span>Sports & Games</span>
+                    </div>
+                    <div class="facility-item">
+                        <i class="ph ph-music-notes"></i>
+                        <span>Cultural Programs</span>
+                    </div>
+                    <div class="facility-item">
+                        <i class="ph ph-game-controller"></i>
+                        <span>Activity-based Learning</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCHOOL ACTIVITIES CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-calendar-star"></i> School Activities & Recognition
+                </h3>
+                <p style="margin-bottom: 18px; font-size: 0.95rem; color: var(--text-muted);">
+                    Beyond textbooks, the school nurtures student talents by regularly organizing and celebrating major events:
+                </p>
+                <ul class="bullet-list activities-list">
+                    <li>Independence Day & Republic Day Celebrations</li>
+                    <li>Teachers' Day and Children's Day programs</li>
+                    <li>Inter-school sports tournaments and athletic competitions</li>
+                    <li>Cultural programs, annual day events, and festivals</li>
+                    <li>Extracurricular talent competitions (Drawing, Essay Writing, and Debating)</li>
+                </ul>
+                <div class="admission-note" style="background-color: var(--accent-green-bg); border-left-color: var(--accent-green); color: #065f46; margin-top: 20px;">
+                    <i class="ph-fill ph-medal"></i>
+                    <span>Teachers and staff have been highly recognized by SCoRWWO for their contribution to quality education and student development.</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: BASIC INFO, ADMISSIONS & TIMINGS -->
+        <div class="content-right">
+            
+            <!-- BASIC INFO CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-identification-card"></i> Basic Information
+                </h3>
+                <div class="info-list">
+                    <div class="info-item">
+                        <span class="info-label"><i class="ph ph-calendar"></i> Established</span>
+                        <span class="info-value">2006</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label"><i class="ph ph-translate"></i> Medium</span>
+                        <span class="info-value">English</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label"><i class="ph ph-gender-interlock"></i> School Type</span>
+                        <span class="info-value">Co-educational</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label"><i class="ph ph-chalkboard"></i> Classes</span>
+                        <span class="info-value">Up to Class X</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label"><i class="ph ph-scroll"></i> Curriculum</span>
+                        <span class="info-value">State Syllabus</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label"><i class="ph ph-map-pin"></i> Location</span>
+                        <span class="info-value">Gandhi Nagar, Vijayawada</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADMISSIONS CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-user-plus"></i> Admission Details
+                </h3>
+                <p class="admission-intro">
+                    Admissions are generally available from pre-primary classes to Class X, depending on seat availability. Parents are required to submit:
+                </p>
+                <ul class="bullet-list">
+                    <li>Official Birth Certificate</li>
+                    <li>Previous Academic Progress Report</li>
+                    <li>Transfer Certificate (if applicable)</li>
+                    <li>Recent Passport-size photographs</li>
+                    <li>Student and Parent identity documents</li>
+                </ul>
+                <div class="admission-note">
+                    <i class="ph-fill ph-info"></i>
+                    <span>Admission enquiries can be made directly at the school office.</span>
+                </div>
+            </div>
+
+            <!-- ADDRESS & TIMINGS CARD -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="ph ph-clock"></i> Timings & Address
+                </h3>
+                <div style="font-size: 0.92rem; color: var(--text);">
+                    <p style="font-weight: 700; margin-bottom: 4px;">Address:</p>
+                    <p style="color: var(--text-muted); margin-bottom: 18px;">
+                        Railway Station Road, Gandhi Nagar, Vijayawada, Andhra Pradesh – 520001, India
+                    </p>
+                    <p style="font-weight: 700; margin-bottom: 4px;">Timings:</p>
+                    <div class="timing-box">
+                        <div class="time-row">
+                            <i class="ph ph-calendar-check"></i>
+                            <span><strong>Working Days:</strong> Approx. 9:30 AM – 4:30 PM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOURCE LINKS CARD -->
+            <div class="sources-card">
+                <h4><i class="ph ph-link"></i> Sources & References</h4>
+                <div class="source-links">
+                    <a href="https://www.manabadi.co.in/institute/schoolDynamicProfile.aspx?-JILL-SCHOOL=&Institute=S&InstituteId=8111&InstituteName=JACK-&utm_source=chatgpt.com" target="_blank" class="source-btn">
+                        <span>Profile on Manabadi</span>
+                        <i class="ph ph-arrow-square-out"></i>
+                    </a>
+                    <a href="https://www.jackandjill.in/?utm_source=chatgpt.com" target="_blank" class="source-btn">
+                        <span>Jack & Jill Website</span>
+                        <i class="ph ph-arrow-square-out"></i>
+                    </a>
+                    <a href="https://www.thehansindia.com/news/cities/vijayawada/vijayawada-jack-jill-school-teachers-staff-honoured-820532?utm_source=chatgpt.com" target="_blank" class="source-btn">
+                        <span>The Hans India News article</span>
+                        <i class="ph ph-arrow-square-out"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        © 2026 South Coast Railway Women's Welfare Organization (SCoRWWO). All Rights Reserved.
+    </footer>
+
+</body>
+</html>

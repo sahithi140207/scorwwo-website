@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sakhi Mart - South Coast Railway</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box
+}
+body{
+    font-family:'Plus Jakarta Sans',sans-serif;
+    background:#f8fafc;
+    color:#1e293b;
+    line-height:1.6
+}
+.sticky-header{
+    position:sticky;
+    top:0;background:#fff;
+    padding:15px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid #e2e8f0
+}
+.back-link{
+    background:#eef2ff;
+    padding:8px 16px;
+    border-radius:30px;
+    text-decoration:none;
+    color:#312e81;
+    font-weight:700
+}
+.header-logo{
+    display:flex;
+    align-items:center;
+    gap:10px
+}
+.header-logo img{
+    width:32px;
+    height:32px;
+    border-radius:50%
+}
+.hero{
+    height:380px;
+    background:linear-gradient(rgba(30,27,75,.65),rgba(15,23,42,.85)),url('sakhi_mart.jpg') center/cover no-repeat;
+    display:flex;
+    align-items:center;
+    color:#fff;
+    padding:40px
+}
+.hero h2 {
+    font-size: 3rem;
+}
+
+.hero-tag {
+    background: rgba(99, 102, 241, 0.25);
+    padding: 6px 15px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.main-container {
+    max-width: 1200px;
+    margin: -40px auto 40px;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 24px;
+}
+
+.card,
+.sources-card {
+    background: #fff;
+    padding: 28px;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    margin-bottom: 24px;
+}
+
+.card-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 18px;
+    color: #1e1b4b;
+}
+
+.facilities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.facility-item {
+    padding: 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #f8fafc;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.bullet-list li {
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.sources-card {
+    background: #1e1b4b;
+    color: #fff;
+}
+
+footer {
+    background: #1e1b4b;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+@media (max-width: 968px) {
+    .main-container {
+        grid-template-columns: 1fr;
+    }
+
+    .hero h2 {
+        font-size: 2rem;
+    }
+}
+</style>
+</head>
+<body>
+
+<header class="sticky-header">
+<div class="header-logo">
+<img src="logo.jpeg" alt="Logo">
+<h2>SCoR WWO</h2>
+</div>
+<a href="index.html" class="back-link">Back to Dashboard</a>
+</header>
+
+<section class="hero">
+<div>
+<span class="hero-tag">Retail Shopping Outlet</span>
+<h2>Sakhi Mart – South Coast Railway</h2>
+<p>Convenient Shopping for Passengers & Railway Employees</p>
+</div>
+</section>
+
+<main class="main-container">
+
+<div>
+
+<div class="card">
+<h3 class="card-title">About Sakhi Mart</h3>
+<p>
+Sakhi Mart is a retail shopping outlet associated with the railway commercial area serving passengers, railway employees, and local residents. It provides a variety of daily essentials, snacks, beverages, packaged foods, personal care products, and travel necessities.
+<br><br>
+Its convenient location near the railway premises makes it useful for passengers looking for quick purchases before or after their journey. The store contributes to passenger convenience by offering easily accessible products at one location.
+</p>
+</div>
+
+<div class="card">
+<h3 class="card-title">Features</h3>
+<div class="facilities-grid">
+<div class="facility-item">Daily Grocery Products</div>
+<div class="facility-item">Packaged Snacks</div>
+<div class="facility-item">Beverages</div>
+<div class="facility-item">Personal Care Items</div>
+<div class="facility-item">Travel Essentials</div>
+<div class="facility-item">Quick Shopping Experience</div>
+</div>
+</div>
+
+<div class="card">
+<h3 class="card-title">Benefits for Passengers</h3>
+<ul class="bullet-list">
+<li>Easy access to essential products.</li>
+<li>Convenient shopping near railway facilities.</li>
+<li>Saves time for travelers.</li>
+<li>Provides refreshments and daily necessities.</li>
+<li>Enhances the railway travel experience.</li>
+</ul>
+</div>
+
+</div>
+
+<div>
+
+<div class="card">
+<h3 class="card-title">Basic Information</h3>
+<div class="info-item"><span>Outlet Type</span><span>Retail Store</span></div>
+<div class="info-item"><span>Customers</span><span>Passengers & Employees</span></div>
+<div class="info-item"><span>Products</span><span>Groceries & Essentials</span></div>
+<div class="info-item"><span>Services</span><span>Convenience Shopping</span></div>
+<div class="info-item"><span>Location</span><span>Railway Premises</span></div>
+<div class="info-item"><span>Organization</span><span>South Coast Railway</span></div>
+</div>
+
+<div class="card">
+<h3 class="card-title">Role in South Coast Railway</h3>
+<p>
+The South Coast Railway zone focuses on improving passenger amenities and station infrastructure. Retail stores like Sakhi Mart enhance the overall travel experience by providing essential services within or near railway premises.
+</p>
+</div>
+
+<div class="card">
+<h3 class="card-title">Location</h3>
+<p>
+Near Vijayawada Junction Railway Station, one of the busiest railway stations in India, serving thousands of passengers every day.
+</p>
+</div>
+
+<div class="sources-card">
+<h3>Short Description</h3>
+<p>
+Sakhi Mart is a convenient shopping outlet near the South Coast Railway premises, offering groceries, snacks, beverages, personal care products, and travel essentials for passengers and visitors. Its accessible location helps make railway travel more comfortable and convenient.
+</p>
+</div>
+
+</div>
+
+</main>
+
+<footer>
+© 2026 South Coast Railway Women's Welfare Organization (SCoRWWO). All Rights Reserved.
+</footer>
+
+</body>
+</html>

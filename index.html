@@ -1,0 +1,3075 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>South Coast Railway Dashboard</title>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        /* ── RESET & BASE ── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #1e1b4b;
+            --primary-light: #312e81;
+            --accent: #6366f1;
+            --accent2: #10b981;
+            --gold: #f59e0b;
+            --pink: #ec4899;
+            --blue: #3b82f6;
+            --purple: #8b5cf6;
+            --bg: #f1f5f9;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --sidebar-w: 260px;
+            --header-h: 58px;
+            --radius: 12px;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        html {
+            font-size: 15px;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ── APP LAYOUT ── */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            width: 260px;
+            min-width: 260px;
+            background: linear-gradient(180deg, #10153f 0%, #1c265e 100%);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            z-index: 100;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 24px 18px 18px;
+        }
+
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .logo-section .logo {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.24);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+        }
+
+        .logo-section h2 {
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-align: center;
+            line-height: 1.35;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .top-header .logo-section {
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .top-header .logo-section .logo {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            box-shadow: none;
+        }
+
+        .top-header .logo-section h2 {
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        /* ── NAV ── */
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 18px 0;
+            flex: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.75);
+            transition: all 0.25s ease;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+            min-width: 24px;
+            color: rgba(255, 255, 255, 0.92);
+        }
+
+        .dropdown {
+            width: 100%;
+        }
+
+        .dropbtn {
+            width: 100%;
+            margin: 0;
+            border: none;
+            background: transparent;
+            color: inherit;
+            text-align: left;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            margin-top: 6px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-content a {
+            padding: 12px 18px;
+            color: rgba(255, 255, 255, 0.8);
+            transition: background 0.2s ease, color 0.2s ease;
+            font-weight: 500;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: flex;
+        }
+
+        .sidebar-follow-widget {
+            margin-top: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .sidebar-follow-widget .card {
+            background: linear-gradient(180deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 24px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 18px 35px rgba(15, 23, 65, 0.18);
+        }
+
+        .sidebar-follow-widget h3 {
+            margin: 0;
+            color: #fff;
+            font-weight: 800;
+            font-size: 1rem;
+        }
+
+        .sidebar-follow-widget p {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.82rem;
+            text-align: center;
+        }
+
+        .sidebar-follow-widget .social-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .sidebar-follow-widget .social-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            transition: transform .3s ease, background .3s ease;
+        }
+
+        .sidebar-follow-widget .social-btn:hover {
+            transform: scale(1.10);
+        }
+
+        .sidebar-follow-widget .social-instagram:hover {
+            background: linear-gradient(135deg, #E1306C, #C13584, #833AB4);
+        }
+
+        .sidebar-follow-widget .social-facebook:hover {
+            background: #1877F2;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                min-width: unset;
+                height: auto;
+                padding-bottom: 24px;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .top-header {
+                left: 0;
+            }
+
+            .hero-section {
+                /* keep hero responsive on tablet: slightly shorter */
+                height: 380px;
+                padding-top: calc(var(--header-h) + 18px);
+            }
+
+            .hero-inner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 24px;
+            }
+
+            .hero-logo-panel {
+                min-width: auto;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .sidebar {
+                padding: 18px 14px 22px;
+            }
+
+            .nav-item {
+                padding: 12px 14px;
+            }
+
+            .sidebar .live-status-widget {
+                border-radius: 18px;
+                padding: 18px 16px;
+            }
+
+            .hero-section {
+                /* On small/mobile devices use scroll attachment for better performance */
+                background-attachment: scroll;
+                height: 380px;
+                padding: calc(var(--header-h) + 12px) 18px 20px;
+                background-position: center;
+            }
+
+            .hero-content {
+                padding: 0;
+            }
+
+            .hero-inner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .hero-logo-panel {
+                min-width: auto;
+            }
+        }
+
+        /* follow widget styles (replaces previous live-status styles) */
+
+        /* ── MAIN CONTENT ── */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* ── HEADER ── */
+        .top-header {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    height: var(--header-h);
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+    gap: 12px;
+    transition: background 0.3s, box-shadow 0.3s;
+    overflow: visible;
+}
+
+        .header-left span {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0.05em;
+        }
+
+        .header-center {
+            flex: 1;
+            max-width: 380px;
+        }
+
+        .search-bar {
+            display: flex;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(8px);
+        }
+
+        .search-bar input {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            padding: 7px 14px;
+            font-size: 0.85rem;
+            color: #fff;
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-bar button {
+            background: none;
+            border: none;
+            color: #fff;
+            padding: 0 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .header-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+    z-index: 9999;
+}
+        .btn-lang,
+        .btn-icon {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 0.82rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+
+        .btn-icon {
+            border-radius: 50%;
+            padding: 6px 8px;
+        }
+
+        .btn-lang:hover,
+        .btn-icon:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .btn-helpline {
+            background: var(--accent);
+            border: none;
+            color: #fff;
+            border-radius: 16px;
+            padding: 6px 14px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+
+        .language-widget {
+            position: relative;
+        }
+
+        .language-widget .language-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            width: 220px;
+            background: rgba(15, 19, 44, 0.98);
+            border-radius: 16px;
+            padding: 10px;
+            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+            z-index: 220;
+        }
+
+        .language-widget .language-dropdown.show {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .lang-item {
+            width: 100%;
+            border: none;
+            background: transparent;
+            color: #fff;
+            text-align: left;
+            padding: 12px 14px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .lang-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .goog-te-combo {
+            width: 100% !important;
+            background-color: rgba(255, 255, 255, 0.12) !important;
+            border: 1px solid rgba(255, 255, 255, 0.18) !important;
+            color: #fff !important;
+            padding: 10px 12px !important;
+            border-radius: 14px !important;
+            font-size: 0.9rem !important;
+            font-family: inherit !important;
+            outline: none !important;
+            cursor: pointer !important;
+        }
+
+        .goog-te-combo option {
+            background: #121828 !important;
+            color: #fff !important;
+        }
+
+        .custom-dropdown {
+            position: relative;
+        }
+
+        .dropdown-list {
+            display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            min-width: 140px;
+            z-index: 200;
+            overflow: hidden;
+        }
+
+        .dropdown-list a {
+            display: block;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            color: var(--text);
+            transition: background 0.15s;
+        }
+
+        .dropdown-list a:hover {
+            background: var(--bg);
+        }
+
+        .custom-dropdown:hover .dropdown-list {
+            display: block;
+        }
+
+        /* ── HERO SECTION ── */
+        .hero-section {
+            /* Full-width fixed hero background using the provided group photo */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.38), rgba(0, 0, 0, 0.38)), url('./src/assets/images/women-group.jpg');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            /* Keep image fixed behind content on desktop/tablet */
+            background-attachment: fixed;
+            /* Make hero a taller responsive viewport block */
+            width: 100%;
+            min-height: 500px;
+            height: auto;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: calc(var(--header-h) + 24px) 32px 24px 32px;
+            margin-top: calc(-1 * var(--header-h));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            right: -40px;
+            top: -40px;
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 24px;
+            width: 100%;
+            max-width: 1180px;
+        }
+
+        .hero-logo-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 14px;
+            min-width: auto;
+            flex-shrink: 0;
+        }
+
+        .hero-logo-img {
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
+        }
+
+        .hero-logo-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .hero-logo-label {
+            font-size: 0.98rem;
+            font-weight: 800;
+            letter-spacing: 0.09em;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0;
+            max-width: 720px;
+        }
+
+        .hero-content h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.05;
+            margin-bottom: 14px;
+        }
+
+        .hero-content h1 span {
+            color: #a5b4fc;
+        }
+
+        .hero-content p {
+            font-size: 0.88rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.75;
+            margin-bottom: 20px;
+            max-width: 520px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .quick-access-wrapper {
+            display: flex;
+            align-items: stretch;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            margin: 16px 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .qa-title {
+            background: linear-gradient(160deg, var(--primary), var(--accent));
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            min-width: 90px;
+        }
+
+        .qa-title h4 {
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.06em;
+            line-height: 1.5;
+        }
+
+        .qa-items {
+            display: flex;
+            flex: 1;
+            flex-wrap: wrap;
+        }
+
+        .qa-item {
+            flex: 1;
+            min-width: 110px;
+            padding: 14px 12px;
+            text-align: center;
+            border-right: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .qa-item:last-child {
+            border-right: none;
+        }
+
+        .qa-item:hover {
+            background: var(--bg);
+        }
+
+        .qa-item i {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .qa-item h5 {
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 3px;
+            color: var(--text);
+        }
+
+        .qa-item p {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            line-height: 1.3;
+        }
+
+        /* ── SECTION CONTAINER ── */
+        .section-container {
+            margin: 0 20px 16px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            padding-bottom: 9px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .section-header h3 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            color: var(--primary);
+            position: relative;
+        }
+
+        .section-header h3::before {
+            content: '';
+            position: absolute;
+            bottom: -11px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .view-all {
+            font-size: 0.82rem;
+            color: var(--accent);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* ── CAROUSEL ── */
+        .carousel-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            overflow: visible;
+        }
+
+        .carousel-track-wrapper {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 14px;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+        }
+
+        .carousel-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--primary);
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+            transition: all 0.2s;
+            z-index: 10;
+        }
+
+        .carousel-btn:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        /* ── OFFICER CARD ── */
+        .officer-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 18px 16px;
+            text-align: center;
+            min-width: 170px;
+            max-width: 180px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .officer-card img {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border: 2px solid transparent;
+        }
+
+        .officer-card h4 {
+            font-size: 0.84rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--text);
+        }
+
+        .officer-card p {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+
+        .view-btn {
+            margin-top: 12px;
+            padding: 8px 14px;
+            border: none;
+            border-radius: 9999px;
+            background: transparent; /* no background color */
+            color: var(--primary);
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .view-btn:hover {
+            text-decoration: underline;
+        }
+
+        .officer-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 24px;
+        }
+
+        .officer-modal-content {
+            width: min(540px, 100%);
+            background: #ffffff;
+            padding: 28px 26px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            text-align: left;
+        }
+
+        .officer-modal-content h2 {
+            margin-bottom: 14px;
+            font-size: 1.6rem;
+            color: var(--primary);
+        }
+
+        .officer-modal-content p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-top: 6px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 1.6rem;
+            color: #334155;
+            cursor: pointer;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .social-links a {
+            width: 28px;
+            height: 28px;
+            background: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        /* ── ORG GRID / CAROUSEL ── */
+        .org-carousel-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            overflow: visible;
+        }
+
+        .org-carousel-wrapper {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .org-grid {
+            display: flex;
+            gap: 14px;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+        }
+
+        .org-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 18px 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: transform 0.2s;
+            min-width: 200px;
+            flex-shrink: 0;
+        }
+
+        .org-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .org-card.clickable-card {
+            cursor: pointer;
+        }
+
+        .org-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--bg);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .org-card h4 {
+            font-size: 0.84rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text);
+        }
+
+        .org-card p {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        .learn-more {
+            font-size: 0.78rem;
+            color: var(--accent);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        /* ── LOWER GRID ── */
+        .lower-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 16px;
+            margin: 40px 20px 16px;
+        }
+
+        /* ── INITIATIVES CARD ── */
+        .initiatives-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .initiatives-overlay {
+            background: linear-gradient(135deg, var(--primary), #4338ca);
+            padding: 16px 18px;
+        }
+
+        .initiatives-overlay h3 {
+            font-size: 0.96rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.05em;
+            line-height: 1.4;
+        }
+
+        .initiatives-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        .init-item {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            padding: 13px 14px;
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .init-item:hover {
+            background: #f8fafc;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.06);
+            position: relative;
+            z-index: 1;
+        }
+
+        .init-item:nth-child(even) {
+            border-right: none;
+        }
+
+        .init-item:nth-child(3),
+        .init-item:nth-child(4) {
+            border-bottom: none;
+        }
+
+        .init-item i {
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .init-item h5 {
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 3px;
+            color: var(--text);
+        }
+
+        .init-item p {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            line-height: 1.35;
+        }
+
+        .init-item.is-selected {
+            background: #eef2ff;
+            box-shadow: inset 0 0 0 2px rgba(99, 102, 241, 0.28);
+        }
+
+        .initiative-detail-panel {
+            display: none;
+            margin-top: 16px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            animation: fadeSlideIn 280ms ease;
+        }
+
+        .initiative-detail-panel.is-visible {
+            display: block;
+        }
+
+        .initiative-detail-head {
+            padding: 18px 20px;
+            color: #fff;
+            background: linear-gradient(135deg, var(--primary), #4338ca);
+        }
+
+        .initiative-detail-head h3 {
+            font-size: 1.35rem;
+            font-weight: 900;
+            line-height: 1.15;
+            margin-top: 4px;
+        }
+
+        .initiative-detail-head p {
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            opacity: 0.85;
+        }
+
+        .initiative-detail-body {
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 14px;
+            padding: 16px;
+        }
+
+        .initiative-profile-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+        }
+
+        .initiative-profile-card h4 {
+            font-size: 0.95rem;
+            font-weight: 900;
+            color: var(--text);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .initiative-profile-card h4::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            background: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .initiative-profile-card p,
+        .initiative-profile-card li {
+            font-size: 0.86rem;
+            line-height: 1.7;
+            color: var(--text);
+        }
+
+        .initiative-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .initiative-list li {
+            display: flex;
+            gap: 8px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: #f8fafc;
+            border: 1px solid #eef2f7;
+        }
+
+        .initiative-list li::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: var(--accent);
+            margin-top: 8px;
+            flex-shrink: 0;
+        }
+
+        .initiative-short-tagline {
+            margin-top: 6px;
+            font-size: 0.84rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .detail-back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            border-radius: 999px;
+            padding: 10px 16px;
+            background: var(--primary);
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 8px 20px rgba(30, 27, 75, 0.18);
+        }
+
+        .detail-back-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 24px rgba(30, 27, 75, 0.22);
+        }
+
+        /* ── NEWS & EVENTS ── */
+        .news-events-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .news-col {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-header.small {
+            padding-bottom: 7px;
+            margin-bottom: 12px;
+        }
+
+        .section-header.small h3 {
+            font-size: 0.84rem;
+        }
+        
+        .view-all-small {
+            font-size: 0.78rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .news-list,
+        .announcement-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .events-panel {
+            position: relative;
+        }
+
+        .events-scrollable {
+            max-height: 180px;
+            min-height: 180px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .events-scrollable::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .events-scrollable::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.35);
+            border-radius: 999px;
+        }
+
+        .news-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .news-list li:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .date-box {
+            background: var(--primary);
+            color: #fff;
+            border-radius: 6px;
+            padding: 5px 8px;
+            text-align: center;
+            min-width: 42px;
+            flex-shrink: 0;
+        }
+
+        .date-box span {
+            display: block;
+            font-size: 0.7rem;
+            line-height: 1.3;
+        }
+
+        .date-box span:first-child {
+            font-size: 0.96rem;
+            font-weight: 700;
+        }
+
+        .news-list li p,
+        .announcement-list li p {
+            font-size: 0.78rem;
+            color: var(--text);
+            line-height: 1.4;
+            flex: 1;
+            margin: 0;
+        }
+
+        .news-list li i:last-child,
+        .announcement-list li i:last-child {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .announcement-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .announcement-list li:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .announcement-list li>i:first-child {
+            font-size: 1rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .text-blue {
+            color: var(--blue);
+        }
+
+        .fade {
+            opacity: 0.4;
+        }
+
+        /* ── STATS RIBBON ── */
+        .stats-ribbon {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            background: linear-gradient(135deg, var(--primary), #4338ca);
+            padding: 20px 28px;
+            margin: 0 20px 16px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #fff;
+        }
+
+        .stat-item i {
+            font-size: 1.9rem;
+            opacity: 0.8;
+        }
+
+        .stat-text h2 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .stat-text p {
+            font-size: 0.76rem;
+            opacity: 0.75;
+            margin-top: 3px;
+        }
+
+        .stat-divider {
+            width: 1px;
+            height: 42px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ── FOOTER ── */
+        .app-footer {
+            background: var(--primary);
+            color: rgba(255, 255, 255, 0.85);
+            margin-top: 0;
+        }
+
+        .footer-top-row {
+            display: grid;
+            grid-template-columns: minmax(300px, 1fr) minmax(360px, 1.2fr);
+            gap: 20px;
+            padding: 22px 24px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            align-items: start;
+        }
+
+        .quick-links-section h4 {
+            font-size: 0.84rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0.06em;
+            margin-bottom: 12px;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+        }
+
+        .links-grid a {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 6px 10px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .links-grid a:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+
+        .links-grid a .ms-auto {
+            margin-left: auto;
+            opacity: 0.4;
+            font-size: 0.75rem;
+        }
+
+        .app-promo-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+        }
+
+        .app-promo-content {
+            flex: 1;
+            max-width: 520px;
+        }
+
+        .app-promo-content h3 {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.04em;
+            margin-bottom: 4px;
+        }
+
+        .app-promo-content>p {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 10px;
+        }
+
+        .app-promo-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .app-features-icons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .app-features-icons a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 0.8rem;
+            transition: background 0.2s ease;
+            text-decoration: none;
+        }
+
+        .app-features-icons a:hover {
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .app-features-icons a i {
+            font-size: 1rem;
+            opacity: 0.95;
+        }
+
+        .app-features-icons a span {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+        }
+
+        .store-buttons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .store-buttons img {
+            height: 32px;
+            border-radius: 4px;
+        }
+
+        .qr-code {
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .qr-code img {
+            width: 80px;
+            height: 80px;
+            border-radius: 6px;
+            background: #fff;
+            padding: 4px;
+        }
+
+        .qr-code p {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 5px;
+            line-height: 1.3;
+        }
+
+        /* ── FOOTER BOTTOM ── */
+        .footer-bottom-area {
+            padding: 18px 24px 12px;
+        }
+
+        .footer-cols {
+            display: grid;
+            grid-template-columns: 1.8fr 1fr 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 16px;
+        }
+
+        .footer-col h5 {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0.06em;
+            margin-bottom: 10px;
+        }
+
+        .footer-col a {
+            display: block;
+            font-size: 0.76rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 5px;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover {
+            color: #fff;
+        }
+
+        .footer-brand {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .footer-brand h5 {
+            font-size: 0.84rem;
+            margin-bottom: 5px;
+        }
+
+        .footer-brand p {
+            font-size: 0.74rem;
+            color: rgba(255, 255, 255, 0.55);
+            line-height: 1.5;
+        }
+
+        .social-icons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .social-icons span {
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-right: 2px;
+        }
+
+        .social-icons a {
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.2s;
+            margin-bottom: 0 !important;
+        }
+
+        .social-icons a:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .newsletter-col p {
+            font-size: 0.74rem;
+            color: rgba(255, 255, 255, 0.55);
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            overflow: hidden;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.08);
+            border: none;
+            outline: none;
+            padding: 8px 12px;
+            font-size: 0.78rem;
+            color: #fff;
+            min-width: 0;
+        }
+
+        .newsletter-form input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .newsletter-form button {
+            background: var(--accent);
+            border: none;
+            color: #fff;
+            padding: 0 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .footer-copyright {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .footer-copyright p {
+            font-size: 0.74rem;
+            color: rgba(255, 255, 255, 0.45);
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .legal-links {
+            display: flex;
+            gap: 14px;
+        }
+
+        .legal-links a {
+            font-size: 0.74rem;
+            color: rgba(255, 255, 255, 0.45);
+            transition: color 0.2s;
+        }
+
+        .legal-links a:hover {
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-section">
+                <img src="logo.jpeg"
+                    alt="South Coast Railway Logo" class="logo">
+                <h2>SOUTH COAST<br>RAILWAY<br>WOMEN'S WELFARE ORGANIZATION</h2>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active"><i class="ph ph-house"></i> <span
+                        data-i18n="nav.home">Home</span></a>
+                <a href="about-us.html" class="nav-item"><i class="ph ph-users"></i> <span data-i18n="nav.aboutUs">About
+                        Us</span></a>
+                <div class="dropdown">
+
+                    <button class="dropbtn nav-item">
+                        <i class="ph ph-user-circle"></i> <span data-i18n="nav.divisions">Divisions</span>
+                    </button>
+
+                    <div class="dropdown-content">
+
+                        <a href="vijayawada.html">
+                            Vijayawada
+                        </a>
+
+                        <a href="visakhapatnam.html">
+                            Visakhapatnam
+                        </a>
+
+                        <a href="guntur.html">
+                            Guntur
+                        </a>
+
+                        <a href="guntakal.html">
+                            Guntakal
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <a onclick="window.location='services.html'" class="nav-item">
+                    <i class="ph ph-briefcase"></i> <span data-i18n="nav.services">Services</span>
+                </a>
+
+                <a href="contact.html" class="nav-item">
+                    <i class="ph ph-phone"></i> <span data-i18n="nav.contact">Contact</span>
+                </a>
+                <!-- Follow Us (replaces Upcoming Events Live) -->
+                <div class="sidebar-follow-widget">
+                    <div
+                        style="background:linear-gradient(180deg,#6366f1,#8b5cf6);border-radius:18px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:8px;">
+                        <h3 style="color:#fff;margin:0;font-weight:800;font-size:0.95rem;" data-i18n="footer.followUs">
+                            Follow Us</h3>
+                        <p style="color:rgba(255,255,255,0.9);font-size:0.78rem;margin:0;text-align:center;"
+                            data-i18n="footer.followSubtitle">Stay connected with us on social media.</p>
+                       <div class="social-row" style="display:flex;gap:15px;margin-top:12px;">
+
+    <!-- Instagram -->
+    <a href="https://instagram.com/SCoRWWOvijayawada/"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram"
+        style="
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            width:60px;
+            height:60px;
+            border-radius:50%;
+            background: radial-gradient(circle at 30% 107%,
+                #fdf497 0%, #fdf497 5%,
+                #fd5949 45%,
+                #d6249f 60%,
+                #285AEB 90%);
+            text-decoration:none;
+            transition:transform 0.3s ease;
+        "
+        onmouseover="this.style.transform='scale(1.1)'"
+        onmouseout="this.style.transform='scale(1)'">
+
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="white"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM18.5 6.5a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z" />
+        </svg>
+    </a>
+
+    <!-- Facebook -->
+    <a href="https://www.facebook.com/profile.php?id=61579587494329"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Facebook"
+        style="
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            width:60px;
+            height:60px;
+            border-radius:50%;
+            background:linear-gradient(135deg,#1877F2,#42A5F5);
+            text-decoration:none;
+            transition:transform 0.3s ease;
+        "
+        onmouseover="this.style.transform='scale(1.1)'"
+        onmouseout="this.style.transform='scale(1)'">
+
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="white"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2.3V12h2.3V9.8c0-2.3 1.4-3.6 3.5-3.6 1 0 2 .08 2 .08v2.2h-1.1c-1.1 0-1.5.73-1.5 1.5V12h2.6l-.4 2.9h-2.2v7A10 10 0 0 0 22 12z" />
+        </svg>
+    </a>
+
+</div>
+                    </div>
+                </div>
+            </nav>
+
+        </aside>
+
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="logo-section">
+                    <img src="railwaylogo.jpeg" alt="South Coast Railway Logo" class="logo">
+                    <h2>SCoRWWO</h2>
+                </div>
+                
+                <div class="header-right">
+                    <button class="btn-helpline">
+                        <i class="ph ph-phone"></i>
+                        <span data-i18n="header.helpline">Helpline 139</span>
+                    </button>
+                </div>
+            </header>
+    
+
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="hero-inner">
+                    <div class="hero-content">
+                        <h1><span data-i18n="hero.titleLine1">Beyond Tracks.</span><br /><span
+                                data-i18n="hero.titleLine2">Towards Tomorrow.</span></h1>
+                        <p data-i18n="hero.paragraph">Driving progress. Connecting people.<br />Building a sustainable
+                            and<br />stronger tomorrow.</p>
+                        <button class="btn-primary" onclick="openGallery()"><span data-i18n="hero.exploreMore">Explore
+                                More</span> <i class="ph ph-arrow-right"></i></button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Access -->
+            <div class="quick-access-wrapper">
+                <div class="qa-title">
+                    <h4 data-i18n="quickAccess.title">QUICK<br>ACCESS</h4>
+                </div>
+                <div class="qa-items">
+                    <div class="qa-item pnr-card" id="pnr-status">
+                        <i class="ph-fill ph-ticket" style="color: #6366f1;"></i>
+                        <h5 data-i18n="quickAccess.pnr">PNR Status</h5>
+                        <p data-i18n="quickAccess.pnrDesc">Check your PNR</p>
+                    </div>
+                    <div class="qa-item rrb-card">
+                        <i class="ph-fill ph-train" style="color: #10b981;"></i>
+                        <h5 data-i18n="quickAccess.rrb">RRB Notifications</h5>
+                        <p data-i18n="quickAccess.rrbDesc">Get updates on RRB notifications</p>
+                    </div>
+                    <a href="vacancies.html" style="text-decoration: none; color: inherit;">
+                        <div class="qa-item">
+                            <i class="ph-fill ph-clock-countdown" style="color: #f59e0b;"></i>
+                            <h5 data-i18n="quickAccess.vacancies">Vacancies</h5>
+                            <p data-i18n="quickAccess.vacanciesDesc">Check available seats</p>
+                        </div>
+                    </a>
+                    <div class="qa-item reservation-card" id="reservation">
+                        <i class="ph-fill ph-map-pin" style="color: #3b82f6;"></i>
+                        <h5 data-i18n="quickAccess.reservation">Reservation</h5>
+                        <p data-i18n="quickAccess.reservationDesc">Book your ticket</p>
+                    </div>
+                    <div class="qa-item fare-card" id="fare-enquiry">
+                        <i class="ph-fill ph-receipt" style="color: #ec4899;"></i>
+                        <h5 data-i18n="quickAccess.fare">Fare Enquiry</h5>
+                        <p data-i18n="quickAccess.fareDesc">Check fare</p>
+                    </div>
+                    <div class="qa-item feedback-card">
+                        <i class="ph-fill ph-chat-circle-text" style="color: #8b5cf6;"></i>
+                        <h5 data-i18n="quickAccess.feedback">Feedback</h5>
+                        <p data-i18n="quickAccess.feedbackDesc">Share feedback</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leadership Section -->
+            <section class="section-container">
+                <div class="section-header">
+                    <h3 data-i18n="leadership.heading">MEET OUR LEADERSHIP</h3>
+                    <a href="officers.html" class="view-all"><span data-i18n="leadership.viewAll">View All Officers</span> <i
+                            class="ph-fill ph-arrow-circle-right"></i></a>
+                </div>
+                <div class="carousel-container">
+                    <button class="carousel-btn prev" id="lead-prev"><i class="ph ph-caret-left"></i></button>
+                    <div class="carousel-track-wrapper">
+                        <div class="carousel-track" id="lead-track">
+                            <!-- Card 1 -->
+                             <div class="officer-card">
+    <img src="https://i1.sndcdn.com/avatars-000745331179-256n8l-t1080x1080.jpg" alt="Officer">
+
+    <h4>General Manager</h4>
+
+    <p>SCoR</p>
+
+    <button class="view-btn" onclick="openModal(
+        'General Manager',
+        'The General Manager provides overall leadership and guidance for SCoRWWO activities, supports welfare initiatives, and ensures smooth functioning of all programs and services.'
+    )">
+        View Details
+    </button>
+</div>
+
+ <div class="officer-card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsi1xSnWS4AO8dLDixSwzz8V6MYplHo5qP7A&s" alt="Officer">
+
+    <h4>President</h4>
+
+    <p>SCoRWWO</p>
+
+    <button class="view-btn" onclick="openModal(
+        'President',
+        'The President provides overall leadership and guidance for SCoRWWO activities, supports welfare initiatives, and ensures smooth functioning of all programs and services.'
+    )">
+        View Details
+    </button>
+</div>
+
+ <div class="officer-card">
+    <img src="https://pbs.twimg.com/media/Gw8bdSpbEAAWa5f.jpg" alt="Officer">
+    <h4>Mr.Shri Mohit Sonakiya</h4>
+
+    <p>Divisional Railway Manager<br>Vijayawada</p>
+
+    <button class="view-btn" onclick="openModal(
+        'Mr.Shri Mohit Sonakiya',
+        'The Divisional Railway Manager provides overall leadership and guidance for SCoRWWO activities, supports welfare initiatives, and ensures smooth functioning of all programs and services.'
+    )">
+        View Details
+    </button>
+</div>
+
+                            <!-- Card 2 -->
+                             <div class="officer-card">
+    <img src="DMR.png" alt="Officer">
+                                <h4>Ms. Versha Sonakiya</h4>
+
+    <p>President<br>Vijayawada</p>
+
+    <button class="view-btn" onclick="openModal(
+        'Ms. Versha Sonakiya',
+        'The President provides overall leadership and guidance for SCoRWWO activities, supports welfare initiatives, and ensures smooth functioning of all programs and services.'
+    )">
+        View Details
+    </button>
+</div>
+
+                            <!-- Card 3 -->
+                              <div class="officer-card">
+   <img src="https://i.pinimg.com/236x/37/f4/16/37f416bf50621417ff155ee958d68a2a.jpg" alt="Officer">
+                                <h4>Ms. Veena</h4>
+
+    <p>Vice President<br>Vijayawada</p>
+
+    <button class="view-btn" onclick="openModal(
+        'Ms. Veena',
+        'The Vice President provides overall leadership and guidance for SCoRWWO activities, supports welfare initiatives, and ensures smooth functioning of all programs and services.'
+    )">
+        View Details
+    </button>
+</div>
+
+                            <!-- Card 4 -->
+                             <div class="officer-card">
+   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWQPE0invEnSy4E-iquDOo7cUJIl1pffoWjQ&s" alt="Officer">
+                                <h4>Ms. Edwin</h4>
+
+    <p>Vice President<br>Vijayawada</p>
+
+    <button class="view-btn" onclick="openModal(
+        'Ms. Edwin',
+        'The Vice President provides overall leadership and guidance for SCoRWWO activities, supports welfare initiatives, and ensures smooth functioning of all programs and services.'
+    )">
+        View Details
+    </button>
+</div>
+
+                            <!-- Card 5 -->
+                             <div class="officer-card">
+   <img src="https://i.pinimg.com/236x/dd/ef/c3/ddefc3c506e2bb8221b767283432d804.jpg" alt="Officer">
+                               <h4>Ms. Niharika</h4>
+
+    <p>General Secretary<br>Vijayawada</p>
+
+    <button class="view-btn" onclick="openModal(
+        'Ms. Niharika',
+        'The General Secretary provides overall leadership and guidance for SCoRWWO activities, supports welfare initiatives, and ensures smooth functioning of all programs and services.'
+    )">
+        View Details
+    </button>
+</div>
+
+<div class="officer-card">
+   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaoKyOYGgVczTs9zBDEJX8d2YyPcCzA5RPqg&s" alt="Officer">
+                               <h4>Ms. Sindura Lakshmi</h4>
+
+    <p>Junior Secretary<br>Vijayawada</p>
+
+    <button class="view-btn" onclick="openModal(
+        'Ms. Sindura Lakshmi',
+        'The Junior Secretary provides overall leadership and guidance for SCoRWWO activities, supports welfare initiatives, and ensures smooth functioning of all programs and services.'
+    )">
+        View Details
+    </button>
+</div>
+                            
+<div class="officer-card">
+    <img src="https://i.pinimg.com/236x/37/f4/16/37f416bf50621417ff155ee958d68a2a.jpg" alt="Officer">
+
+    <h4>Ms. Vasanthika</h4>
+
+    <p>Junior General Secretary<br>Vijayawada</p>
+
+    <button class="view-btn" onclick="showOfficerInfo(
+        'Ms. Vasanthika',
+        'Ms. Vasanthika serves as Junior General Secretary and assists in coordinating SCoRWWO activities, welfare initiatives, and organizational programs.'
+    )">
+        View Details
+    </button>
+</div>
+<div class="officer-card">
+    <img src="https://i1.sndcdn.com/avatars-000745331179-256n8l-t1080x1080.jpg" alt="Officer">
+
+    <h4>Ms. Gynanaprasuna</h4>
+
+    <p>Junior General Secretary<br>Vijayawada</p>
+
+    <button class="view-btn" onclick="showOfficerInfo(
+        'Ms. Gynanaprasuna',
+        'Ms. Gynanaprasuna serves as Junior General Secretary and supports administrative coordination, welfare programs, and organizational activities.'
+    )">
+        View Details
+    </button>
+</div>
+
+                           <div class="officer-card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsi1xSnWS4AO8dLDixSwzz8V6MYplHo5qP7A&s" alt="Officer">
+
+    <h4>Ms. Pavithra Reddy</h4>
+
+    <p>Jack & Jills School Secretary<br>Vijayawada</p>
+
+    <button class="view-btn" onclick="showOfficerInfo(
+        'Ms. Pavithra Reddy',
+        'Ms. Pavithra Reddy serves as Secretary of Jack & Jills School and oversees educational, cultural, and developmental activities for children.'
+    )">
+        View Details
+    </button>
+</div>
+
+                            <div class="officer-card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaoKyOYGgVczTs9zBDEJX8d2YyPcCzA5RPqg&s" alt="Officer">
+
+    <h4>Ms. Sravanthi</h4>
+
+    <p>Member of Jack & Jills<br>Vijayawada</p>
+
+    <button class="view-btn" onclick="showOfficerInfo(
+        'Ms. Sravanthi',
+        'Ms. Sravanthi actively contributes to the activities and development programs conducted by Jack & Jills School.'
+    )">
+        View Details
+    </button>
+</div>
+
+                            <div class="officer-card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaoKyOYGgVczTs9zBDEJX8d2YyPcCzA5RPqg&s" alt="Officer">
+
+    <h4>Ms. Surekha Reddy</h4>
+
+    <p>E-WORLD Secretary<br>Vijayawada</p>
+
+    <button class="view-btn" onclick="showOfficerInfo(
+        'Ms. Surekha Reddy',
+        'Ms. Surekha Reddy serves as Secretary of E-WORLD and manages activities related to empowerment, education, and skill development.'
+    )">
+        View Details
+    </button>
+</div>
+<div class="officer-card">
+    <img src="https://i.pinimg.com/236x/dd/ef/c3/ddefc3c506e2bb8221b767283432d804.jpg" alt="Officer">
+
+    <h4>Ms. Nazia Hasan</h4>
+
+    <p>Member of E-WORLD<br>Vijayawada</p>
+
+    <button class="view-btn" onclick="showOfficerInfo(
+        'Ms. Nazia Hasan',
+        'Ms. Nazia Hasan is a member of E-WORLD and actively contributes to welfare, educational, and empowerment initiatives organized by the committee.'
+    )">
+        View Details
+    </button>
+</div>
+
+<div class="officer-card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK2CgD_4sykEMCIHFsxvD31CS-9yGQkdM_jA&s" alt="Officer">
+
+    <h4>Ms. Bharathi</h4>
+
+    <p>Asha Kiran Secretary<br>Vijayawada</p>
+
+    <button class="view-btn" onclick="showOfficerInfo(
+        'Ms. Bharathi',
+        'Ms. Bharathi serves as Secretary of Asha Kiran and coordinates activities focused on social welfare, support programs, and community development.'
+    )">
+        View Details
+    </button>
+</div>
+
+<div class="officer-card">
+    <img src="https://i.pinimg.com/170x/b0/c0/57/b0c057ccd44d75d04033f5b074b0511b.jpg" alt="Officer">
+
+    <h4>Ms. Anu Jeeva</h4>
+
+    <p>Canteen & Career World Secretary<br>Vijayawada</p>
+
+    <button class="view-btn" onclick="showOfficerInfo(
+        'Ms. Anu Jeeva',
+        'Ms. Anu Jeeva serves as Secretary of Canteen and Career World, overseeing canteen operations and career development activities for members.'
+    )">
+        View Details
+    </button>
+</div>
+
+<div class="officer-card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsi1xSnWS4AO8dLDixSwzz8V6MYplHo5qP7A&s" alt="Officer">
+
+    <h4>Ms. Parvathi</h4>
+
+    <p>Cultural Secretary<br>Vijayawada</p>
+
+    <button class="view-btn" onclick="showOfficerInfo(
+        'Ms. Parvathi',
+        'Ms. Parvathi serves as Cultural Secretary and organizes cultural events, celebrations, competitions, and artistic programs throughout the year.'
+    )">
+        View Details
+    </button>
+</div>
+
+<div class="officer-card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaoKyOYGgVczTs9zBDEJX8d2YyPcCzA5RPqg&s" alt="Officer">
+
+    <h4>Ms. Sravani</h4>
+
+    <p>Cultural Member<br>Vijayawada</p>
+
+    <button class="view-btn" onclick="showOfficerInfo(
+        'Ms. Sravani',
+        'Ms. Sravani is a Cultural Member who supports planning and execution of cultural, social, and recreational activities.'
+    )">
+        View Details
+    </button>
+</div>
+
+<div class="officer-card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaoKyOYGgVczTs9zBDEJX8d2YyPcCzA5RPqg&s" alt="Officer">
+
+    <h4>Ms. Shahida</h4>
+
+    <p>Cultural Member<br>Vijayawada</p>
+
+    <button class="view-btn" onclick="showOfficerInfo(
+        'Ms. Shahida',
+        'Ms. Shahida is a Cultural Member and contributes to organizing cultural programs, celebrations, and community engagement activities.'
+    )">
+        View Details
+    </button>
+</div>                  
+                        </div>
+                    </div>
+                    <button class="carousel-btn next" id="lead-next"><i class="ph ph-caret-right"></i></button>
+                </div>
+            </section>
+
+            <!-- Organisations Section -->
+            <section class="section-container">
+                <div class="section-header">
+                    <h3 id="organisations" data-i18n="organisations.heading">OUR ORGANISATIONS</h3>
+                    <a href="organisations.html" class="view-all"><span data-i18n="organisations.viewAll">View All Organisations</span>
+                        <i class="ph-fill ph-arrow-circle-right"></i></a>
+                </div>
+                <div class="org-carousel-container">
+                    <button class="carousel-btn prev" id="org-prev"><i class="ph ph-caret-left"></i></button>
+                    <div class="org-carousel-wrapper">
+                        <div class="org-grid" id="org-track">
+                            <div class="org-card clickable-card" onclick="window.location.href='vijayawada.html'">
+                                <div class="org-icon"><i class="ph ph-map-pin-line" style="color: #10b981;"></i></div>
+                                <h4 data-i18n="organisations.items.0.title">Vijayawada Division</h4>
+                                <p data-i18n="organisations.items.0.desc">Manages train operations and infrastructure in
+                                    the Vijayawada division.</p>
+                                <span class="learn-more">Learn More <i class="ph ph-arrow-right"></i></span>
+                            </div>
+                            <div class="org-card clickable-card" onclick="window.location.href='visakhapatnam.html'">
+                                <div class="org-icon"><i class="ph ph-map-pin-line" style="color: #f59e0b;"></i></div>
+                                <h4 data-i18n="organisations.items.1.title">Visakhapatnam Division</h4>
+                                <p data-i18n="organisations.items.1.desc">Manages train operations and infrastructure in
+                                    the Visakhapatnam division.</p>
+                                <span class="learn-more">Learn More <i class="ph ph-arrow-right"></i></span>
+                            </div>
+                            <div class="org-card clickable-card" onclick="window.location.href='guntur.html'">
+                                <div class="org-icon"><i class="ph ph-map-pin-line" style="color: #ec4899;"></i></div>
+                                <h4 data-i18n="organisations.items.2.title">Guntur Division</h4>
+                                <p data-i18n="organisations.items.2.desc">Manages train operations and infrastructure in
+                                    the Guntur division.</p>
+                                <span class="learn-more">Learn More <i class="ph ph-arrow-right"></i></span>
+                            </div>
+                            <div class="org-card clickable-card" onclick="window.location.href='guntakal.html'">
+                                <div class="org-icon"><i class="ph ph-map-pin-line" style="color: #3b82f6;"></i></div>
+                                <h4 data-i18n="organisations.items.3.title">Guntakal Division</h4>
+                                <p data-i18n="organisations.items.3.desc">Manages train operations and infrastructure in
+                                    the Guntakal division.</p>
+                                <span class="learn-more">Learn More <i class="ph ph-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-btn next" id="org-next"><i class="ph ph-caret-right"></i></button>
+                </div>
+                <div class="lower-grid">
+                    <!-- Key Initiatives -->
+                    <div class="initiatives-card">
+                        <div class="initiatives-overlay">
+                            <h3 data-i18n="initiatives.heading">OUR KEY<br />INITIATIVES</h3>
+                        </div>
+                        <div class="initiatives-grid" id="initiatives-grid">
+                            <div class="init-item" onclick="window.location.href='jack-jill-school.html'">
+                                <i class="ph ph-shield-check" style="color: #6366f1;"></i>
+                                <div>
+                                    <h5 data-i18n="initiatives.jack.title">Jack & Jill Schools</h5>
+                                    <p data-i18n="initiatives.jack.subtitle">Shaping young minds with knowledge,
+                                        confidence, and a brighter future.</p>
+                                </div>
+                            </div>
+                            <div class="init-item" onclick="window.location.href='e-world.html'">
+                                <i class="ph ph-clock" style="color: #6366f1;"></i>
+                                <div>
+                                    <h5 data-i18n="initiatives.eworld.title">E-WORLD</h5>
+                                    <p data-i18n="initiatives.eworld.subtitle">Connecting young talents to a world of
+                                        digital learning and innovation.</p>
+                                </div>
+                            </div>
+                            <div class="init-item" onclick="window.location.href='asha-kiran.html'">
+                                <i class="ph ph-leaf" style="color: #10b981;"></i>
+                                <div>
+                                    <h5 data-i18n="initiatives.asha.title">Asha Kiran</h5>
+                                    <p data-i18n="initiatives.asha.subtitle">Bringing hope, care, and smiles to every
+                                        special child.</p>
+                                </div>
+                            </div>
+                            <div class="init-item" onclick="window.location.href='career-world.html'">
+                                <i class="ph ph-graduation-cap" style="color: #3b82f6;"></i>
+                                <div>
+                                    <h5 data-i18n="initiatives.career.title">Career World</h5>
+                                    <p data-i18n="initiatives.career.subtitle">Preparing students for RRB, Banking, SSC, ECET and other competitive exams.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- News & Announcements -->
+                    <div class="news-events-container">
+                        <div class="news-col">
+                            <div class="section-header small">
+                                <h3 data-i18n="events.latest">LATEST EVENTS</h3>
+                                <a href="events.html" class="view-all-small"><span data-i18n="common.viewAll">View All</span></a>
+                            </div>
+                            <div class="events-panel">
+                                <div class="events-scrollable" id="eventsScroll">
+                                    <ul id="eventsList" class="news-list">
+                                        <li class="event-placeholder">
+                                            <div class="date-box">
+                                                <span>24</span>
+                                                <span>MAY</span>
+                                            </div>
+                                            <p>Hydration Drive</p>
+                                            <i class="ph ph-arrow-right"></i>
+                                        </li>
+                                            <li class="event-placeholder">
+                                                <div class="date-box">
+                                                    <span>29</span>
+                                                    <span>JAN</span>
+                                                </div>
+                                                <p>NUKKAND NATAK And Distribution of sanitary napkins</p>
+                                                <i class="ph ph-arrow-right"></i>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="news-col">
+                            <div class="section-header small">
+                                <h3 data-i18n="events.announcements">IMPORTANT ANNOUNCEMENTS</h3>
+                                <a href="announcements.html" class="view-all-small"><span data-i18n="common.viewAll">View All</span></a>
+                            </div>
+                                <div class="events-panel">
+                                    <div class="events-scrollable" id="announcementsScroll">
+                                        <ul class="announcement-list">
+                                            <li>
+                                                <i class="ph ph-megaphone text-blue"></i>
+                                                <p>launching a website for south coast railway</p>
+                                                <i class="ph ph-arrow-right fade"></i>
+                                            </li>
+                                            <li>
+                                                <i class="ph ph-megaphone text-blue"></i>
+                                                <p>launching a integrated school management system for jack and jill school</p>
+                                                <i class="ph ph-arrow-right fade"></i>
+                                            </li>
+                                            <li>
+                                                <i class="ph ph-shield-check text-blue"></i>
+                                                <p>General Manager is going to launch south coast website and integrated school management system</p>
+                                                <i class="ph ph-arrow-right fade"></i>
+                                            </li>
+                                            <li>
+                                                <i class="ph ph-shield-check text-blue"></i>
+                                                <p>General Manager is going to launch south coast website and integrated school management system</p>
+                                                <i class="ph ph-arrow-right fade"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <footer class="app-footer">
+                    <div class="footer-top-row">
+                        <div class="quick-links-section">
+                            <h4 data-i18n="footer.gallery">GALLERY</h4>
+                            <div class="links-grid">
+    <a href="jack-jill-gallery.html">
+        <i class="ph ph-file-text"></i>
+        <span data-i18n="footer.links.jack and jill">Jack & Jill School</span>
+        <i class="ph ph-arrow-right ms-auto"></i>
+    </a>
+
+    <a href="eworld-gallery.html">
+        <i class="ph ph-briefcase"></i>
+        <span data-i18n="footer.links.E-WORLD">E-WORLD</span>
+        <i class="ph ph-arrow-right ms-auto"></i>
+    </a>
+
+    <a href="asha-kiran-gallery.html">
+        <i class="ph ph-info"></i>
+        <span data-i18n="footer.links.asha kiran">Asha Kiran</span>
+        <i class="ph ph-arrow-right ms-auto"></i>
+    </a>
+
+    <a href="career_world gallery.html">
+        <i class="ph ph-hand-waving"></i>
+        <span data-i18n="footer.links.career world">Career World</span>
+        <i class="ph ph-arrow-right ms-auto"></i>
+    </a>
+
+    <a href="canteen-gallery.html">
+        <i class="ph ph-shield"></i>
+        <span data-i18n="footer.links.canteen">Canteen</span>
+        <i class="ph ph-arrow-right ms-auto"></i>
+    </a>
+
+    <a href="sakhimart gallery.html">
+        <i class="ph ph-users"></i>
+        <span data-i18n="footer.links.sakhi mart">Sakhi Mart</span>
+        <i class="ph ph-arrow-right ms-auto"></i>
+    </a>
+</div>
+                        </div>
+
+                        <div class="app-promo-section">
+                            <div class="app-promo-content">
+                                <h3 data-i18n="footer.app">SOUTH COAST RAILWAY APP</h3>
+                                <p data-i18n="appPromo.description">Your journey, in your hand.</p>
+                                <div class="app-features-icons">
+                                    <a href="https://www.indianrail.gov.in/enquiry/PNR/PnrEnquiry.html?locale=en" target="_blank">
+                                        <i class="ph ph-ticket"></i>
+                                        <span data-i18n="appPromo.pnr">PNR Status</span>
+                                    </a>
+
+                                    <a href="https://www.irctc.co.in/nget/train-search" target="_blank">
+                                        <i class="ph ph-train"></i>
+                                        <span data-i18n="appPromo.book">Book Tickets</span>
+                                    </a>
+
+                                    <a href="https://www.railyatri.in/train-fare" target="_blank">
+                                        <i class="ph ph-map-pin"></i>
+                                        <span data-i18n="appPromo.station">Station Info</span>
+                                    </a>
+                                </div>
+
+                                <div class="store-buttons">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+                                        alt="Play Store">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"
+                                        alt="App Store">
+                                </div>
+                            </div>
+                            <div class="qr-code">
+                                <img src="https://railone.info/qrCode/BZA.png" alt="QR Code">
+                                <p data-i18n="appPromo.scan">Scan to<br>Download</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Ribbon -->
+                    <div class="stats-ribbon">
+                        <div class="stat-item">
+                            <i class="ph ph-train"></i>
+                            <div class="stat-text">
+                                <h2>1200+</h2>
+                                <p data-i18n="stats.dailyTrains">Daily Trains</p>
+                            </div>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                            <i class="ph ph-buildings"></i>
+                            <div class="stat-text">
+                                <h2>300+</h2>
+                                <p data-i18n="stats.stations">Stations</p>
+                            </div>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                            <i class="ph ph-users-three"></i>
+                            <div class="stat-text">
+                                <h2>1.5 Cr+</h2>
+                                <p data-i18n="stats.happy">Happy Passengers</p>
+                            </div>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                            <i class="ph ph-shield-check"></i>
+                            <div class="stat-text">
+                                <h2>100%</h2>
+                                <p data-i18n="stats.safety">Safety Commitment</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="footer-bottom-area">
+                        <div class="footer-cols">
+                            <div class="footer-col brand-col">
+                                <div class="footer-brand">
+                                    <div>
+                                        <h5 data-i18n="footer.brandName">SOUTH COAST RAILWAY</h5>
+                                        <p data-i18n="footer.brandDesc">Committed to provide safe, reliable, efficient
+                                            and affordable rail transport services to the nation.</p>
+                                    </div>
+                                </div>
+                                <div class="social-icons">
+                                    <span data-i18n="footer.followUs">Follow Us</span>
+                                    <a href="https://www.facebook.com/SouthCoastRailways/" target="_blank"
+                                        rel="noopener noreferrer" aria-label="Facebook"><i
+                                            class="ph-fill ph-facebook-logo"></i></a>
+                                    <a href="#" aria-label="Twitter"><i class="ph-fill ph-twitter-logo"></i></a>
+                                    <a href="https://ig.me/m/railways" target="_blank" rel="noopener noreferrer"
+                                        aria-label="Instagram"><i class="ph-fill ph-instagram-logo"></i></a>
+                                    <a href="#" aria-label="LinkedIn"><i class="ph-fill ph-linkedin-logo"></i></a>
+                                </div>
+                            </div>
+                            <div class="footer-col">
+                                <h5 data-i18n="footer.about">ABOUT US</h5>
+                                <a href="about-us.html#history"> History</a>
+                                <a href="about-us.html#vision-mission">> Vision & Mission</a>
+                                <a href="about-us.html#network">> Our Network</a>
+                                <a href="about-us.html#milestones">> Milestones</a>
+                            </div>
+                            <div class="footer-col">
+                                <h5 data-i18n="footer.information">INFORMATION</h5>
+                                <a href="contact.html#route-map">> Route Map</a>
+                                <a href="contact.html#email enquiries">> Email Enquiries</a>
+                                <a href="contact.html#helplines & phone">> Helplines & Phone</a>
+                                <a href="contact.html#office address">> Office Address</a>
+                            </div>
+                            <div class="footer-col">
+                                <h5 data-i18n="footer.help">HELP & SUPPORT</h5>
+                                <a href="contact.html#helplines">Help Center</a>
+                                <a href="faq.html">Q & A</a>
+                                <a href="contact.html">Contact Us</a>
+                                <a href="#" onclick="showLostFound()">Lost & Found</a>
+                            </div>
+                        </div>
+                        <div class="footer-copyright">
+                            <div class="legal-links">
+                                <a href="#"><span data-i18n="footer.legal.privacy">Privacy Policy</span></a>
+                                <a href="#"><span data-i18n="footer.legal.terms">Terms & Conditions</span></a>
+                                <a href="#"><span data-i18n="footer.legal.accessibility">Accessibility</span></a>
+                            </div>
+                            <footer> © 2026 South Coast Railway Women’s Welfare Organisation </footer>
+
+                            <p data-i18n="footerExtra.madeWith">Made with <i class="ph-fill ph-heart"
+                                    style="color: #ec4899;"></i> for a better journey</p>
+                        </div>
+                    </div>
+                </footer>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Top header background color on scroll
+            const header = document.querySelector('.top-header');
+            window.addEventListener('scroll', () => {
+                const mainContent = document.querySelector('.main-content');
+                const scrollTop = mainContent ? mainContent.scrollTop : window.scrollY;
+                if (window.scrollY > 50) {
+                    header.style.backgroundColor = 'rgba(30, 27, 75, 0.95)';
+                    header.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+                } else {
+                    header.style.backgroundColor = 'transparent';
+                    header.style.boxShadow = 'none';
+                }
+            });
+
+            // Org Carousel Logic
+            const orgTrack = document.getElementById('org-track');
+            const orgPrev = document.getElementById('org-prev');
+            const orgNext = document.getElementById('org-next');
+
+            if (orgTrack && orgPrev && orgNext) {
+                let orgIndex = 0;
+
+                function updateOrgSlider() {
+                    const orgCards = orgTrack.querySelectorAll('.org-card');
+                    if (orgCards.length === 0) return;
+                    const gap = 14;
+                    const cardWidth = orgCards[0].offsetWidth + gap;
+                    const wrapperWidth = orgTrack.parentElement.offsetWidth;
+                    const totalTrackWidth = orgCards.length * cardWidth - gap;
+                    const maxIndex = Math.max(0, Math.ceil((totalTrackWidth - wrapperWidth) / cardWidth));
+
+                    if (orgIndex > maxIndex) {
+                        orgIndex = maxIndex;
+                    }
+                    orgTrack.style.transform = `translateX(-${orgIndex * cardWidth}px)`;
+                }
+
+                orgNext.addEventListener('click', () => {
+                    const orgCards = orgTrack.querySelectorAll('.org-card');
+                    if (orgCards.length === 0) return;
+                    const gap = 14;
+                    const cardWidth = orgCards[0].offsetWidth + gap;
+                    const wrapperWidth = orgTrack.parentElement.offsetWidth;
+                    const totalTrackWidth = orgCards.length * cardWidth - gap;
+                    const maxIndex = Math.max(0, Math.ceil((totalTrackWidth - wrapperWidth) / cardWidth));
+
+                    if (orgIndex < maxIndex) {
+                        orgIndex++;
+                        updateOrgSlider();
+                    }
+                });
+
+                orgPrev.addEventListener('click', () => {
+                    if (orgIndex > 0) {
+                        orgIndex--;
+                        updateOrgSlider();
+                    }
+                });
+
+                window.addEventListener('resize', updateOrgSlider);
+                updateOrgSlider();
+            }
+
+            // Leadership Carousel Logic
+            const track = document.getElementById('lead-track');
+            const prevBtn = document.getElementById('lead-prev');
+            const nextBtn = document.getElementById('lead-next');
+
+            if (track && prevBtn && nextBtn) {
+                let currentIndex = 0;
+
+                function updateSlider() {
+                    const cards = track.querySelectorAll('.officer-card');
+                    if (cards.length === 0) return;
+                    const gap = 14;
+                    const cardWidth = cards[0].offsetWidth + gap;
+                    const wrapperWidth = track.parentElement.offsetWidth;
+                    const totalTrackWidth = cards.length * cardWidth - gap;
+                    const maxIndex = Math.max(0, Math.ceil((totalTrackWidth - wrapperWidth) / cardWidth));
+
+                    if (currentIndex > maxIndex) {
+                        currentIndex = maxIndex;
+                    }
+                    track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+                }
+
+                nextBtn.addEventListener('click', () => {
+                    const cards = track.querySelectorAll('.officer-card');
+                    if (cards.length === 0) return;
+                    const gap = 14;
+                    const cardWidth = cards[0].offsetWidth + gap;
+                    const wrapperWidth = track.parentElement.offsetWidth;
+                    const totalTrackWidth = cards.length * cardWidth - gap;
+                    const maxIndex = Math.max(0, Math.ceil((totalTrackWidth - wrapperWidth) / cardWidth));
+
+                    if (currentIndex < maxIndex) {
+                        currentIndex++;
+                        updateSlider();
+                    }
+                });
+
+                prevBtn.addEventListener('click', () => {
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        updateSlider();
+                    }
+                });
+
+                window.addEventListener('resize', updateSlider);
+                updateSlider();
+            }
+
+            // Nav item active state
+            const navItems = document.querySelectorAll('.nav-item');
+
+            function setActiveItem(item) {
+                navItems.forEach(nav => nav.classList.remove('active'));
+                item.classList.add('active');
+            }
+
+            navItems.forEach(item => {
+                const tag = item.tagName;
+                const href = item.getAttribute('href');
+                const isButtonLike = tag === 'BUTTON' || item.classList.contains('dropbtn');
+
+                if (tag === 'A') {
+                    // Anchor links: don't prevent default for valid hrefs so left-click navigates normally.
+                    if (!href || href === '#') {
+                        item.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            setActiveItem(item);
+                        });
+                    } else {
+                        // For anchors with a real href, only set active (don't prevent navigation).
+                        item.addEventListener('click', () => setActiveItem(item));
+                    }
+                } else if (isButtonLike) {
+                    // Buttons / dropdown toggles should not navigate; handle via JS.
+                    item.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        setActiveItem(item);
+                    });
+                } else {
+                    // Fallback for other elements with .nav-item
+                    item.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        setActiveItem(item);
+                    });
+                }
+            });
+
+            // Fetch data from Express Backend
+            fetch('/api/status')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Backend Connection Successful:', data);
+                    if (data.zonals) {
+                        console.log('Zonals loaded from Python via Node.js:', data.zonals.join(', '));
+                    }
+                })
+                .catch(error => console.error('Error fetching backend data:', error));
+        });
+    </script>
+
+
+
+    <script src="script.js"></script>
+    <script src="src/i18n.js"></script>
+
+    <!-- ── GALLERY MODAL (triggered by Explore More) ── -->
+    <div id="galleryModal" style="
+        display:none; position:fixed; inset:0; z-index:2000;
+        background:rgba(10,8,40,0.92); backdrop-filter:blur(6px);
+        align-items:center; justify-content:center;">
+
+        <!-- Modal Box -->
+        <div style="
+            background:#fff; border-radius:16px;
+            width:min(820px,95vw); max-height:92vh;
+            display:flex; flex-direction:column;
+            box-shadow:0 30px 80px rgba(0,0,0,0.5);
+            overflow:hidden; animation:gmIn .3s ease;">
+
+            <!-- Header -->
+            <div style="
+                display:flex; align-items:center; justify-content:space-between;
+                padding:14px 20px;
+                background:linear-gradient(135deg,#1e1b4b,#4338ca); color:#fff;">
+                <span style="font-weight:800; font-size:.95rem; letter-spacing:.04em;">
+                    <i class="ph ph-images"></i>&nbsp; Photo Gallery
+                </span>
+                <button onclick="closeGallery()" style="
+                    background:rgba(255,255,255,.15); border:none; color:#fff;
+                    width:32px; height:32px; border-radius:50%; cursor:pointer;
+                    font-size:1rem; display:flex; align-items:center; justify-content:center;">
+                    <i class="ph ph-x"></i>
+                </button>
+            </div>
+
+            <!-- Main Image -->
+            <div style="position:relative; background:#0d0d1a; flex-shrink:0;">
+                <img id="gMainImg" src="" alt=""
+                    style="width:100%; height:400px; object-fit:cover; display:block; transition:opacity .3s;">
+
+                <!-- Counter -->
+                <span id="gCounter" style="
+                    position:absolute; top:10px; right:12px;
+                    background:rgba(0,0,0,.55); color:#fff;
+                    font-size:.75rem; font-weight:600;
+                    padding:3px 10px; border-radius:20px;">
+                </span>
+
+                <!-- Caption -->
+                <div style="
+                    position:absolute; bottom:0; left:0; right:0;
+                    background:linear-gradient(transparent,rgba(10,8,40,.8));
+                    padding:28px 18px 12px;">
+                    <div id="gCaption" style="color:#fff; font-size:.88rem; font-weight:600;"></div>
+                </div>
+
+                <!-- Prev / Next -->
+                <button onclick="gNav(-1)" style="
+                    position:absolute; left:12px; top:50%; transform:translateY(-50%);
+                    background:rgba(255,255,255,.18); border:2px solid rgba(255,255,255,.3);
+                    color:#fff; width:40px; height:40px; border-radius:50%;
+                    font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center;
+                    backdrop-filter:blur(4px); transition:background .2s;">
+                    <i class="ph ph-caret-left"></i>
+                </button>
+                <button onclick="gNav(1)" style="
+                    position:absolute; right:12px; top:50%; transform:translateY(-50%);
+                    background:rgba(255,255,255,.18); border:2px solid rgba(255,255,255,.3);
+                    color:#fff; width:40px; height:40px; border-radius:50%;
+                    font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center;
+                    backdrop-filter:blur(4px); transition:background .2s;">
+                    <i class="ph ph-caret-right"></i>
+                </button>
+            </div>
+
+            <!-- Thumbnails -->
+            <div id="gThumbs" style="
+                display:flex; gap:8px; padding:10px 14px;
+                overflow-x:auto; background:#f8fafc;
+                border-top:1px solid #e2e8f0;">
+            </div>
+
+            <!-- Dots -->
+            <div id="gDots" style="
+                display:flex; justify-content:center; gap:6px;
+                padding:10px 14px 14px; background:#f8fafc;">
+            </div>
+        </div>
+    </div>
+
+    <!-- ── ROUTE MAP MODAL (triggered by Route Map in footer) ── -->
+    <div id="routeMapModal" style="
+        display:none; position:fixed; inset:0; z-index:2000;
+        background:rgba(10,8,40,0.92); backdrop-filter:blur(6px);
+        align-items:center; justify-content:center;">
+
+        <!-- Modal Box -->
+        <div style="
+            background:#fff; border-radius:16px;
+            width:min(900px,95vw); max-height:92vh;
+            display:flex; flex-direction:column;
+            box-shadow:0 30px 80px rgba(0,0,0,0.5);
+            overflow:hidden; animation:gmIn .3s ease;">
+
+            <!-- Header -->
+            <div style="
+                display:flex; align-items:center; justify-content:space-between;
+                padding:14px 20px;
+                background:linear-gradient(135deg,#1e1b4b,#4338ca); color:#fff;">
+                <span style="font-weight:800; font-size:.95rem; letter-spacing:.04em;">
+                    <i class="ph ph-map-trifold"></i>&nbsp; SCoR Route Map
+                </span>
+                <button onclick="closeRouteMap()" style="
+                    background:rgba(255,255,255,.15); border:none; color:#fff;
+                    width:32px; height:32px; border-radius:50%; cursor:pointer;
+                    font-size:1rem; display:flex; align-items:center; justify-content:center;">
+                    <i class="ph ph-x"></i>
+                </button>
+            </div>
+
+            <!-- Map Image Wrapper -->
+            <div style="background:#0d0d1a; padding:16px; display:flex; justify-content:center; align-items:center; overflow:auto;">
+                <img src="route_map.png" alt="South Coast Railway Route Map"
+                    style="max-width:100%; max-height:70vh; object-fit:contain; border-radius:8px;">
+            </div>
+
+            <!-- Footer info -->
+            <div style="padding:14px 20px; background:#f8fafc; border-top:1px solid #e2e8f0; text-align:center; font-size:0.82rem; font-weight:600; color:#64748b;">
+                South Coast Railway (SCoR) Network Map
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @keyframes gmIn {
+            from {
+                opacity: 0;
+                transform: scale(.9) translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+    </style>
+
+    <script>
+        // Gallery Images Data
+        const galleryImages = [
+            { src: 'DSC_0208.JPG', caption: 'Photo 1' },
+            { src: 'DSC_0213.JPG', caption: 'Photo 2' },
+            { src: 'DSC_0223.JPG', caption: 'Photo 3' },
+            { src: 'DSC_0160.JPG', caption: 'Photo 4' },
+            { src: 'DSC_0199.JPG', caption: 'Photo 5' },
+            { src: 'DSC_0184.JPG', caption: 'Photo 6' },
+            { src: 'DSC_0188.JPG', caption: 'Photo 7' },
+            { src: 'DSC_0191.JPG', caption: 'Photo 8' },
+            { src: 'DSC_0243.JPG', caption: 'Photo 9' },
+            { src: 'DSC_0197.JPG', caption: 'Photo 10' },
+            { src: 'DSC_0203.JPG', caption: 'Photo 13' },
+            { src: 'DSC_0207.JPG', caption: 'Photo 14' },
+            { src: 'DSC_0212.JPG', caption: 'Photo 15' },
+            { src: 'DSC_0216.JPG', caption: 'Photo 16' },
+            { src: 'DSC_0218.JPG', caption: 'Photo 17' },
+            { src: 'DSC_0228.JPG', caption: 'Photo 18' },
+            { src: 'DSC_0230.JPG', caption: 'Photo 19' },
+            { src: 'DSC_0250.JPG', caption: 'Photo 20' },
+            { src: 'DSC_0223.JPG', caption: 'Photo 21' },
+            { src: 'DSC_0253.JPG', caption: 'Photo 22' },
+            { src: 'DSC_0258.JPG', caption: 'Photo 23' },
+            { src: 'DSC_0283.JPG', caption: 'Photo 24' },
+            { src: 'DSC_0296.JPG', caption: 'Photo 25' },
+            { src: 'DSC_0300.JPG', caption: 'Photo 26' },
+        ];
+
+        let gIndex = 0;
+
+        function openGallery() {
+            buildThumbs();
+            gSet(0);
+            const modal = document.getElementById('galleryModal');
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeGallery() {
+            document.getElementById('galleryModal').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        function openRouteMap(e) {
+            if (e) e.preventDefault();
+            const modal = document.getElementById('routeMapModal');
+            if (modal) {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeRouteMap() {
+            const modal = document.getElementById('routeMapModal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        }
+
+        function gNav(dir) {
+            gSet((gIndex + dir + galleryImages.length) % galleryImages.length);
+        }
+
+        function gSet(i) {
+            gIndex = i;
+            const img = document.getElementById('gMainImg');
+            img.style.opacity = 0;
+            setTimeout(() => {
+                img.src = galleryImages[i].src;
+                img.alt = galleryImages[i].caption;
+                img.style.opacity = 1;
+            }, 150);
+            document.getElementById('gCaption').textContent = galleryImages[i].caption;
+            document.getElementById('gCounter').textContent = `${i + 1} / ${galleryImages.length}`;
+
+            document.querySelectorAll('.g-thumb').forEach((t, idx) => {
+                t.style.border = idx === i ? '2.5px solid #6366f1' : '2.5px solid transparent';
+                t.style.opacity = idx === i ? '1' : '0.6';
+            });
+            document.querySelectorAll('.g-dot').forEach((d, idx) => {
+                d.style.background = idx === i ? '#6366f1' : '#e2e8f0';
+                d.style.width = idx === i ? '22px' : '8px';
+            });
+        }
+
+        function buildThumbs() {
+            const thumbsEl = document.getElementById('gThumbs');
+            const dotsEl = document.getElementById('gDots');
+            thumbsEl.innerHTML = '';
+            dotsEl.innerHTML = '';
+            galleryImages.forEach((img, i) => {
+                const t = document.createElement('img');
+                t.src = img.src;
+                t.alt = img.caption;
+                t.className = 'g-thumb';
+                t.style.cssText = 'width:70px;height:50px;object-fit:cover;border-radius:7px;cursor:pointer;flex-shrink:0;transition:all .2s;border:2.5px solid transparent;';
+                t.onclick = () => gSet(i);
+                thumbsEl.appendChild(t);
+
+                const d = document.createElement('button');
+                d.className = 'g-dot';
+                d.style.cssText = 'height:8px;width:8px;border-radius:4px;border:none;cursor:pointer;transition:all .25s;background:#e2e8f0;';
+                d.onclick = () => gSet(i);
+                dotsEl.appendChild(d);
+            });
+        }
+
+        // Close on backdrop click
+        document.getElementById('galleryModal').addEventListener('click', function (e) {
+            if (e.target === this) closeGallery();
+        });
+
+        document.getElementById('routeMapModal').addEventListener('click', function (e) {
+            if (e.target === this) closeRouteMap();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function (e) {
+            if (document.getElementById('galleryModal').style.display === 'flex') {
+                if (e.key === 'ArrowRight') gNav(1);
+                if (e.key === 'ArrowLeft') gNav(-1);
+                if (e.key === 'Escape') closeGallery();
+            }
+            if (document.getElementById('routeMapModal').style.display === 'flex') {
+                if (e.key === 'Escape') closeRouteMap();
+            }
+        });
+
+        function openModal(title, description) {
+            const modal = document.getElementById('officerModal');
+            if (!modal) return;
+            document.getElementById('officerTitle').textContent = title;
+            document.getElementById('officerDescription').textContent = description;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeOfficerModal() {
+            const modal = document.getElementById('officerModal');
+            if (!modal) return;
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        function openDivision(link) {
+            if (link !== "") {
+                window.open(link, "_blank");
+            }
+        }
+        document.querySelector(".pnr-card")?.addEventListener("click", function () {
+            window.open(
+                "https://www.indianrail.gov.in/enquiry/PNR/PnrEnquiry.html?locale=en",
+                "_blank"
+            );
+        });
+
+        document.querySelector(".rrb-card")?.addEventListener("click", function () {
+            window.open("https://rrbsecunderabad.gov.in/", "_blank");
+        });
+
+        document.querySelector(".vacancy-card")?.addEventListener("click", function () {
+            window.open("vacancies.html", "_blank");
+        });
+
+        document.querySelector(".reservation-card")?.addEventListener("click", function () {
+            window.open("https://www.irctc.co.in/nget/train-search", "_blank");
+        });
+
+        document.querySelector(".fare-card")?.addEventListener("click", function () {
+            window.open("https://www.indianrail.gov.in/enquiry/FARE/FareEnquiry.html?locale=en", "_blank");
+        });
+
+        document.querySelector(".feedback-card")?.addEventListener("click", function () {
+            window.open("https://railmadad.indianrailways.gov.in/", "_blank");
+        });
+async function loadEvents() {
+
+    try {
+
+        const response = await fetch('http://localhost:5000/events');
+        const events = await response.json();
+
+        const eventsList = document.getElementById('eventsList');
+
+        eventsList.innerHTML = '';
+
+        events.forEach(event => {
+
+            const date = new Date(event.event_date);
+
+            const day = date.getDate();
+
+            const month = date.toLocaleString('en-US', {
+                month: 'short'
+            }).toUpperCase();
+
+            eventsList.innerHTML += `
+                <li onclick="window.location.href='events.html'" style="cursor:pointer;">
+                    <div class="date-box">
+                        <span>${day}</span>
+                        <span>${month}</span>
+                    </div>
+
+                    <p>${event.title}</p>
+
+                    <i class="ph ph-arrow-right"></i>
+                </li>
+            `;
+        });
+
+    } catch(error) {
+        console.log(error);
+    }
+
+}
+
+loadEvents();
+function showLostFound() {
+    alert(
+        "If any personal belongings are lost, please contact the Welfare Officer immediately.\n\nHelpline: 139\nSouth Coast Railway Women's Welfare Organization"
+    );
+}
+    </script>
+<div id="officerModal" class="officer-modal">
+    <div class="officer-modal-content">
+
+        <span class="close-modal" onclick="closeOfficerModal()">&times;</span>
+
+        <h2 id="officerTitle"></h2>
+
+        <p id="officerDescription"></p>
+
+    </div>
+</div>
+
+</body>
+
+</html>
