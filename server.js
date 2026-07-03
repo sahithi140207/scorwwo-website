@@ -4,7 +4,7 @@ require("dotenv").config({ path: path.join(__dirname, ".env") });
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const app = express();
@@ -51,15 +51,9 @@ db.on("error", (err) => {
 });
 
 /* EMAIL */
-const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // true for 465, false for other ports
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
-});
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 /* GEMINI */
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
@@ -94,8 +88,8 @@ app.post("/contact", (req, res) => {
             });
         }
 
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
+        resend.emails.send({
+            from: "onboarding@resend.dev",
             to: process.env.EMAIL_USER,
             subject: "New Website Enquiry",
             text: `
@@ -107,14 +101,10 @@ Subject: ${subject}
 Message:
 ${message}
             `
-        };
-
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log("Email Error:", error);
-            } else {
-                console.log("Email Sent Successfully");
-            }
+        }).then(() => {
+            console.log("Email Sent Successfully");
+        }).catch((error) => {
+            console.log("Email Error:", error);
         });
 
         res.json({
