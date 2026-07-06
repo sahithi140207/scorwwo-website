@@ -203,13 +203,17 @@ app.get("/api/status", (req, res) => {
     res.redirect("/api/data");
 });
 
-// TODO: your old root server.js also had a GET /events route that proxied
-// to http://localhost:5000/events — that route didn't exist in your
-// backend/server.js, so it may have been served by app.py (Python) instead.
-// Paste app.py's content and I'll port that logic in here too, or tell me
-// to remove this route if it's unused.
+/* EVENTS
+   Simple hardcoded events list. To add a new event later, just add
+   another { event_date, title } object to this array and redeploy. */
+
+const events = [
+    { event_date: "2026-05-24", title: "Hydration Drive" },
+    { event_date: "2026-01-29", title: "NUKKAND NATAK and Distribution of Sanitary Napkins" }
+];
+
 app.get("/events", (req, res) => {
-    res.status(501).json({ message: "Events endpoint not yet ported — see TODO in server.js" });
+    res.json(events);
 });
 
 /* SERVE THE SITE */
