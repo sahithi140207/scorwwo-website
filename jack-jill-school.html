@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Import Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    
+
     <style>
         /* ── CSS RESET & CORE VARIABLES ── */
         *, *::before, *::after {
@@ -354,15 +354,19 @@
         .timing-box {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             margin-top: 14px;
         }
 
         .time-row {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 10px;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
+            padding: 8px 12px;
+            background: var(--bg);
+            border-radius: var(--radius-sm);
         }
 
         .time-row i {
@@ -370,13 +374,27 @@
             color: var(--accent-green);
         }
 
-        /* ── REFERENCE LINKS ── */
+        .time-row .stage {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .time-row .hours {
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* ── REFERENCE / CONTACT LINKS ── */
         .sources-card {
             background: linear-gradient(135deg, #1e1b4b, #111827);
             color: #fff;
             border-radius: var(--radius-md);
             padding: 24px;
             box-shadow: var(--shadow-md);
+            margin-bottom: 24px;
         }
 
         .sources-card h4 {
@@ -404,7 +422,7 @@
             font-weight: 600;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 10px;
             transition: var(--transition);
         }
 
@@ -416,6 +434,7 @@
 
         .source-btn i {
             font-size: 1.1rem;
+            color: #a5b4fc;
         }
 
         /* ── FOOTER ── */
@@ -474,17 +493,17 @@
 
     <!-- MAIN CONTAINER -->
     <main class="main-container">
-        
+
         <!-- LEFT COLUMN: ABOUT, FACILITIES & ACTIVITIES -->
         <div class="content-left">
-            
+
             <!-- ABOUT CARD -->
             <div class="card">
                 <h3 class="card-title">
                     <i class="ph ph-info"></i> About the School
                 </h3>
                 <p class="about-text">
-                    Jack & Jill School (EM), Vijayawada, is a well-known English-medium school managed by the South Central Railway Women's Welfare Organisation (SCoRWWO). Established in 2006, it aims to provide quality education while nurturing discipline, creativity, leadership skills, and moral values. The school encourages students to participate in academics, sports, and cultural activities to ensure holistic development. It is known for providing affordable, high-standard education with a deep focus on character building and personality development.
+                    Jack & Jill School (EM), Vijayawada, is a well-known English-medium school managed by the South Central Railway Women's Welfare Organisation (SCoRWWO). Established in 1963, it aims to provide quality education while nurturing discipline, creativity, leadership skills, and moral values. The school encourages students to participate in academics, sports, and cultural activities to ensure holistic development. It is known for providing affordable, high-standard education with a deep focus on character building and personality development.
                 </p>
             </div>
 
@@ -499,7 +518,7 @@
                 <div class="facilities-grid">
                     <div class="facility-item">
                         <i class="ph ph-chalkboard-teacher"></i>
-                        <span>Smart Classrooms</span>
+                        <span>Classrooms</span>
                     </div>
                     <div class="facility-item">
                         <i class="ph ph-books"></i>
@@ -557,7 +576,7 @@
 
         <!-- RIGHT COLUMN: BASIC INFO, ADMISSIONS & TIMINGS -->
         <div class="content-right">
-            
+
             <!-- BASIC INFO CARD -->
             <div class="card">
                 <h3 class="card-title">
@@ -566,7 +585,7 @@
                 <div class="info-list">
                     <div class="info-item">
                         <span class="info-label"><i class="ph ph-calendar"></i> Established</span>
-                        <span class="info-value">2006</span>
+                        <span class="info-value">1963</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label"><i class="ph ph-translate"></i> Medium</span>
@@ -625,60 +644,66 @@
                     <p style="font-weight: 700; margin-bottom: 4px;">Timings:</p>
                     <div class="timing-box">
                         <div class="time-row">
-                            <i class="ph ph-calendar-check"></i>
-                            <span><strong>Working Days:</strong> Approx. 9:30 AM – 4:30 PM</span>
+                            <span class="stage"><i class="ph ph-calendar-check"></i> Nursery</span>
+                            <span class="hours">9:00 AM – 12:25 PM</span>
+                        </div>
+                        <div class="time-row">
+                            <span class="stage"><i class="ph ph-calendar-check"></i> Primary</span>
+                            <span class="hours">9:00 AM – 3:30 PM</span>
+                        </div>
+                        <div class="time-row">
+                            <span class="stage"><i class="ph ph-calendar-check"></i> High School</span>
+                            <span class="hours">9:00 AM – 4:00 PM</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- SOURCE LINKS CARD -->
+            <!-- CONTACT CARD -->
             <div class="sources-card">
-                <h4><i class="ph ph-link"></i> Sources & References</h4>
+                <h4><i class="ph ph-phone"></i> Contact Us</h4>
                 <div class="source-links">
-                    <a href="https://www.manabadi.co.in/institute/schoolDynamicProfile.aspx?-JILL-SCHOOL=&Institute=S&InstituteId=8111&InstituteName=JACK-&utm_source=chatgpt.com" target="_blank" class="source-btn">
-                        <span>Profile on Manabadi</span>
-                        <i class="ph ph-arrow-square-out"></i>
-                    </a>
-                    <a href="https://www.jackandjill.in/?utm_source=chatgpt.com" target="_blank" class="source-btn">
-                        <span>Jack & Jill Website</span>
-                        <i class="ph ph-arrow-square-out"></i>
-                    </a>
-                    <a href="https://www.thehansindia.com/news/cities/vijayawada/vijayawada-jack-jill-school-teachers-staff-honoured-820532?utm_source=chatgpt.com" target="_blank" class="source-btn">
-                        <span>The Hans India News article</span>
-                        <i class="ph ph-arrow-square-out"></i>
-                    </a>
+                    <div class="source-btn">
+                        <i class="ph ph-device-mobile"></i>
+                        <span>School Mobile Number: 9063348103</span>
+                    </div>
+                    <div class="source-btn">
+                        <i class="ph ph-phone-call"></i>
+                        <span>Railway Number: 08662768348</span>
+                    </div>
                 </div>
             </div>
 
         </div>
-<!-- JACK AND JILL WEBSITE LINK CARD -->
-<div class="card" style="background: linear-gradient(135deg, #1e1b4b, #2563eb); color: white; text-align: center;">
-    <h3 style="font-size: 2rem; font-weight: 800; margin-bottom: 15px;">
-        🌐 Jack And Jill Website
-    </h3>
 
-    <p style="font-size: 1rem; margin-bottom: 25px; color: rgba(255,255,255,0.9);">
-        Visit the official Jack And Jill School website to explore school information,
-        academics, activities, admissions, and more details.
-    </p>
+        <!-- JACK AND JILL WEBSITE LINK CARD -->
+        <div class="card" style="grid-column: 1 / -1; background: linear-gradient(135deg, #1e1b4b, #2563eb); color: white; text-align: center;">
+            <h3 style="font-size: 2rem; font-weight: 800; margin-bottom: 15px;">
+                🌐 Jack And Jill Website
+            </h3>
 
-    <a href="https://railway-school-project-1afn.onrender.com"
-       target="_blank"
-       style="
-            display: inline-block;
-            background: white;
-            color: #1e1b4b;
-            padding: 16px 40px;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-decoration: none;
-            transition: 0.3s;
-       ">
-        Open Jack And Jill Website
-    </a>
-</div>
+            <p style="font-size: 1rem; margin-bottom: 25px; color: rgba(255,255,255,0.9);">
+                Visit the official Jack And Jill School website to explore school information,
+                academics, activities, admissions, and more details.
+            </p>
+
+            <a href="https://railway-school-project-1afn.onrender.com"
+               target="_blank"
+               style="
+                    display: inline-block;
+                    background: white;
+                    color: #1e1b4b;
+                    padding: 16px 40px;
+                    border-radius: 50px;
+                    font-size: 1.1rem;
+                    font-weight: 700;
+                    text-decoration: none;
+                    transition: 0.3s;
+               ">
+                Open Jack And Jill Website
+            </a>
+        </div>
+
     </main>
 
     <!-- FOOTER -->
